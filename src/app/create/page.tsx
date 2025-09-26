@@ -10,8 +10,8 @@ import styles from './page.module.scss'
 export default function CreateRecipe() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [ingredients, setIngredients] = useState('')
-  const [instructions, setInstructions] = useState('')
+  const [ingredients, setIngredients] = useState('【○人前】\n• \n• \n• \n• ')
+  const [instructions, setInstructions] = useState('1. \n2. \n3. \n4. ')
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)

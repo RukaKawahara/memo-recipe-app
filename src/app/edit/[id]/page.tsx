@@ -72,9 +72,9 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
       } else {
         setRecipe(data)
         setTitle(data.title)
-        setDescription(data.description)
-        setIngredients(data.ingredients)
-        setInstructions(data.instructions)
+        setDescription(data.description || '')
+        setIngredients(data.ingredients || '【○人前】\n• \n• \n• \n• ')
+        setInstructions(data.instructions || '1. \n2. \n3. \n4. ')
         setSelectedGenres(data.genres || (data.genre ? [data.genre] : []))
         setMemo(data.memo || '')
       }
