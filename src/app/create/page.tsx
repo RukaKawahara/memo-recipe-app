@@ -11,7 +11,7 @@ export default function CreateRecipe() {
   const [description, setDescription] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [instructions, setInstructions] = useState('')
-  const [genre, setGenre] = useState('メインディッシュ')
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(['メインディッシュ'])
   const [memo, setMemo] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
@@ -19,7 +19,15 @@ export default function CreateRecipe() {
 
   const router = useRouter()
 
-  const genres = ['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ']
+  const availableGenres = ['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ', 'スナック', 'ドリンク']
+
+  const handleGenreToggle = (genre: string) => {
+    setSelectedGenres(prev =>
+      prev.includes(genre)
+        ? prev.filter(g => g !== genre)
+        : [...prev, genre]
+    )
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -60,6 +68,11 @@ export default function CreateRecipe() {
       return
     }
 
+    if (selectedGenres.length === 0) {
+      alert('少なくとも1つのジャンルを選択してください。')
+      return
+    }
+
     setSaving(true)
     setIsDraft(asDraft)
 
@@ -77,7 +90,7 @@ export default function CreateRecipe() {
             description: description.trim(),
             ingredients: ingredients.trim(),
             instructions: instructions.trim(),
-            genre,
+            genres: selectedGenres,
             memo: memo.trim(),
             image_url: imageUrl,
           }
@@ -151,6 +164,40 @@ export default function CreateRecipe() {
               placeholder="手順"
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
+              className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <div className={styles.fieldLabel}>ジャンル（複数選択可）</div>
+          <div className={styles.genreGrid}>
+            {availableGenres.map((genre) => (
+              <button
+                key={genre}
+                type="button"
+                onClick={() => handleGenreToggle(genre)}
+                className={`${styles.genreButton} ${selectedGenres.includes(genre) ? styles.selected : ''}`}
+              >
+                <div className={styles.checkbox}>
+                  {selectedGenres.includes(genre) && (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                  )}
+                </div>
+                <span>{genre}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.field}>
+          <label>
+            <textarea
+              placeholder="メモ（オプション）"
+              value={memo}
+              onChange={(e) => setMemo(e.target.value)}
               className={styles.textarea}
             />
           </label>

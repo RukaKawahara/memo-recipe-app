@@ -15,7 +15,7 @@ export default function Home() {
   const [favorites, setFavorites] = useState<string[]>([])
   const [favoritesLoading, setFavoritesLoading] = useState<string | null>(null)
 
-  const genres = ['すべて', 'メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ']
+  const genres = ['すべて', 'メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ', 'スナック', 'ドリンク']
 
   useEffect(() => {
     fetchRecipes()
@@ -135,7 +135,9 @@ export default function Home() {
       recipe.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       recipe.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
 
-    const matchesGenre = selectedGenre === 'すべて' || recipe.genre === selectedGenre
+    const matchesGenre = selectedGenre === 'すべて' ||
+      (recipe.genres && recipe.genres.includes(selectedGenre)) ||
+      (!recipe.genres && recipe.genre === selectedGenre) // 後方互換性
 
     return matchesSearch && matchesGenre
   })
@@ -172,20 +174,24 @@ export default function Home() {
       </div>
 
       <div className={styles.filters}>
-        {genres.map((genre) => (
-          <button
-            key={genre}
-            onClick={() => setSelectedGenre(genre)}
-            className={`${styles.filterButton} ${selectedGenre === genre ? styles.active : ''}`}
+        <div className={styles.selectWrapper}>
+          <select
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+            className={styles.genreSelect}
           >
-            <p>{genre}</p>
-            <div className={styles.chevron}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-              </svg>
-            </div>
-          </button>
-        ))}
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+          <div className={styles.selectIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div className={styles.recipeList}>
@@ -210,6 +216,13 @@ export default function Home() {
                 <div className={styles.recipeInfo}>
                   <h3 className={styles.recipeTitle}>{recipe.title}</h3>
                   <p className={styles.recipeDescription}>{recipe.description}</p>
+                  <div className={styles.recipeGenres}>
+                    {(recipe.genres || [recipe.genre]).filter(Boolean).map((genre, index) => (
+                      <span key={genre} className={styles.genreTag}>
+                        {genre}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Link>
               <button

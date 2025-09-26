@@ -117,7 +117,13 @@ export default function Favorites() {
                 <div className={styles.recipeInfo}>
                   <h3 className={styles.recipeTitle}>{recipe.title}</h3>
                   <p className={styles.recipeDescription}>{recipe.description}</p>
-                  <div className={styles.recipeGenre}>{recipe.genre}</div>
+                  <div className={styles.recipeGenres}>
+                    {(recipe.genres || [recipe.genre]).filter(Boolean).map((genre) => (
+                      <span key={genre} className={styles.genreTag}>
+                        {genre}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </Link>
               <button

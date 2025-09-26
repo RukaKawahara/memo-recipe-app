@@ -137,50 +137,95 @@
 }
 
 .filters {
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  overflow-x: hidden;
+  padding: 16px;
+  padding-bottom: 8px;
+
+  @media (min-width: 1024px) {
+    padding: 0 0 24px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 
-.filterButton {
-  display: flex;
-  height: 32px;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 12px;
+.selectWrapper {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+
+  @media (min-width: 1024px) {
+    width: 220px;
+  }
+}
+
+.genreSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
   background-color: #f4f0f0;
-  padding-left: 16px;
-  padding-right: 8px;
-  color: #181111;
+  border: 1px solid #f4f0f0;
+  border-radius: 12px;
+  padding: 8px 36px 8px 16px;
   font-size: 14px;
   font-weight: 500;
-  line-height: normal;
-  white-space: nowrap;
-  border: none;
+  color: #181111;
   cursor: pointer;
+  transition: all 0.2s ease;
+  height: 32px;
 
-  &.active {
+  &:hover {
+    background-color: #ece8e8;
+    border-color: #ece8e8;
+  }
+
+  &:focus {
+    outline: none;
     background-color: #181111;
+    border-color: #181111;
     color: white;
   }
 
-  .chevron {
-    color: #181111;
-    width: 20px;
-    height: 20px;
+  @media (min-width: 1024px) {
+    font-size: 16px;
+    padding: 10px 44px 10px 20px;
+    height: 40px;
+  }
 
-    svg {
-      width: 100%;
-      height: 100%;
+  option {
+    background-color: white;
+    color: #181111;
+    padding: 8px 16px;
+    font-size: 14px;
+
+    @media (min-width: 1024px) {
+      font-size: 16px;
+      padding: 10px 20px;
     }
   }
+}
 
-  &.active .chevron {
-    color: white;
+.selectIcon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #181111;
+  transition: all 0.2s ease;
+
+  @media (min-width: 1024px) {
+    right: 12px;
   }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+}
+
+.selectWrapper:focus-within .selectIcon {
+  color: white;
 }
 
 .recipeList {
@@ -332,11 +377,36 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  margin-bottom: 8px;
 
   @media (min-width: 1024px) {
     color: #6c757d;
     line-height: 1.4;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
+    margin-bottom: 12px;
+  }
+}
+
+.recipeGenres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.genreTag {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  @media (min-width: 1024px) {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 10px;
   }
 }
 

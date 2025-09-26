@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   ingredients TEXT NOT NULL,
   instructions TEXT NOT NULL,
   image_url TEXT,
-  genre TEXT NOT NULL DEFAULT 'メインディッシュ',
+  genres TEXT[] NOT NULL DEFAULT '{"メインディッシュ"}',
   memo TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

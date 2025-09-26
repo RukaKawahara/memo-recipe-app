@@ -203,19 +203,26 @@
   }
 }
 
-.recipeGenre {
+.recipeGenres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.genreTag {
   display: inline-block;
   background-color: #f0f0f0;
   color: #666;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
   font-weight: 500;
-  width: fit-content;
+  white-space: nowrap;
 
   @media (min-width: 1024px) {
-    font-size: 13px;
-    padding: 4px 12px;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 10px;
   }
 }
 

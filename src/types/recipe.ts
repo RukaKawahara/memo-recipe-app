@@ -5,7 +5,7 @@ export interface Recipe {
   ingredients: string
   instructions: string
   image_url?: string
-  genre: string
+  genres: string[]
   memo?: string
   created_at: string
   updated_at: string
