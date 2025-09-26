@@ -51,6 +51,10 @@ export default function CreateRecipe() {
     }
   }
 
+  const handleImageDelete = () => {
+    setImageFile(null)
+  }
+
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
       const fileExt = file.name.split('.').pop()
@@ -224,19 +228,21 @@ export default function CreateRecipe() {
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="image" className={styles.imageUpload}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM12 1l3.5 3.5H19a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h3.5L12 1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>
-            </svg>
-            <span>写真を追加</span>
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className={styles.fileInput}
-            />
-          </label>
+          {!imageFile && (
+            <label htmlFor="image" className={styles.imageUpload}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM12 1l3.5 3.5H19a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h3.5L12 1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>
+              </svg>
+              <span>写真を追加</span>
+              <input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={styles.fileInput}
+              />
+            </label>
+          )}
           {imageFile && (
             <div className={styles.imagePreview}>
               <img
@@ -244,6 +250,16 @@ export default function CreateRecipe() {
                 alt="プレビュー"
                 className={styles.previewImage}
               />
+              <button
+                type="button"
+                onClick={handleImageDelete}
+                className={styles.deleteImageButton}
+                aria-label="写真を削除"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                </svg>
+              </button>
             </div>
           )}
         </div>
