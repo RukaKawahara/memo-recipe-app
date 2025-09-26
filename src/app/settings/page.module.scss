@@ -1,0 +1,410 @@
+.main {
+  width: 100%;
+  padding-bottom: 100px;
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 1024px) {
+    padding-bottom: 40px;
+    background-color: #f8f9fa;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: white;
+
+  @media (min-width: 1024px) {
+    padding: 32px 0 24px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: transparent;
+  }
+}
+
+.backButton {
+  color: #181111;
+  font-size: 18px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+}
+
+.title {
+  color: #181111;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: tight;
+  letter-spacing: -0.015em;
+  margin-left: 8px;
+  flex: 1;
+
+  @media (min-width: 1024px) {
+    font-size: 32px;
+    text-align: left;
+    margin-left: 16px;
+  }
+}
+
+.spacer {
+  width: 40px;
+}
+
+.content {
+  flex: 1;
+  padding: 0;
+
+  @media (min-width: 1024px) {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+  }
+}
+
+.section {
+  padding: 24px 16px;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 0 32px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+}
+
+.sectionHeader {
+  margin-bottom: 24px;
+
+  @media (min-width: 1024px) {
+    margin-bottom: 32px;
+  }
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #181111;
+  margin-bottom: 8px;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+}
+
+.sectionDescription {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+
+  @media (min-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+.warningMessage {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  color: #856404;
+
+  p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    padding: 20px;
+  }
+}
+
+.genreList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (min-width: 1024px) {
+    gap: 16px;
+  }
+}
+
+.genreItem {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+
+  @media (min-width: 1024px) {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  &:hover {
+    background-color: #f5f5f5;
+    border-color: #d0d0d0;
+  }
+}
+
+.genreDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.genreInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.genreName {
+  font-size: 16px;
+  font-weight: 500;
+  color: #181111;
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+  }
+}
+
+.defaultBadge {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  @media (min-width: 1024px) {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+.genreActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton {
+  background-color: #f0f0f0;
+  color: #666;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e8e8e8;
+    color: #181111;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 10px 20px;
+  }
+}
+
+.deleteButton {
+  background-color: #fff5f5;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #fef2f2;
+    border-color: #f87171;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 10px 20px;
+  }
+}
+
+.editingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.editInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #181111;
+  background-color: white;
+
+  &:focus {
+    outline: none;
+    border-color: #181111;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 14px 18px;
+    font-size: 18px;
+  }
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.saveButton {
+  background-color: #181111;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 10px 20px;
+  }
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+    color: #181111;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 10px 20px;
+  }
+}
+
+.addGenreButton {
+  background-color: white;
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  padding: 20px;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover {
+    border-color: #181111;
+    color: #181111;
+    background-color: #f9f9f9;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 24px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 16px;
+  color: #666;
+}

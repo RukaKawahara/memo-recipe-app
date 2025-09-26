@@ -58,23 +58,51 @@ ALTER TABLE user_favorites ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow all access to user_favorites" ON user_favorites
   FOR ALL USING (true);
 
+-- genresテーブルの作成（カスタムジャンル管理用）
+CREATE TABLE IF NOT EXISTS genres (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  is_default BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- genresテーブルのRLS有効化
+ALTER TABLE genres ENABLE ROW LEVEL SECURITY;
+
+-- すべてのユーザーがgenresテーブルを読み書きできるポリシーを作成
+CREATE POLICY "Allow all access to genres" ON genres
+  FOR ALL USING (true);
+
+-- genresテーブルにupdated_at自動更新トリガーを追加
+CREATE TRIGGER update_genres_updated_at BEFORE UPDATE ON genres
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- デフォルトジャンルの挿入
+INSERT INTO genres (name, is_default) VALUES
+('メインディッシュ', true),
+('サイドディッシュ', true),
+('デザート', true),
+('スープ', true),
+('スナック', true),
+('ドリンク', true);
+
 -- サンプルデータの挿入（オプション）
-INSERT INTO recipes (title, description, ingredients, instructions, genre, memo) VALUES
+INSERT INTO recipes (title, description, ingredients, instructions, genres, memo) VALUES
 (
   'カルボナーラ',
   'パスタとベーコンのクリームソース',
   'スパゲティ 500g
-牛肉または豚肉のひき肉 500g
-タマネギ 1個
-ニンニク 1個
-セロリ 2本
-トマトソース 400g',
-  'スパゲティを大量の沸騰の水で調理します。
-フライパンにひき肉を入れ、色が変わるまで炒めます。
-タマネギ、ニンジン、セロリを加え、透明になるまで炒めます。
-トマトソースを加え、少し煮詰めさせます。
-スパゲティをソースに加え、よく混ぜ合わせます。',
-  'メインディッシュ',
+ベーコン 150g
+卵 2個
+パルメザンチーズ 適量
+塩・黒胡椒 適量',
+  'スパゲティを大量の沸騰した塩水で茹でる。
+フライパンでベーコンを炒める。
+ボウルで卵とパルメザンチーズを混ぜる。
+茹で上がったパスタを加えてよく混ぜる。
+チーズをかけて完成。',
+  '{"メインディッシュ"}',
   'クリーミーで美味しいパスタ料理です。'
 ),
 (
@@ -92,7 +120,7 @@ INSERT INTO recipes (title, description, ingredients, instructions, genre, memo)
 トマト缶を加えて煮詰める。
 茹で上がったスパゲティを加えて和える。
 パーメザンチーズをかけて完成。',
-  'メインディッシュ',
+  '{"メインディッシュ"}',
   'ピリ辛で食欲をそそります！'
 ),
 (
@@ -111,6 +139,6 @@ INSERT INTO recipes (title, description, ingredients, instructions, genre, memo)
 フライパンで野菜を炒める。
 茹で上がったペンネを加えて混ぜる。
 チーズをかけて完成。',
-  'メインディッシュ',
+  '{"メインディッシュ", "サイドディッシュ"}',
   '野菜たっぷりでヘルシー！'
 );

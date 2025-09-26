@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import { getGenreNames } from '@/lib/genres'
 import styles from './page.module.scss'
 
 export default function CreateRecipe() {
@@ -16,10 +17,28 @@ export default function CreateRecipe() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
   const [isDraft, setIsDraft] = useState(false)
+  const [availableGenres, setAvailableGenres] = useState<string[]>([])
 
   const router = useRouter()
 
-  const availableGenres = ['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ', 'スナック', 'ドリンク']
+  useEffect(() => {
+    fetchGenres()
+  }, [])
+
+  const fetchGenres = async () => {
+    try {
+      const genreNames = await getGenreNames()
+      setAvailableGenres(genreNames)
+      // デフォルトで最初のジャンルを選択
+      if (genreNames.length > 0 && selectedGenres.length === 1 && selectedGenres[0] === 'メインディッシュ') {
+        setSelectedGenres([genreNames[0]])
+      }
+    } catch (error) {
+      console.error('Error fetching genres:', error)
+      // フォールバック
+      setAvailableGenres(['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ'])
+    }
+  }
 
   const handleGenreToggle = (genre: string) => {
     setSelectedGenres(prev =>

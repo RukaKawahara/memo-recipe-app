@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites'
+import { getGenreNames } from '@/lib/genres'
 import type { Recipe } from '@/types/recipe'
 import styles from './page.module.scss'
 
@@ -14,13 +15,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [favorites, setFavorites] = useState<string[]>([])
   const [favoritesLoading, setFavoritesLoading] = useState<string | null>(null)
-
-  const genres = ['すべて', 'メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ', 'スナック', 'ドリンク']
+  const [genres, setGenres] = useState<string[]>(['すべて'])
 
   useEffect(() => {
     fetchRecipes()
     fetchUserFavorites()
+    fetchGenres()
   }, [])
+
+  const fetchGenres = async () => {
+    try {
+      const genreNames = await getGenreNames()
+      setGenres(['すべて', ...genreNames])
+    } catch (error) {
+      console.error('Error fetching genres:', error)
+    }
+  }
 
   // const fetchRecipes = async () => {
   //   try {
