@@ -13,6 +13,8 @@ export default function Favorites() {
   const [favorites, setFavorites] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [favoritesLoading, setFavoritesLoading] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   useEffect(() => {
     fetchData()
@@ -80,6 +82,24 @@ export default function Favorites() {
     }
   }
 
+  // ページネーション計算
+  const totalPages = Math.ceil(favoriteRecipes.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentRecipes = favoriteRecipes.slice(startIndex, endIndex)
+
+  // お気に入りが変更された時にページを適切に調整
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages)
+    }
+  }, [favoriteRecipes.length, currentPage, totalPages])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   if (loading) {
     return (
       <main className={styles.main}>
@@ -104,7 +124,7 @@ export default function Favorites() {
             </Link>
           </div>
         ) : (
-          favoriteRecipes.map((recipe) => (
+          currentRecipes.map((recipe) => (
             <div key={recipe.id} className={styles.recipeItemWrapper}>
               <Link href={`/recipe/${recipe.id}`} className={styles.recipeItem}>
                 <div className={styles.recipeImage}>
@@ -142,6 +162,52 @@ export default function Favorites() {
           ))
         )}
       </div>
+
+      {/* ページネーション */}
+      {favoriteRecipes.length > itemsPerPage && (
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`${styles.paginationButton} ${currentPage === 1 ? styles.disabled : ''}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+            </svg>
+            前へ
+          </button>
+
+          <div className={styles.pageNumbers}>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`${styles.pageNumber} ${currentPage === page ? styles.active : ''}`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`${styles.paginationButton} ${currentPage === totalPages ? styles.disabled : ''}`}
+          >
+            次へ
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* ページネーション情報 */}
+      {favoriteRecipes.length > 0 && (
+        <div className={styles.paginationInfo}>
+          {favoriteRecipes.length}件中 {startIndex + 1}-{Math.min(endIndex, favoriteRecipes.length)}件を表示
+        </div>
+      )}
     </main>
   )
 }
