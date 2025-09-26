@@ -63,61 +63,6 @@ export default function Home() {
     }
   }
 
-  // const fetchRecipes = async () => {
-  //   try {
-  //     // ダミーデータでUIをテスト（実際のSupabase設定前）
-  //     if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('dummy')) {
-  //       setTimeout(() => {
-  //         setRecipes([
-  //           {
-  //             id: '1',
-  //             title: 'カルボナーラ',
-  //             description: 'パスタとベーコンのクリームソース',
-  //             ingredients: 'スパゲティ、ベーコン、卵、パルメザンチーズ',
-  //             instructions: '1. パスタを茹でる\n2. ベーコンを炒める\n3. 卵とチーズを混ぜる',
-  //             image_url: '',
-  //             genre: 'メインディッシュ',
-  //             memo: '濃厚で美味しいクラシックなパスタ',
-  //             created_at: '2024-01-01T00:00:00Z',
-  //             updated_at: '2024-01-01T00:00:00Z'
-  //           },
-  //           {
-  //             id: '2',
-  //             title: 'アラビアータ',
-  //             description: 'スパイシーなトマトソースとパーメザンチーズ',
-  //             ingredients: 'スパゲティ、トマト缶、ニンニク、唐辛子',
-  //             instructions: '1. ニンニクを炒める\n2. トマト缶を加える\n3. パスタと和える',
-  //             image_url: '',
-  //             genre: 'メインディッシュ',
-  //             memo: 'ピリッと辛くて食欲をそそります',
-  //             created_at: '2024-01-02T00:00:00Z',
-  //             updated_at: '2024-01-02T00:00:00Z'
-  //           }
-  //         ])
-  //         setLoading(false)
-  //       }, 500)
-  //       return
-  //     }
-
-  //     const { data, error } = await supabase
-  //       .from('recipes')
-  //       .select('*')
-  //       .order('created_at', { ascending: false })
-
-  //     if (error) {
-  //       console.error('Error fetching recipes:', error)
-  //       // エラーの場合もローディングを終了
-  //       setLoading(false)
-  //     } else {
-  //       setRecipes(data || [])
-  //       setLoading(false)
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error)
-  //     setLoading(false)
-  //   }
-  // }
-
   const fetchRecipes = async () => {
     try {
       const { data, error } = await supabase
