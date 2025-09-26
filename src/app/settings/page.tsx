@@ -103,7 +103,7 @@ export default function Settings() {
       if (success) {
         await fetchGenres()
       } else {
-        alert('デフォルトジャンルは削除できません。')
+        alert('ジャンルの削除に失敗しました。')
       }
     } catch (error) {
       console.error('Error deleting genre:', error)
@@ -165,7 +165,32 @@ export default function Settings() {
           </div>
 
           <div className={styles.genreList}>
-            {genres.map((genre) => (
+            {genres.length === 0 && !isAdding ? (
+              <div className={styles.emptyState}>
+                <div className={styles.emptyIcon}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M216,44H40A12,12,0,0,0,28,56V200a12,12,0,0,0,12,12H216a12,12,0,0,0,12-12V56A12,12,0,0,0,216,44ZM40,52H216a4,4,0,0,1,4,4V176L188.47,144.47a12,12,0,0,0-17,0L132,184l-23.51-23.51a12,12,0,0,0-17,0L36,215.72V56A4,4,0,0,1,40,52ZM216,204H51.31l48-48a4,4,0,0,1,5.66,0L140,191.06a12,12,0,0,0,17,0l40-40a4,4,0,0,1,5.66,0L220,168.69V200A4,4,0,0,1,216,204ZM180,112a16,16,0,1,1-16-16A16,16,0,0,1,180,112Z"></path>
+                  </svg>
+                </div>
+                <h4 className={styles.emptyTitle}>ジャンルがありません</h4>
+                <p className={styles.emptyDescription}>
+                  レシピを整理するために、ジャンルを追加してみましょう。<br />
+                  「メインディッシュ」「デザート」「スープ」などがおすすめです。
+                </p>
+                <button
+                  onClick={() => setIsAdding(true)}
+                  disabled={dbInitialized === false}
+                  className={`${styles.emptyAddButton} ${dbInitialized === false ? styles.disabled : ''}`}
+                  title={dbInitialized === false ? 'データベースの初期化が必要です' : ''}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                  </svg>
+                  最初のジャンルを追加
+                </button>
+              </div>
+            ) : (
+              genres.map((genre) => (
               <div key={genre.id} className={styles.genreItem}>
                 {editingId === genre.id ? (
                   <div className={styles.editingForm}>
@@ -202,19 +227,19 @@ export default function Settings() {
                   <div className={styles.genreDisplay}>
                     <div className={styles.genreInfo}>
                       <span className={styles.genreName}>{genre.name}</span>
-                      {genre.is_default && (
-                        <span className={styles.defaultBadge}>デフォルト</span>
+                      {genre.id.startsWith('default-') && (
+                        <span className={styles.fallbackBadge}>システム</span>
                       )}
                     </div>
                     <div className={styles.genreActions}>
                       <button
                         onClick={() => startEditing(genre)}
-                        disabled={actionLoading === genre.id}
+                        disabled={actionLoading === genre.id || genre.id.startsWith('default-')}
                         className={styles.editButton}
                       >
                         編集
                       </button>
-                      {!genre.is_default && (
+                      {!genre.id.startsWith('default-') && (
                         <button
                           onClick={() => handleDeleteGenre(genre.id, genre.name)}
                           disabled={actionLoading === genre.id}
@@ -227,7 +252,8 @@ export default function Settings() {
                   </div>
                 )}
               </div>
-            ))}
+              ))
+            )}
 
             {isAdding ? (
               <div className={styles.genreItem}>
@@ -262,7 +288,7 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
-            ) : (
+            ) : genres.length > 0 && (
               <button
                 onClick={() => setIsAdding(true)}
                 disabled={dbInitialized === false}

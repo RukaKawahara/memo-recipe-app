@@ -3,7 +3,6 @@ import { supabase } from './supabase'
 export interface Genre {
   id: string
   name: string
-  is_default: boolean
   created_at: string
   updated_at: string
 }
@@ -21,11 +20,9 @@ const DEFAULT_GENRES = [
 // すべてのジャンルを取得
 export const getGenres = async (): Promise<Genre[]> => {
   try {
-    // まずテーブルが存在するかチェック
     const { data, error } = await supabase
       .from('genres')
       .select('*')
-      .order('is_default', { ascending: false })
       .order('name', { ascending: true })
 
     if (error) {
@@ -36,33 +33,19 @@ export const getGenres = async (): Promise<Genre[]> => {
       return DEFAULT_GENRES.map((name, index) => ({
         id: `default-${index}`,
         name,
-        is_default: true,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }))
     }
 
-    // データが空の場合もデフォルトジャンルを初期化
-    if (!data || data.length === 0) {
-      console.log('No genres found, initializing default genres')
-      await initializeDefaultGenres()
-      return DEFAULT_GENRES.map((name, index) => ({
-        id: `default-${index}`,
-        name,
-        is_default: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }))
-    }
-
-    return data
+    // データが空の場合は空配列を返す（デフォルトジャンルを自動作成しない）
+    return data || []
   } catch (error) {
     console.error('Error fetching genres:', error)
-    // フォールバックとしてデフォルトジャンルを返す
+    // フォールバックとしてデフォルトジャンルを返す（テーブルアクセスエラーの場合のみ）
     return DEFAULT_GENRES.map((name, index) => ({
       id: `default-${index}`,
       name,
-      is_default: true,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }))
@@ -73,8 +56,7 @@ export const getGenres = async (): Promise<Genre[]> => {
 const initializeDefaultGenres = async () => {
   try {
     const genresToInsert = DEFAULT_GENRES.map(name => ({
-      name,
-      is_default: true
+      name
     }))
 
     const { error } = await supabase
@@ -117,7 +99,7 @@ export const addGenre = async (name: string): Promise<boolean> => {
 
     const { error } = await supabase
       .from('genres')
-      .insert({ name: trimmedName, is_default: false })
+      .insert({ name: trimmedName })
 
     if (error) {
       console.error('Error adding genre:', error)
@@ -156,23 +138,12 @@ export const updateGenre = async (id: string, name: string): Promise<boolean> =>
   }
 }
 
-// ジャンルを削除（デフォルトジャンルは削除不可）
+// ジャンルを削除
 export const deleteGenre = async (id: string): Promise<boolean> => {
   try {
-    // デフォルトジャンルかどうかを確認
-    const { data: genre, error: fetchError } = await supabase
-      .from('genres')
-      .select('is_default')
-      .eq('id', id)
-      .single()
-
-    if (fetchError) {
-      console.error('Error fetching genre:', fetchError)
-      return false
-    }
-
-    if (genre.is_default) {
-      console.error('Cannot delete default genre')
+    // フォールバック用のデフォルトジャンル（IDがdefault-で始まる）は削除不可
+    if (id.startsWith('default-')) {
+      console.warn('Cannot delete fallback default genre:', id)
       return false
     }
 

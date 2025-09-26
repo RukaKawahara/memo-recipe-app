@@ -12,7 +12,7 @@ export default function CreateRecipe() {
   const [description, setDescription] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [instructions, setInstructions] = useState('')
-  const [selectedGenres, setSelectedGenres] = useState<string[]>(['メインディッシュ'])
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
@@ -29,10 +29,6 @@ export default function CreateRecipe() {
     try {
       const genreNames = await getGenreNames()
       setAvailableGenres(genreNames)
-      // デフォルトで最初のジャンルを選択
-      if (genreNames.length > 0 && selectedGenres.length === 1 && selectedGenres[0] === 'メインディッシュ') {
-        setSelectedGenres([genreNames[0]])
-      }
     } catch (error) {
       console.error('Error fetching genres:', error)
       // フォールバック
@@ -87,10 +83,6 @@ export default function CreateRecipe() {
       return
     }
 
-    if (selectedGenres.length === 0) {
-      alert('少なくとも1つのジャンルを選択してください。')
-      return
-    }
 
     setSaving(true)
     setIsDraft(asDraft)
@@ -190,25 +182,34 @@ export default function CreateRecipe() {
 
         <div className={styles.field}>
           <div className={styles.fieldLabel}>ジャンル（複数選択可）</div>
-          <div className={styles.genreGrid}>
-            {availableGenres.map((genre) => (
-              <button
-                key={genre}
-                type="button"
-                onClick={() => handleGenreToggle(genre)}
-                className={`${styles.genreButton} ${selectedGenres.includes(genre) ? styles.selected : ''}`}
-              >
-                <div className={styles.checkbox}>
-                  {selectedGenres.includes(genre) && (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
-                      <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                    </svg>
-                  )}
-                </div>
-                <span>{genre}</span>
-              </button>
-            ))}
-          </div>
+          {availableGenres.length > 0 ? (
+            <div className={styles.genreGrid}>
+              {availableGenres.map((genre) => (
+                <button
+                  key={genre}
+                  type="button"
+                  onClick={() => handleGenreToggle(genre)}
+                  className={`${styles.genreButton} ${selectedGenres.includes(genre) ? styles.selected : ''}`}
+                >
+                  <div className={styles.checkbox}>
+                    {selectedGenres.includes(genre) && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                      </svg>
+                    )}
+                  </div>
+                  <span>{genre}</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.noGenresMessage}>
+              <p>ジャンルが設定されていません。</p>
+              <Link href="/settings" className={styles.settingsLink}>
+                設定画面でジャンルを追加
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className={styles.field}>
