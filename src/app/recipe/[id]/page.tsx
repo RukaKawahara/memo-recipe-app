@@ -159,7 +159,6 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
             <div className={styles.ingredients}>
               {recipe.ingredients.split('\n').filter(ingredient => ingredient.trim()).map((ingredient, index) => (
                 <div key={index} className={styles.ingredient}>
-                  <div className={styles.checkbox}></div>
                   <span>{ingredient.trim()}</span>
                 </div>
               ))}
@@ -171,7 +170,6 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
             <div className={styles.instructions}>
               {recipe.instructions.split('\n').filter(instruction => instruction.trim()).map((instruction, index) => (
                 <div key={index} className={styles.instruction}>
-                  <div className={styles.checkbox}></div>
                   <span>{instruction.trim()}</span>
                 </div>
               ))}
