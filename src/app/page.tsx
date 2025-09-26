@@ -144,7 +144,17 @@ export default function Home() {
   }
 
   if (loading) {
-    return <div className={styles.loading}>読み込み中...</div>
+    return (
+      <main className={styles.main}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>
+            <div className={styles.spinner}></div>
+          </div>
+          <div className={styles.loadingText}>レシピを読み込み中...</div>
+          <div className={styles.loadingSubtext}>美味しいレシピをお探ししています</div>
+        </div>
+      </main>
+    )
   }
 
   return (

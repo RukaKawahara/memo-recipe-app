@@ -131,7 +131,13 @@ export default function Settings() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.loading}>読み込み中...</div>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>
+            <div className={styles.spinner}></div>
+          </div>
+          <div className={styles.loadingText}>設定を読み込み中...</div>
+          <div className={styles.loadingSubtext}>ジャンル情報を準備しています</div>
+        </div>
       </main>
     )
   }
