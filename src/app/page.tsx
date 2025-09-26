@@ -226,7 +226,7 @@ export default function Home() {
                   <h3 className={styles.recipeTitle}>{recipe.title}</h3>
                   <p className={styles.recipeDescription}>{recipe.description}</p>
                   <div className={styles.recipeGenres}>
-                    {(recipe.genres || [recipe.genre]).filter(Boolean).map((genre, index) => (
+                    {(recipe.genres || []).filter(Boolean).map((genre, index) => (
                       <span key={genre} className={styles.genreTag}>
                         {genre}
                       </span>
