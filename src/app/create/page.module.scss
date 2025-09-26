@@ -278,6 +278,9 @@
 }
 
 .fieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
   font-weight: 600;
   color: #181111;
@@ -286,6 +289,11 @@
   @media (min-width: 1024px) {
     font-size: 16px;
     margin-bottom: 16px;
+  }
+
+  svg {
+    flex-shrink: 0;
+    color: #666;
   }
 }
 
