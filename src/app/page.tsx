@@ -16,6 +16,8 @@ export default function Home() {
   const [favorites, setFavorites] = useState<string[]>([])
   const [favoritesLoading, setFavoritesLoading] = useState<string | null>(null)
   const [genres, setGenres] = useState<string[]>(['すべて'])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   useEffect(() => {
     fetchRecipes()
@@ -180,6 +182,22 @@ export default function Home() {
     return matchesSearch && matchesGenre
   })
 
+  // ページネーション計算
+  const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentRecipes = filteredRecipes.slice(startIndex, endIndex)
+
+  // 検索やフィルタが変更された時にページを1に戻す
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, selectedGenre])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   if (loading) {
     return <div className={styles.loading}>読み込み中...</div>
   }
@@ -241,7 +259,7 @@ export default function Home() {
             </Link>
           </div>
         ) : (
-          filteredRecipes.map((recipe) => (
+          currentRecipes.map((recipe) => (
             <div key={recipe.id} className={styles.recipeItemWrapper}>
               <Link href={`/recipe/${recipe.id}`} className={styles.recipeItem}>
                 <div className={styles.recipeImage}>
@@ -279,6 +297,52 @@ export default function Home() {
           ))
         )}
       </div>
+
+      {/* ページネーション */}
+      {filteredRecipes.length > itemsPerPage && (
+        <div className={styles.pagination}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`${styles.paginationButton} ${currentPage === 1 ? styles.disabled : ''}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+            </svg>
+            前へ
+          </button>
+
+          <div className={styles.pageNumbers}>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`${styles.pageNumber} ${currentPage === page ? styles.active : ''}`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`${styles.paginationButton} ${currentPage === totalPages ? styles.disabled : ''}`}
+          >
+            次へ
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* ページネーション情報 */}
+      {filteredRecipes.length > 0 && (
+        <div className={styles.paginationInfo}>
+          {filteredRecipes.length}件中 {startIndex + 1}-{Math.min(endIndex, filteredRecipes.length)}件を表示
+        </div>
+      )}
     </main>
   )
 }
