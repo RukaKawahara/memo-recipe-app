@@ -245,7 +245,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
           <button
             onClick={handleSave}
             disabled={saving}
-            className={styles.saveButton}
+            className={styles.updateButton}
           >
             <span>{saving ? '更新中...' : '更新'}</span>
           </button>

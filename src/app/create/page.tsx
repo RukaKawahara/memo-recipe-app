@@ -251,13 +251,6 @@ export default function CreateRecipe() {
       <div className={styles.actions}>
         <div className={styles.buttonsWrapper}>
           <button
-            onClick={() => handleSave(true)}
-            disabled={saving}
-            className={styles.draftButton}
-          >
-            <span>{saving && isDraft ? '保存中...' : '下書き'}</span>
-          </button>
-          <button
             onClick={() => handleSave(false)}
             disabled={saving}
             className={styles.saveButton}
