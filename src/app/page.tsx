@@ -56,7 +56,7 @@ export default function Home() {
       })
 
       // 両方を合わせて重複を除去
-      const allGenres = [...new Set([...managedGenres, ...Array.from(usedGenres)])]
+      const allGenres = Array.from(new Set([...managedGenres, ...Array.from(usedGenres)]));
       setGenres(['すべて', ...allGenres.sort()])
     } catch (error) {
       console.error('Error fetching genres:', error)
