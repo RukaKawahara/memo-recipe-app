@@ -1,0 +1,205 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+import styles from './page.module.scss'
+
+export default function CreateRecipe() {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [ingredients, setIngredients] = useState('')
+  const [instructions, setInstructions] = useState('')
+  const [genre, setGenre] = useState('メインディッシュ')
+  const [memo, setMemo] = useState('')
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [isDraft, setIsDraft] = useState(false)
+
+  const router = useRouter()
+
+  const genres = ['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ']
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setImageFile(file)
+    }
+  }
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    try {
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random()}.${fileExt}`
+      const filePath = `recipe-images/${fileName}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('recipes')
+        .upload(filePath, file)
+
+      if (uploadError) {
+        console.error('Error uploading image:', uploadError)
+        return null
+      }
+
+      const { data } = supabase.storage
+        .from('recipes')
+        .getPublicUrl(filePath)
+
+      return data.publicUrl
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      return null
+    }
+  }
+
+  const handleSave = async (asDraft: boolean = false) => {
+    if (!title.trim()) {
+      alert('レシピ名を入力してください。')
+      return
+    }
+
+    setSaving(true)
+    setIsDraft(asDraft)
+
+    try {
+      let imageUrl = null
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile)
+      }
+
+      const { data, error } = await supabase
+        .from('recipes')
+        .insert([
+          {
+            title: title.trim(),
+            description: description.trim(),
+            ingredients: ingredients.trim(),
+            instructions: instructions.trim(),
+            genre,
+            memo: memo.trim(),
+            image_url: imageUrl,
+          }
+        ])
+        .select()
+
+      if (error) {
+        console.error('Error saving recipe:', error)
+        alert('レシピの保存に失敗しました。')
+      } else {
+        router.push('/')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('レシピの保存に失敗しました。')
+    } finally {
+      setSaving(false)
+      setIsDraft(false)
+    }
+  }
+
+  return (
+    <main className={styles.main}>
+      <header className={styles.header}>
+        <Link href="/" className={styles.closeButton}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+          </svg>
+        </Link>
+        <h2 className={styles.title}>新規レシピ</h2>
+      </header>
+
+      <div className={styles.form}>
+        <div className={styles.field}>
+          <label>
+            <input
+              type="text"
+              placeholder="レシピ名"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.input}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label>
+            <textarea
+              placeholder="説明"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label>
+            <textarea
+              placeholder="材料"
+              value={ingredients}
+              onChange={(e) => setIngredients(e.target.value)}
+              className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label>
+            <textarea
+              placeholder="手順"
+              value={instructions}
+              onChange={(e) => setInstructions(e.target.value)}
+              className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="image" className={styles.imageUpload}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM12 1l3.5 3.5H19a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h3.5L12 1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>
+            </svg>
+            <span>写真を追加</span>
+            <input
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className={styles.fileInput}
+            />
+          </label>
+          {imageFile && (
+            <div className={styles.imagePreview}>
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt="プレビュー"
+                className={styles.previewImage}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.actions}>
+        <div className={styles.buttonsWrapper}>
+          <button
+            onClick={() => handleSave(true)}
+            disabled={saving}
+            className={styles.draftButton}
+          >
+            <span>{saving && isDraft ? '保存中...' : '下書き'}</span>
+          </button>
+          <button
+            onClick={() => handleSave(false)}
+            disabled={saving}
+            className={styles.saveButton}
+          >
+            <span>{saving && !isDraft ? '保存中...' : '保存'}</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  )
+}

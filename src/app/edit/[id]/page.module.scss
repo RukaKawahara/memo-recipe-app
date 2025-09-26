@@ -1,0 +1,254 @@
+.main {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: white;
+  justify-content: space-between;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 16px;
+  padding-bottom: 8px;
+  justify-content: space-between;
+}
+
+.closeButton {
+  color: #181111;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  align-items: center;
+  font-size: 18px;
+  text-decoration: none;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+}
+
+.title {
+  color: #181111;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: tight;
+  letter-spacing: -0.015em;
+  flex: 1;
+  text-align: center;
+  padding-right: 48px;
+}
+
+.form {
+  flex: 1;
+  padding: 0;
+}
+
+.field {
+  display: flex;
+  max-width: 480px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    flex: 1;
+  }
+}
+
+.input {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px;
+  color: #181111;
+  outline: none;
+  border: none;
+  background-color: #f4f0f0;
+  height: 56px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: normal;
+
+  &::placeholder {
+    color: #886364;
+  }
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+.textarea {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: 12px;
+  color: #181111;
+  outline: none;
+  border: none;
+  background-color: #f4f0f0;
+  min-height: 144px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: normal;
+
+  &::placeholder {
+    color: #886364;
+  }
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+.select {
+  width: 100%;
+  padding: 16px;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.imageUpload {
+  display: flex;
+  min-width: 84px;
+  max-width: 480px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 40px;
+  padding: 16px;
+  flex: 1;
+  background-color: #f4f0f0;
+  color: #181111;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.015em;
+
+  &:hover {
+    background-color: #ece8e8;
+  }
+}
+
+.fileInput {
+  display: none;
+}
+
+.imagePreview {
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.previewImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.actions {
+  display: flex;
+  justify-content: stretch;
+
+  .buttonsWrapper {
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px;
+    padding-top: 12px;
+    justify-content: space-between;
+  }
+}
+
+.draftButton {
+  display: flex;
+  min-width: 84px;
+  max-width: 480px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 48px;
+  padding: 20px;
+  background-color: #f4f0f0;
+  color: #181111;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.015em;
+  border: none;
+
+  &:hover {
+    background-color: #ece8e8;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.saveButton {
+  display: flex;
+  min-width: 84px;
+  max-width: 480px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 48px;
+  padding: 20px;
+  background-color: #ea2a33;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.015em;
+  border: none;
+
+  &:hover {
+    background-color: #d91e27;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
