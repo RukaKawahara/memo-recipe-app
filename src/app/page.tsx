@@ -146,8 +146,7 @@ export default function Home() {
       recipe.ingredients.toLowerCase().includes(searchTerm.toLowerCase())
 
     const matchesGenre = selectedGenre === 'すべて' ||
-      (recipe.genres && recipe.genres.includes(selectedGenre)) ||
-      (!recipe.genres && recipe.genre === selectedGenre) // 後方互換性
+      (recipe.genres && recipe.genres.includes(selectedGenre))
 
     return matchesSearch && matchesGenre
   })
