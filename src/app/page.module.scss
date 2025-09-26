@@ -3,10 +3,6 @@
   flex-direction: column;
   background-color: white;
   min-height: 100vh;
-
-  @media (min-width: 1024px) {
-    padding-bottom: 40px;
-  }
 }
 
 .header {
@@ -95,7 +91,7 @@
 }
 
 .searchContainer {
-  padding: 16px 12px;
+  padding: 16px 0;
 }
 
 .searchBox {

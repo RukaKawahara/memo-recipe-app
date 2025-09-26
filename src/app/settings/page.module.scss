@@ -4,11 +4,6 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-
-  @media (min-width: 1024px) {
-    padding-bottom: 40px;
-    background-color: #f8f9fa;
-  }
 }
 
 .header {
