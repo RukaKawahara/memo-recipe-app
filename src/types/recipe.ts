@@ -4,7 +4,7 @@ export interface Recipe {
   description: string
   ingredients: string
   instructions: string
-  image_url?: string
+  image_url?:  string | null
   genres: string[]
   memo?: string
   created_at: string
