@@ -69,8 +69,8 @@
 }
 
 .form {
-  flex: 1;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 1024px) {
     max-width: 700px;
@@ -86,11 +86,7 @@
 }
 
 .field {
-  display: flex;
-  max-width: 480px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 16px;
+  width: 100%;
   padding: 16px;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -98,13 +94,6 @@
   @media (min-width: 1024px) {
     max-width: none;
     padding: 0 0 24px 0;
-  }
-
-  label {
-    display: flex;
-    flex-direction: column;
-    min-width: 160px;
-    flex: 1;
   }
 }
 
@@ -208,22 +197,13 @@
 
 .imageUpload {
   display: flex;
-  min-width: 84px;
-  max-width: 480px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
   border-radius: 12px;
   height: 40px;
   padding: 16px;
-  flex: 1;
-  background-color: #f4f0f0;
-  color: #181111;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: normal;
-  letter-spacing: 0.015em;
+  align-items: center;
+  cursor: pointer;
+  width: 150px;
+  justify-content: center;
 
   @media (min-width: 1024px) {
     height: 80px;
@@ -370,29 +350,18 @@
   }
 
   .buttonsWrapper {
-    display: flex;
-    flex: 1;
-    gap: 12px;
-    flex-wrap: wrap;
     padding: 16px;
     padding-top: 12px;
-    justify-content: space-between;
+    margin: 0 auto;
 
     @media (min-width: 1024px) {
       padding: 0;
-      gap: 16px;
-      justify-content: flex-end;
     }
   }
 }
 
 .updateButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: 84px;
-  max-width: 480px;
+  min-width: 320px;
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   color: #181111;
