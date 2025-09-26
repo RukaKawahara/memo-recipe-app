@@ -57,6 +57,7 @@ textarea {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-bottom: 75px;
 
   @media (min-width: 1024px) {
     margin-left: 240px;
