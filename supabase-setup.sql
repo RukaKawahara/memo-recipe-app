@@ -42,6 +42,22 @@ INSERT INTO storage.buckets (id, name, public) VALUES ('recipes', 'recipes', tru
 CREATE POLICY "Allow all access to recipe images" ON storage.objects
   FOR ALL USING (bucket_id = 'recipes');
 
+-- user_favoritesテーブルの作成（お気に入り機能用）
+CREATE TABLE IF NOT EXISTS user_favorites (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  recipe_id UUID NOT NULL REFERENCES recipes(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(user_id, recipe_id)
+);
+
+-- user_favoritesテーブルのRLS有効化
+ALTER TABLE user_favorites ENABLE ROW LEVEL SECURITY;
+
+-- すべてのユーザーがuser_favoritesテーブルを読み書きできるポリシーを作成
+CREATE POLICY "Allow all access to user_favorites" ON user_favorites
+  FOR ALL USING (true);
+
 -- サンプルデータの挿入（オプション）
 INSERT INTO recipes (title, description, ingredients, instructions, genre, memo) VALUES
 (

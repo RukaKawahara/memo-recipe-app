@@ -1,0 +1,141 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites'
+import type { Recipe } from '@/types/recipe'
+import styles from './page.module.scss'
+
+export default function Favorites() {
+  const [recipes, setRecipes] = useState<Recipe[]>([])
+  const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([])
+  const [favorites, setFavorites] = useState<string[]>([])
+  const [loading, setLoading] = useState(true)
+  const [favoritesLoading, setFavoritesLoading] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = async () => {
+    try {
+      // Get all recipes
+      const { data: recipesData, error: recipesError } = await supabase
+        .from('recipes')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (recipesError) {
+        console.error('Error fetching recipes:', recipesError)
+        return
+      }
+
+      // Get user favorites
+      const userId = getUserId()
+      const userFavorites = await getUserFavorites(userId)
+
+      // Filter favorite recipes
+      const favoriteRecipesList = recipesData?.filter(recipe =>
+        userFavorites.includes(recipe.id)
+      ) || []
+
+      setRecipes(recipesData || [])
+      setFavorites(userFavorites)
+      setFavoriteRecipes(favoriteRecipesList)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleFavoriteToggle = async (recipeId: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    setFavoritesLoading(recipeId)
+    try {
+      const userId = getUserId()
+      const isFavorite = favorites.includes(recipeId)
+      const success = await toggleFavorite(userId, recipeId, isFavorite)
+
+      if (success) {
+        const newFavorites = isFavorite
+          ? favorites.filter(id => id !== recipeId)
+          : [...favorites, recipeId]
+
+        setFavorites(newFavorites)
+
+        // Update favorite recipes list
+        const newFavoriteRecipes = recipes.filter(recipe =>
+          newFavorites.includes(recipe.id)
+        )
+        setFavoriteRecipes(newFavoriteRecipes)
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error)
+    } finally {
+      setFavoritesLoading(null)
+    }
+  }
+
+  if (loading) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.loading}>読み込み中...</div>
+      </main>
+    )
+  }
+
+  return (
+    <main className={styles.main}>
+      <header className={styles.header}>
+        <h2 className={styles.title}>お気に入り</h2>
+      </header>
+
+      <div className={styles.recipeList}>
+        {favoriteRecipes.length === 0 ? (
+          <div className={styles.empty}>
+            <div className={styles.emptyIcon}>❤️</div>
+            <p>お気に入りのレシピがありません</p>
+            <Link href="/" className={styles.browseLink}>
+              レシピを探す
+            </Link>
+          </div>
+        ) : (
+          favoriteRecipes.map((recipe) => (
+            <div key={recipe.id} className={styles.recipeItemWrapper}>
+              <Link href={`/recipe/${recipe.id}`} className={styles.recipeItem}>
+                <div className={styles.recipeImage}>
+                  {recipe.image_url ? (
+                    <img src={recipe.image_url} alt={recipe.title} />
+                  ) : (
+                    <div className={styles.placeholderImage}>🍝</div>
+                  )}
+                </div>
+                <div className={styles.recipeInfo}>
+                  <h3 className={styles.recipeTitle}>{recipe.title}</h3>
+                  <p className={styles.recipeDescription}>{recipe.description}</p>
+                  <div className={styles.recipeGenre}>{recipe.genre}</div>
+                </div>
+              </Link>
+              <button
+                onClick={(e) => handleFavoriteToggle(recipe.id, e)}
+                disabled={favoritesLoading === recipe.id}
+                className={`${styles.favoriteButton} ${favorites.includes(recipe.id) ? styles.favorite : ''}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                  <path d={favorites.includes(recipe.id)
+                    ? "M240,94c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,220.66,16,164,16,94A62.07,62.07,0,0,1,78,32c20.65,0,38.73,8.88,50,23.89C139.27,40.88,157.35,32,178,32A62.07,62.07,0,0,1,240,94Z"
+                    : "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"
+                  } />
+                </svg>
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </main>
+  )
+}

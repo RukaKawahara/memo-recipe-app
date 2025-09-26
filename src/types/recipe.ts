@@ -9,4 +9,12 @@ export interface Recipe {
   memo?: string
   created_at: string
   updated_at: string
+  is_favorite?: boolean
+}
+
+export interface UserFavorite {
+  id: string
+  user_id: string
+  recipe_id: string
+  created_at: string
 }

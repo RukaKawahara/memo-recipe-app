@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites'
 import type { Recipe } from '@/types/recipe'
 import styles from './page.module.scss'
 
@@ -11,6 +12,8 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
   const [id, setId] = useState<string>('')
   const [recipe, setRecipe] = useState<Recipe | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [favoritesLoading, setFavoritesLoading] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -22,6 +25,7 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
   useEffect(() => {
     if (id) {
       fetchRecipe()
+      fetchFavoriteStatus()
     }
   }, [id])
 
@@ -44,6 +48,33 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
       router.push('/')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchFavoriteStatus = async () => {
+    try {
+      const userId = getUserId()
+      const favorites = await getUserFavorites(userId)
+      setIsFavorite(favorites.includes(id))
+    } catch (error) {
+      console.error('Error fetching favorite status:', error)
+    }
+  }
+
+  const handleFavoriteToggle = async () => {
+    if (!recipe) return
+
+    setFavoritesLoading(true)
+    try {
+      const userId = getUserId()
+      const success = await toggleFavorite(userId, recipe.id, isFavorite)
+      if (success) {
+        setIsFavorite(!isFavorite)
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error)
+    } finally {
+      setFavoritesLoading(false)
     }
   }
 
@@ -87,6 +118,18 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
         </Link>
         <h1 className={styles.title}>{recipe.title}</h1>
         <div className={styles.actions}>
+          <button
+            onClick={handleFavoriteToggle}
+            disabled={favoritesLoading}
+            className={`${styles.favoriteButton} ${isFavorite ? styles.favorite : ''}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+              <path d={isFavorite
+                ? "M240,94c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,220.66,16,164,16,94A62.07,62.07,0,0,1,78,32c20.65,0,38.73,8.88,50,23.89C139.27,40.88,157.35,32,178,32A62.07,62.07,0,0,1,240,94Z"
+                : "M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"
+              } />
+            </svg>
+          </button>
           <Link href={`/edit/${recipe.id}`} className={styles.editButton}>
             編集
           </Link>

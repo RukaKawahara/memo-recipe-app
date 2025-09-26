@@ -71,6 +71,38 @@
   text-decoration: none;
 }
 
+.favoriteButton {
+  background-color: transparent;
+  color: #666;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #FF3B30;
+  }
+
+  &.favorite {
+    color: #FF3B30;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+}
+
 .deleteButton {
   background-color: #FF3B30;
   color: white;
