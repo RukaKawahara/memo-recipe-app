@@ -208,7 +208,7 @@ export default function Home() {
       <div className={styles.recipeList}>
         {filteredRecipes.length === 0 ? (
           <div className={styles.empty}>
-            <p>レシピが見つかりませんでした。</p>
+            <p>レシピが登録されていません</p>
             <Link href="/create" className={styles.createLink}>
               新しいレシピを作成する
             </Link>
