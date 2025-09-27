@@ -183,6 +183,23 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
             <p className={styles.memo}>{recipe.memo}</p>
           </div>
         )}
+
+        {recipe.reference_url && (
+          <div className={`${styles.section} ${styles.referenceSection}`}>
+            <h2 className={styles.sectionTitle}>参考リンク</h2>
+            <a
+              href={recipe.reference_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.referenceLink}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10A56,56,0,0,1,48.38,128.4L74.05,102.73a56,56,0,0,1,79.2,0,8,8,0,0,1-11.31,11.31,40,40,0,0,0-56.57,0L59.69,139.71a40,40,0,0,0,56.57,56.57l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56,56,0,0,0-79.21,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.57,56.56L170.63,141.9a40,40,0,0,1-56.57,0,8,8,0,0,0-11.31,11.32,56,56,0,0,0,79.2,0l25.67-25.67A56,56,0,0,0,207.62,48.38Z"></path>
+              </svg>
+              {recipe.reference_url}
+            </a>
+          </div>
+        )}
       </div>
     </main>
   )

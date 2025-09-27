@@ -1,4 +1,9 @@
--- 既存のrecipesテーブルを新しいgenres配列構造に移行するためのマイグレーション
+-- レシピアプリの完全マイグレーション
+-- 既存のrecipesテーブルを新しい構造に移行し、新機能を追加
+
+-- ================================================
+-- Part 1: ジャンル配列構造への移行
+-- ================================================
 
 -- Step 1: 新しいgenres配列カラムを追加
 ALTER TABLE recipes ADD COLUMN IF NOT EXISTS genres TEXT[] DEFAULT '{"メインディッシュ"}';
@@ -56,3 +61,32 @@ ALTER TABLE user_favorites ENABLE ROW LEVEL SECURITY;
 -- Step 11: user_favoritesテーブルのポリシー作成
 CREATE POLICY "Allow all access to user_favorites" ON user_favorites
   FOR ALL USING (true);
+
+-- ================================================
+-- Part 2: 参考リンク機能の追加
+-- ================================================
+
+-- Step 12: reference_urlカラムを追加
+ALTER TABLE recipes
+ADD COLUMN IF NOT EXISTS reference_url TEXT;
+
+-- 既存のデータに影響を与えないよう、デフォルト値はNULL
+-- TEXT型なので、有効なURLまたはNULLが格納される
+
+-- Step 13: サンプルデータに参考リンクを追加（オプション）
+UPDATE recipes
+SET reference_url = 'https://example.com/recipe/carbonara'
+WHERE title = 'カルボナーラ' AND reference_url IS NULL;
+
+UPDATE recipes
+SET reference_url = 'https://example.com/recipe/arrabbiata'
+WHERE title = 'アラビアータ' AND reference_url IS NULL;
+
+-- ================================================
+-- マイグレーション完了
+-- ================================================
+-- このマイグレーションにより以下が追加されます：
+-- 1. ジャンル配列サポート (genres TEXT[])
+-- 2. カスタムジャンル管理 (genresテーブル)
+-- 3. お気に入り機能 (user_favoritesテーブル)
+-- 4. 参考リンク機能 (reference_url TEXT)

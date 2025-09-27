@@ -14,6 +14,7 @@ export default function CreateRecipe() {
   const [instructions, setInstructions] = useState('1. \n2. \n3. \n4. ')
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
+  const [referenceUrl, setReferenceUrl] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
   const [isDraft, setIsDraft] = useState(false)
@@ -107,6 +108,7 @@ export default function CreateRecipe() {
             instructions: instructions.trim(),
             genres: selectedGenres,
             memo: memo.trim(),
+            reference_url: referenceUrl.trim() || null,
             image_url: imageUrl,
           }
         ])
@@ -228,6 +230,18 @@ export default function CreateRecipe() {
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
               className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label>
+            <input
+              type="url"
+              placeholder="参考リンク（オプション）"
+              value={referenceUrl}
+              onChange={(e) => setReferenceUrl(e.target.value)}
+              className={styles.input}
             />
           </label>
         </div>

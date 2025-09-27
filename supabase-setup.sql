@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS recipes (
   image_url TEXT,
   genres TEXT[] NOT NULL DEFAULT '{"メインディッシュ"}',
   memo TEXT,
+  reference_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -88,7 +89,7 @@ INSERT INTO genres (name, is_default) VALUES
 ('ドリンク', true);
 
 -- サンプルデータの挿入（オプション）
-INSERT INTO recipes (title, description, ingredients, instructions, genres, memo) VALUES
+INSERT INTO recipes (title, description, ingredients, instructions, genres, memo, reference_url) VALUES
 (
   'カルボナーラ',
   'パスタとベーコンのクリームソース',
@@ -103,7 +104,8 @@ INSERT INTO recipes (title, description, ingredients, instructions, genres, memo
 茹で上がったパスタを加えてよく混ぜる。
 チーズをかけて完成。',
   '{"メインディッシュ"}',
-  'クリーミーで美味しいパスタ料理です。'
+  'クリーミーで美味しいパスタ料理です。',
+  'https://example.com/recipe/carbonara'
 ),
 (
   'アラビアータ',
@@ -121,7 +123,8 @@ INSERT INTO recipes (title, description, ingredients, instructions, genres, memo
 茹で上がったスパゲティを加えて和える。
 パーメザンチーズをかけて完成。',
   '{"メインディッシュ"}',
-  'ピリ辛で食欲をそそります！'
+  'ピリ辛で食欲をそそります！',
+  'https://example.com/recipe/arrabbiata'
 ),
 (
   'プリマヴェーラ',
@@ -140,5 +143,6 @@ INSERT INTO recipes (title, description, ingredients, instructions, genres, memo
 茹で上がったペンネを加えて混ぜる。
 チーズをかけて完成。',
   '{"メインディッシュ", "サイドディッシュ"}',
-  '野菜たっぷりでヘルシー！'
+  '野菜たっぷりでヘルシー！',
+  NULL
 );

@@ -17,6 +17,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
   const [instructions, setInstructions] = useState('')
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
+  const [referenceUrl, setReferenceUrl] = useState('')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -77,6 +78,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
         setInstructions(data.instructions || '1. \n2. \n3. \n4. ')
         setSelectedGenres(data.genres || (data.genre ? [data.genre] : []))
         setMemo(data.memo || '')
+        setReferenceUrl(data.reference_url || '')
       }
     } catch (error) {
       console.error('Error:', error)
@@ -157,6 +159,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
           instructions: instructions.trim(),
           genres: selectedGenres,
           memo: memo.trim(),
+          reference_url: referenceUrl.trim() || null,
           image_url: imageUrl,
         })
         .eq('id', id)
@@ -176,11 +179,39 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
   }
 
   if (loading) {
-    return <div className={styles.loading}>読み込み中...</div>
+    return (
+      <main className={styles.main}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>
+            <div className={styles.spinner}></div>
+          </div>
+          <div className={styles.loadingText}>レシピを読み込み中...</div>
+          <div className={styles.loadingSubtext}>編集準備をしています</div>
+        </div>
+      </main>
+    )
   }
 
   if (!recipe) {
-    return <div className={styles.error}>レシピが見つかりませんでした。</div>
+    return (
+      <main className={styles.main}>
+        <div className={styles.errorContainer}>
+          <div className={styles.errorIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
+            </svg>
+          </div>
+          <div className={styles.errorText}>レシピが見つかりませんでした</div>
+          <div className={styles.errorSubtext}>指定されたレシピは存在しないか、削除されています</div>
+          <Link href="/" className={styles.backToHomeButton}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+            </svg>
+            ホームに戻る
+          </Link>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -284,6 +315,24 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
               className={styles.textarea}
+            />
+          </label>
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.referenceUrlLabel}>
+            <span className={styles.referenceUrlLabelText}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10A56,56,0,0,1,48.38,128.4L74.05,102.73a56,56,0,0,1,79.2,0,8,8,0,0,1-11.31,11.31,40,40,0,0,0-56.57,0L59.69,139.71a40,40,0,0,0,56.57,56.57l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56,56,0,0,0-79.21,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.57,56.56L170.63,141.9a40,40,0,0,1-56.57,0,8,8,0,0,0-11.31,11.32,56,56,0,0,0,79.2,0l25.67-25.67A56,56,0,0,0,207.62,48.38Z"></path>
+              </svg>
+              参考リンク（任意）
+            </span>
+            <input
+              type="url"
+              placeholder="https://example.com/recipe"
+              value={referenceUrl}
+              onChange={(e) => setReferenceUrl(e.target.value)}
+              className={styles.referenceUrlInput}
             />
           </label>
         </div>

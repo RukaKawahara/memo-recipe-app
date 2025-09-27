@@ -7,6 +7,7 @@ export interface Recipe {
   image_url?:  string | null
   genres: string[]
   memo?: string
+  reference_url?: string | null
   created_at: string
   updated_at: string
   is_favorite?: boolean
