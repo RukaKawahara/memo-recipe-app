@@ -1,0 +1,24 @@
+.searchAndFilters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 24px;
+  }
+}
+
+.searchBox {
+  flex: 1;
+}
+
+.genreSelector {
+  min-width: 200px;
+
+  @media (max-width: 767px) {
+    min-width: auto;
+  }
+}

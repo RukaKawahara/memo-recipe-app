@@ -1,0 +1,46 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: default;
+
+  &.default {
+    background-color: #f3f4f6;
+    color: #6b7280;
+  }
+
+  &.selected {
+    background-color: #fed7aa;
+    color: #ea580c;
+  }
+
+  &.small {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  &.medium {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  &[role="button"] {
+    cursor: pointer;
+
+    &:hover {
+      &.default {
+        background-color: #e5e7eb;
+        color: #374151;
+      }
+
+      &.selected {
+        background-color: #fed7aa;
+        color: #dc2626;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.scss'
-import BottomNavigation from '@/components/BottomNavigation'
-import SideNavigation from '@/components/SideNavigation'
+import BottomNavigation from '@/components/organisms/Navigation/BottomNavigation'
+import SideNavigation from '@/components/organisms/Navigation/SideNavigation'
 
 export const metadata: Metadata = {
   title: 'シンプルメモレシピアプリ',

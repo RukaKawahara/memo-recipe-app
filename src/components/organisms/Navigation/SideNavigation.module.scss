@@ -1,0 +1,33 @@
+.sideNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

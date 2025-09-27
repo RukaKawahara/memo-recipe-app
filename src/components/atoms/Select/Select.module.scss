@@ -1,0 +1,26 @@
+.select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  background-color: white;
+  color: #374151;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: #ea580c;
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+  }
+
+  &.error {
+    border-color: #ef4444;
+
+    &:focus {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+  }
+}
