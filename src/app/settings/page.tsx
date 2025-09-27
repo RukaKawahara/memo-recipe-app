@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getGenres, addGenre, updateGenre, deleteGenre, type Genre } from '@/lib/genres'
+import { getGenres, addGenre, updateGenre, deleteGenre, type Genre, GENRE_LIMIT, isGenreLimitReached, getRemainingGenreCount } from '@/lib/genres'
 import { initializeDatabase } from '@/lib/database-init'
 import styles from './page.module.scss'
 
@@ -15,6 +15,8 @@ export default function Settings() {
   const [isAdding, setIsAdding] = useState(false)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [dbInitialized, setDbInitialized] = useState<boolean | null>(null)
+  const [isLimitReached, setIsLimitReached] = useState(false)
+  const [remainingCount, setRemainingCount] = useState(0)
 
   useEffect(() => {
     checkDatabase()
@@ -30,6 +32,12 @@ export default function Settings() {
     try {
       const genreList = await getGenres()
       setGenres(genreList)
+
+      // 上限チェック
+      const limitReached = await isGenreLimitReached()
+      const remaining = await getRemainingGenreCount()
+      setIsLimitReached(limitReached)
+      setRemainingCount(remaining)
     } catch (error) {
       console.error('Error fetching genres:', error)
     } finally {
@@ -161,6 +169,16 @@ export default function Settings() {
             <p className={styles.sectionDescription}>
               レシピのジャンルを追加・編集・削除できます
             </p>
+            <div className={styles.genreCounter}>
+              <span className={styles.genreCountText}>
+                登録済み: {genres.length} / {GENRE_LIMIT}
+              </span>
+              {isLimitReached ? (
+                <span className={styles.limitReachedText}>上限に達しています</span>
+              ) : (
+                <span className={styles.remainingCountText}>あと {remainingCount} 個追加可能</span>
+              )}
+            </div>
             {dbInitialized === false && (
               <div className={styles.warningMessage}>
                 <p>⚠️ データベースのジャンルテーブルが見つかりません。</p>
@@ -185,9 +203,9 @@ export default function Settings() {
                 </p>
                 <button
                   onClick={() => setIsAdding(true)}
-                  disabled={dbInitialized === false}
-                  className={`${styles.emptyAddButton} ${dbInitialized === false ? styles.disabled : ''}`}
-                  title={dbInitialized === false ? 'データベースの初期化が必要です' : ''}
+                  disabled={dbInitialized === false || isLimitReached}
+                  className={`${styles.emptyAddButton} ${(dbInitialized === false || isLimitReached) ? styles.disabled : ''}`}
+                  title={dbInitialized === false ? 'データベースの初期化が必要です' : isLimitReached ? `ジャンル登録上限（${GENRE_LIMIT}個）に達しています` : ''}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
                     <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
@@ -297,9 +315,9 @@ export default function Settings() {
             ) : genres.length > 0 && (
               <button
                 onClick={() => setIsAdding(true)}
-                disabled={dbInitialized === false}
-                className={`${styles.addGenreButton} ${dbInitialized === false ? styles.disabled : ''}`}
-                title={dbInitialized === false ? 'データベースの初期化が必要です' : ''}
+                disabled={dbInitialized === false || isLimitReached}
+                className={`${styles.addGenreButton} ${(dbInitialized === false || isLimitReached) ? styles.disabled : ''}`}
+                title={dbInitialized === false ? 'データベースの初期化が必要です' : isLimitReached ? `ジャンル登録上限（${GENRE_LIMIT}個）に達しています` : ''}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
                   <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>

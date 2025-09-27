@@ -77,6 +77,21 @@ export const getGenreNames = async (): Promise<string[]> => {
   return genres.map(genre => genre.name)
 }
 
+// ジャンル登録上限
+export const GENRE_LIMIT = 20
+
+// ジャンル上限チェック用のヘルパー関数
+export const isGenreLimitReached = async (): Promise<boolean> => {
+  const existingGenres = await getGenres()
+  return existingGenres.length >= GENRE_LIMIT
+}
+
+// 残り追加可能なジャンル数を取得
+export const getRemainingGenreCount = async (): Promise<number> => {
+  const existingGenres = await getGenres()
+  return Math.max(0, GENRE_LIMIT - existingGenres.length)
+}
+
 // ジャンルを追加
 export const addGenre = async (name: string): Promise<boolean> => {
   try {
@@ -88,6 +103,14 @@ export const addGenre = async (name: string): Promise<boolean> => {
 
     // まず既存のジャンルをチェック
     const existingGenres = await getGenres()
+
+    // ジャンル数の上限チェック
+    if (existingGenres.length >= GENRE_LIMIT) {
+      console.error(`Genre limit reached. Maximum ${GENRE_LIMIT} genres allowed.`)
+      alert(`ジャンルの登録上限（${GENRE_LIMIT}個）に達しています。これ以上ジャンルを追加できません。`)
+      return false
+    }
+
     const genreExists = existingGenres.some(genre =>
       genre.name.toLowerCase() === trimmedName.toLowerCase()
     )
