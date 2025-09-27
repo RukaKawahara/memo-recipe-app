@@ -522,17 +522,6 @@
   }
 }
 
-.loadingSubtext {
-  font-size: 14px;
-  color: #886364;
-  font-weight: normal;
-  opacity: 0.8;
-
-  @media (min-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
 .favoriteButton {
   position: absolute;
   top: 8px;

@@ -151,7 +151,6 @@ export default function Home() {
             <div className={styles.spinner}></div>
           </div>
           <div className={styles.loadingText}>レシピを読み込み中...</div>
-          <div className={styles.loadingSubtext}>美味しいレシピをお探ししています</div>
         </div>
       </main>
     )
