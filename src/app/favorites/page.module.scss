@@ -240,7 +240,6 @@
   cursor: pointer;
   transition: all 0.2s ease;
   backdrop-filter: blur(8px);
-  z-index: 1;
 
   @media (min-width: 1024px) {
     top: 12px;
