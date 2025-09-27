@@ -221,7 +221,7 @@ export default function Home() {
                   {recipe.image_url ? (
                     <img src={recipe.image_url} alt={recipe.title} />
                   ) : (
-                    <div className={styles.placeholderImage}>🍝</div>
+                    <img src='/images/noimage.png' alt={recipe.title} />
                   )}
                 </div>
                 <div className={styles.recipeInfo}>

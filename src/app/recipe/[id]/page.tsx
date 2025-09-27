@@ -141,9 +141,13 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
 
       <div className={styles.content}>
         <div className={styles.topSection}>
-          {recipe.image_url && (
+          {recipe.image_url ? (
             <div className={styles.imageContainer}>
               <img src={recipe.image_url} alt={recipe.title} className={styles.image} />
+            </div>
+          ) : (
+            <div className={styles.imageContainer}>
+              <img src='/images/noimage.png' alt='画像がありません' className={styles.image} />
             </div>
           )}
 
