@@ -31,7 +31,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchGenres()
-  }, [recipes])
+  }, [])
 
   // ページがフォーカスされた時にジャンルを再読み込み（設定画面から戻った時など）
   useEffect(() => {
@@ -41,28 +41,13 @@ export default function Home() {
 
     window.addEventListener('focus', handleFocus)
     return () => window.removeEventListener('focus', handleFocus)
-  }, [recipes])
+  }, [])
 
   const fetchGenres = async () => {
     try {
-      // ジャンル管理で登録されているジャンルを取得
+      // ジャンル管理で登録されているジャンルのみを取得
       const managedGenres = await getGenreNames()
-
-      // レシピで実際に使用されているジャンルを取得
-      const usedGenres = new Set<string>()
-      recipes.forEach(recipe => {
-        if (recipe.genres && Array.isArray(recipe.genres)) {
-          recipe.genres.forEach(genre => {
-            if (genre && genre.trim()) {
-              usedGenres.add(genre.trim())
-            }
-          })
-        }
-      })
-
-      // 両方を合わせて重複を除去
-      const allGenres = Array.from(new Set([...managedGenres, ...Array.from(usedGenres)]));
-      setGenres(['すべて', ...allGenres.sort()])
+      setGenres(['すべて', ...managedGenres.sort()])
     } catch (error) {
       console.error('Error fetching genres:', error)
     }

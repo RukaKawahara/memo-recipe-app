@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { getGenres, addGenre, updateGenre, deleteGenre, type Genre, GENRE_LIMIT, isGenreLimitReached, getRemainingGenreCount } from '@/lib/genres'
 import { initializeDatabase } from '@/lib/database-init'
+import { supabase } from '@/lib/supabase'
 import styles from './page.module.scss'
 
 export default function Settings() {
@@ -102,17 +103,63 @@ export default function Settings() {
   }
 
   const handleDeleteGenre = async (id: string, name: string) => {
-    const confirmed = confirm(`「${name}」を削除しますか？この操作は取り消せません。`)
-    if (!confirmed) return
-
-    setActionLoading(id)
+    // まず、このジャンルを使用しているレシピがあるかチェック
     try {
-      const success = await deleteGenre(id)
-      if (success) {
-        await fetchGenres()
-      } else {
-        alert('ジャンルの削除に失敗しました。')
+      const { data: recipesWithGenre, error } = await supabase
+        .from('recipes')
+        .select('id, title, genres')
+        .not('genres', 'is', null)
+
+      if (error) {
+        console.error('Error checking recipes:', error)
+        alert('レシピの確認中にエラーが発生しました。')
+        return
       }
+
+      const affectedRecipes = recipesWithGenre?.filter(recipe =>
+        recipe.genres && Array.isArray(recipe.genres) && recipe.genres.includes(name)
+      ) || []
+
+      let confirmMessage = `「${name}」を削除しますか？この操作は取り消せません。`
+
+      if (affectedRecipes.length > 0) {
+        confirmMessage += `\n\n⚠️ 注意: このジャンルは ${affectedRecipes.length} 件のレシピで使用されています。\n削除すると、これらのレシピからもこのジャンルが削除されます。\n\n影響を受けるレシピ:\n${affectedRecipes.slice(0, 5).map(recipe => `• ${recipe.title}`).join('\n')}${affectedRecipes.length > 5 ? `\n...他 ${affectedRecipes.length - 5} 件` : ''}`
+      }
+
+      const confirmed = confirm(confirmMessage)
+      if (!confirmed) return
+
+      setActionLoading(id)
+
+      // ジャンルを削除
+      const success = await deleteGenre(id)
+      if (!success) {
+        alert('ジャンルの削除に失敗しました。')
+        return
+      }
+
+      // 影響を受けるレシピからジャンルを削除
+      if (affectedRecipes.length > 0) {
+        for (const recipe of affectedRecipes) {
+          const updatedGenres = recipe.genres.filter((genre: string) => genre !== name)
+
+          const { error: updateError } = await supabase
+            .from('recipes')
+            .update({ genres: updatedGenres })
+            .eq('id', recipe.id)
+
+          if (updateError) {
+            console.error(`Error updating recipe ${recipe.id}:`, updateError)
+          }
+        }
+      }
+
+      await fetchGenres()
+
+      if (affectedRecipes.length > 0) {
+        alert(`ジャンル「${name}」を削除し、${affectedRecipes.length} 件のレシピから該当ジャンルを削除しました。`)
+      }
+
     } catch (error) {
       console.error('Error deleting genre:', error)
       alert('ジャンルの削除に失敗しました。')
