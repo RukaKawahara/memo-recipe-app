@@ -151,14 +151,13 @@ export default function Favorites() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <FavoriteRecipeList
-          recipes={[]}
-          favorites={[]}
-          favoritesLoading={null}
-          onFavoriteToggle={() => {}}
-          loading={true}
-          className={styles.recipeList}
-        />
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>
+            <div className={styles.spinner}></div>
+          </div>
+          <div className={styles.loadingText}>お気に入りを読み込み中...</div>
+          <div className={styles.loadingSubtext}>あなたのお気に入りレシピを準備しています</div>
+        </div>
       </main>
     )
   }
