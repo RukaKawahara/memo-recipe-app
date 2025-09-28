@@ -4,7 +4,7 @@
   gap: 16px;
   padding: 16px 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     flex-direction: row;
     align-items: flex-end;
     gap: 24px;
@@ -18,7 +18,7 @@
 .genreSelector {
   min-width: 200px;
 
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     min-width: auto;
   }
 }
