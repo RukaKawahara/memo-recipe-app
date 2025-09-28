@@ -155,20 +155,21 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
           <div className={`${styles.section} ${styles.infoSection}`}>
             <h2 className={styles.infoTitle}>{recipe.title}</h2>
             <p className={styles.description}>{recipe.description}</p>
-            {recipe.genres && recipe.genres.length > 0 && (
-              <div className={styles.genresSection}>
-                <h3 className={styles.genresTitle}>ジャンル</h3>
-                <div className={styles.genres}>
-                  {recipe.genres.filter(Boolean).map((genre) => (
-                    <GenreTag key={genre} size="medium">
-                      {genre}
-                    </GenreTag>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
+
+        {recipe.genres && recipe.genres.length > 0 && (
+          <div className={`${styles.section} ${styles.genresSection}`}>
+            <h3 className={styles.genresTitle}>ジャンル</h3>
+            <div className={styles.genres}>
+              {recipe.genres.filter(Boolean).map((genre) => (
+                <GenreTag key={genre} size="medium">
+                  {genre}
+                </GenreTag>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className={styles.bottomSection}>
           <div className={styles.section}>

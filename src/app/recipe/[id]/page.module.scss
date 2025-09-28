@@ -291,10 +291,14 @@
 }
 
 .genresSection {
-  margin-top: 20px;
+  margin-top: 0;
+  padding: 24px 16px;
 
   @media (min-width: 1024px) {
-    margin-top: 24px;
+    padding: 24px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
   }
 }
 
@@ -306,7 +310,9 @@
 
   @media (min-width: 1024px) {
     font-size: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 0;
+    margin-right: 16px;
+    flex-shrink: 0;
   }
 }
 
@@ -317,6 +323,16 @@
 
   @media (min-width: 1024px) {
     gap: 12px;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .genresSection {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
   }
 }
 
