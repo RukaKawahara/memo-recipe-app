@@ -290,6 +290,36 @@
   }
 }
 
+.genresSection {
+  margin-top: 20px;
+
+  @media (min-width: 1024px) {
+    margin-top: 24px;
+  }
+}
+
+.genresTitle {
+  color: #181111;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  @media (min-width: 1024px) {
+    gap: 12px;
+  }
+}
+
 .ingredients, .instructions {
   display: flex;
   flex-direction: column;
