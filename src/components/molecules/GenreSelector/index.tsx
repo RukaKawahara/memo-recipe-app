@@ -25,7 +25,7 @@ export const GenreSelector = ({
             </option>
           ))}
         </Select>
-        <Icon name="chevron-down" size={20} className={styles.selectIcon} />
+        <Icon name="chevron-down" size={16} className={styles.selectIcon} />
       </div>
     </div>
   )

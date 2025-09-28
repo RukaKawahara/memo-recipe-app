@@ -12,14 +12,25 @@
 
 .selectWrapper {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+
+  &:focus-within .selectIcon {
+    color: #ea580c;
+  }
 }
 
 .selectIcon {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: #6b7280;
   pointer-events: none;
+  z-index: 1;
+  transition: color 0.2s ease;
+
+  svg {
+    display: block;
+  }
 }
