@@ -16,6 +16,12 @@
   justify-content: center;
   padding: 48px 16px;
   text-align: center;
+  min-height: 400px;
+
+  @media (min-width: 1024px) {
+    padding: 80px 40px;
+    min-height: 500px;
+  }
 }
 
 .loadingSpinner {
@@ -41,11 +47,12 @@
   text-align: center;
   padding: 60px 20px;
   color: #666;
-  min-height: 50vh;
+  min-height: 400px;
 
   @media (min-width: 1024px) {
     grid-column: 1 / -1;
-    padding: 80px 20px;
+    padding: 80px 40px;
+    min-height: 500px;
   }
 }
 
