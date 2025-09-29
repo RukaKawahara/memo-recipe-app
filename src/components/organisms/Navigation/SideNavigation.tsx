@@ -1,6 +1,8 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
 import NavigationItem from '@/components/molecules/NavigationItem'
 import styles from './SideNavigation.module.scss'
 
@@ -33,7 +35,15 @@ export const SideNavigation = () => {
   return (
     <nav className={styles.sideNav}>
       <div className={styles.header}>
-        <h1 className={styles.logo}>レシピ</h1>
+        <Link href="/" className={styles.logoLink}>
+          <Image
+            src="/icons/header.png"
+            alt="レシピアプリ"
+            width={120}
+            height={40}
+            className={styles.logoImage}
+          />
+        </Link>
       </div>
       <div className={styles.navList}>
         {navigationItems.map((item) => (

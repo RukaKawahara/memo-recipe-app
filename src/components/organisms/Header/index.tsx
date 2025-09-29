@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import Button from '@/components/atoms/Button'
 import Icon from '@/components/atoms/Icon'
 import styles from './Header.module.scss'
@@ -50,7 +51,17 @@ export const Header = ({ title }: HeaderProps) => {
     <>
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>{title}</h1>
+          <div className={styles.logo}>
+            <Link href="/" className={styles.logoLink}>
+              <Image
+                src="/icons/header.png"
+                alt="レシピアプリ"
+                width={120}
+                height={40}
+                className={styles.logoImage}
+              />
+            </Link>
+          </div>
 
           <button
             className={styles.hamburgerButton}
