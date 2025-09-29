@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { getGenreNames } from '@/lib/genres'
+import Button from '@/components/atoms/Button'
 import styles from './page.module.scss'
 
 export default function CreateRecipe() {
@@ -187,11 +188,12 @@ export default function CreateRecipe() {
           {availableGenres.length > 0 ? (
             <div className={styles.genreGrid}>
               {availableGenres.map((genre) => (
-                <button
+                <Button
                   key={genre}
                   type="button"
+                  variant="genre"
+                  selected={selectedGenres.includes(genre)}
                   onClick={() => handleGenreToggle(genre)}
-                  className={`${styles.genreButton} ${selectedGenres.includes(genre) ? styles.selected : ''}`}
                 >
                   <div className={styles.checkbox}>
                     {selectedGenres.includes(genre) && (
@@ -201,7 +203,7 @@ export default function CreateRecipe() {
                     )}
                   </div>
                   <span>{genre}</span>
-                </button>
+                </Button>
               ))}
             </div>
           ) : (
@@ -260,16 +262,16 @@ export default function CreateRecipe() {
                 alt="プレビュー"
                 className={styles.previewImage}
               />
-              <button
+              <Button
                 type="button"
+                variant="deleteImage"
                 onClick={handleImageDelete}
-                className={styles.deleteImageButton}
                 aria-label="写真を削除"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
                   <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                 </svg>
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -277,13 +279,13 @@ export default function CreateRecipe() {
 
       <div className={styles.actions}>
         <div className={styles.buttonsWrapper}>
-          <button
+          <Button
+            variant="save"
             onClick={() => handleSave(false)}
             disabled={saving}
-            className={styles.saveButton}
           >
             <span>{saving && !isDraft ? '保存中...' : '保存'}</span>
-          </button>
+          </Button>
         </div>
       </div>
     </main>

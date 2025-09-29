@@ -73,4 +73,193 @@
       padding: 10px;
     }
   }
+
+  // Save/Update Button (保存・更新ボタン)
+  &.save {
+    min-width: 320px;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    color: #181111;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 48px;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(255, 255, 255, 1);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #999;
+    }
+  }
+
+  // Delete Image Button (画像削除ボタン)
+  &.deleteImage {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    padding: 0;
+    backdrop-filter: blur(4px);
+
+    &:hover:not(:disabled) {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  // Genre Selection Button (ジャンル選択ボタン)
+  &.genre {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    color: #181111;
+    font-size: 14px;
+    font-weight: 500;
+
+    &:hover:not(:disabled) {
+      border-color: #bdbdbd;
+      background-color: #f9f9f9;
+    }
+
+    &.selected {
+      border-color: #181111;
+      background-color: #181111;
+      color: white;
+    }
+  }
+
+  // Delete Action Button (削除アクションボタン)
+  &.delete {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+
+    &:hover:not(:disabled) {
+      background-color: #b91c1c;
+    }
+  }
+
+  // Edit Button (編集ボタン)
+  &.edit {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    min-width: 80px;
+
+    &:hover:not(:disabled) {
+      background-color: #e5e7eb;
+      border-color: #9ca3af;
+    }
+  }
+
+  // Delete Action Button for ActionButtons component (ActionButtonsコンポーネント用削除ボタン)
+  &.deleteAction {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    min-width: 80px;
+
+    &:hover:not(:disabled) {
+      background-color: #dc2626;
+    }
+  }
+
+  // Compact Save Button (設定画面用コンパクト保存ボタン)
+  &.saveCompact {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    color: #181111;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover:not(:disabled) {
+      background-color: rgba(24, 17, 17, 0.9);
+      color: white;
+      border-color: rgba(24, 17, 17, 0.2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      transform: none;
+    }
+  }
+
+  // Cancel Button (キャンセルボタン)
+  &.cancel {
+    background-color: rgba(102, 102, 102, 0.1);
+    backdrop-filter: blur(10px);
+    color: #666;
+    border: 1px solid rgba(224, 224, 224, 0.4);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    &:hover:not(:disabled) {
+      background-color: rgba(245, 245, 245, 0.9);
+      color: #181111;
+      border-color: rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      transform: none;
+    }
+  }
+
+  // Add Genre Button (ジャンル追加ボタン)
+  &.addDashed {
+    background-color: white;
+    border: 2px dashed #d0d0d0;
+    border-radius: 12px;
+    padding: 20px;
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+    gap: 8px;
+
+    &:hover:not(:disabled) {
+      border-color: #181111;
+      color: #181111;
+      background-color: #f9f9f9;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #e0e0e0;
+      color: #999;
+
+      &:hover {
+        border-color: #e0e0e0;
+        color: #999;
+        background-color: white;
+      }
+    }
+  }
 }

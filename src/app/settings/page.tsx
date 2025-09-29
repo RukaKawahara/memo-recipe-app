@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { getGenres, addGenre, updateGenre, deleteGenre, type Genre, GENRE_LIMIT, isGenreLimitReached, getRemainingGenreCount } from '@/lib/genres'
 import { initializeDatabase } from '@/lib/database-init'
 import { supabase } from '@/lib/supabase'
+import Button from '@/components/atoms/Button'
 import styles from './page.module.scss'
 
 export default function Settings() {
@@ -269,20 +270,20 @@ export default function Settings() {
                       autoFocus
                     />
                     <div className={styles.editActions}>
-                      <button
+                      <Button
+                        variant="saveCompact"
                         onClick={() => handleEditGenre(genre.id)}
                         disabled={actionLoading === genre.id}
-                        className={styles.saveButton}
                       >
                         {actionLoading === genre.id ? '保存中...' : '保存'}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="cancel"
                         onClick={cancelEditing}
                         disabled={actionLoading === genre.id}
-                        className={styles.cancelButton}
                       >
                         キャンセル
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 ) : (
@@ -294,21 +295,21 @@ export default function Settings() {
                       )}
                     </div>
                     <div className={styles.genreActions}>
-                      <button
+                      <Button
+                        variant="edit"
                         onClick={() => startEditing(genre)}
                         disabled={actionLoading === genre.id || genre.id.startsWith('default-')}
-                        className={styles.editButton}
                       >
                         編集
-                      </button>
+                      </Button>
                       {!genre.id.startsWith('default-') && (
-                        <button
+                        <Button
+                          variant="deleteAction"
                           onClick={() => handleDeleteGenre(genre.id, genre.name)}
                           disabled={actionLoading === genre.id}
-                          className={styles.deleteButton}
                         >
                           {actionLoading === genre.id ? '削除中...' : '削除'}
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </div>
@@ -333,35 +334,35 @@ export default function Settings() {
                     autoFocus
                   />
                   <div className={styles.editActions}>
-                    <button
+                    <Button
+                      variant="saveCompact"
                       onClick={handleAddGenre}
                       disabled={actionLoading === 'add'}
-                      className={styles.saveButton}
                     >
                       {actionLoading === 'add' ? '追加中...' : '追加'}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="cancel"
                       onClick={cancelAdding}
                       disabled={actionLoading === 'add'}
-                      className={styles.cancelButton}
                     >
                       キャンセル
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
             ) : genres.length > 0 && (
-              <button
+              <Button
+                variant="addDashed"
                 onClick={() => setIsAdding(true)}
                 disabled={dbInitialized === false || isLimitReached}
-                className={`${styles.addGenreButton} ${(dbInitialized === false || isLimitReached) ? styles.disabled : ''}`}
                 title={dbInitialized === false ? 'データベースの初期化が必要です' : isLimitReached ? `ジャンル登録上限（${GENRE_LIMIT}個）に達しています` : ''}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
                   <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
                 </svg>
                 新しいジャンルを追加
-              </button>
+              </Button>
             )}
           </div>
         </section>

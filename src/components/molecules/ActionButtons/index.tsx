@@ -10,12 +10,14 @@ interface ActionButtonsProps {
 export default function ActionButtons({ editHref, onDelete }: ActionButtonsProps) {
   return (
     <div className={styles.container}>
-      <Link href={editHref} className={styles.editButton}>
-        編集
+      <Link href={editHref}>
+        <Button variant="edit">
+          編集
+        </Button>
       </Link>
-      <button onClick={onDelete} className={styles.deleteButton}>
+      <Button variant="deleteAction" onClick={onDelete}>
         削除
-      </button>
+      </Button>
     </div>
   )
 }
