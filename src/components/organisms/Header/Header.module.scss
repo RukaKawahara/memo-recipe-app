@@ -51,23 +51,13 @@
 
 .title {
   flex: 1;
-  text-align: center;
+  text-align: left;
   font-size: 18px;
   font-weight: 600;
   color: #1f2937;
   margin: 0;
-
-  @media (min-width: 1024px) {
-    text-align: left;
-    margin-left: 16px;
-  }
 }
 
-.addButton {
-  @media (max-width: 1023px) {
-    // モバイルでは右側に配置
-  }
-}
 
 // ハンバーガーメニュー関連のスタイル
 .overlay {

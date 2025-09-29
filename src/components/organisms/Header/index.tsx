@@ -32,11 +32,9 @@ const navigationItems = [
 
 interface HeaderProps {
   title: string
-  showAddButton?: boolean
-  addButtonHref?: string
 }
 
-export const Header = ({ title, showAddButton = false, addButtonHref = '/create' }: HeaderProps) => {
+export const Header = ({ title }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -52,6 +50,8 @@ export const Header = ({ title, showAddButton = false, addButtonHref = '/create'
     <>
       <header className={styles.header}>
         <div className={styles.headerContent}>
+          <h1 className={styles.title}>{title}</h1>
+
           <button
             className={styles.hamburgerButton}
             onClick={toggleMenu}
@@ -59,18 +59,6 @@ export const Header = ({ title, showAddButton = false, addButtonHref = '/create'
           >
             <Icon name="menu" size={24} />
           </button>
-
-          <h1 className={styles.title}>{title}</h1>
-
-          {showAddButton && (
-            <div className={styles.addButton}>
-              <Link href={addButtonHref}>
-                <Button variant="icon">
-                  <Icon name="plus" size={24} />
-                </Button>
-              </Link>
-            </div>
-          )}
         </div>
       </header>
 
