@@ -90,15 +90,6 @@
   }
 }
 
-
-.recipeList {
-  flex: 1;
-
-  @media (min-width: 1024px) {
-    display: flex;
-  }
-}
-
 .empty {
   display: flex;
   flex-direction: column;
