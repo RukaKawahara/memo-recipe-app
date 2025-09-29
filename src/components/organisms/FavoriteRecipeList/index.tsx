@@ -1,8 +1,7 @@
-import Link from 'next/link'
-import RecipeCard from '@/components/molecules/RecipeCard'
-import LoadingSpinner from '@/components/atoms/LoadingSpinner'
+import RecipeGrid from '@/components/molecules/RecipeGrid'
+import EmptyState from '@/components/molecules/EmptyState'
+import LoadingState from '@/components/molecules/LoadingState'
 import type { Recipe } from '@/types/recipe'
-import styles from './FavoriteRecipeList.module.scss'
 
 export interface FavoriteRecipeListProps {
   recipes: Recipe[]
@@ -23,40 +22,34 @@ export const FavoriteRecipeList = ({
 }: FavoriteRecipeListProps) => {
   if (loading) {
     return (
-      <div className={`${styles.loadingContainer} ${className}`.trim()}>
-        <div className={styles.loadingSpinner}>
-          <LoadingSpinner size="large" />
-        </div>
-        <div className={styles.loadingText}>お気に入りを読み込み中...</div>
-        <div className={styles.loadingSubtext}>あなたのお気に入りレシピを準備しています</div>
-      </div>
+      <LoadingState
+        title="お気に入りを読み込み中..."
+        subtitle="あなたのお気に入りレシピを準備しています"
+        className={className}
+      />
     )
   }
 
   if (recipes.length === 0) {
     return (
-      <div className={`${styles.empty} ${className}`.trim()}>
-        <div className={styles.emptyIcon}>❤️</div>
-        <p>お気に入りのレシピがありません</p>
-        <Link href="/" className={styles.browseLink}>
-          レシピを探す
-        </Link>
-      </div>
+      <EmptyState
+        icon="❤️"
+        title="お気に入りのレシピがありません"
+        actionText="レシピを探す"
+        actionHref="/"
+        className={className}
+      />
     )
   }
 
   return (
-    <div className={`${styles.recipeList} ${className}`.trim()}>
-      {recipes.map((recipe) => (
-        <RecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          isFavorite={favorites.includes(recipe.id)}
-          isLoading={favoritesLoading === recipe.id}
-          onFavoriteToggle={(e) => onFavoriteToggle(recipe.id, e)}
-        />
-      ))}
-    </div>
+    <RecipeGrid
+      recipes={recipes}
+      favorites={favorites}
+      favoritesLoading={favoritesLoading}
+      onFavoriteToggle={onFavoriteToggle}
+      className={className}
+    />
   )
 }
 

@@ -1,8 +1,7 @@
-import Link from 'next/link'
-import RecipeCard from '@/components/molecules/RecipeCard'
-import LoadingSpinner from '@/components/atoms/LoadingSpinner'
+import RecipeGrid from '@/components/molecules/RecipeGrid'
+import EmptyState from '@/components/molecules/EmptyState'
+import LoadingState from '@/components/molecules/LoadingState'
 import type { Recipe } from '@/types/recipe'
-import styles from './RecipeList.module.scss'
 
 export interface RecipeListProps {
   recipes: Recipe[]
@@ -23,38 +22,32 @@ export const RecipeList = ({
 }: RecipeListProps) => {
   if (loading) {
     return (
-      <div className={`${styles.loadingContainer} ${className}`.trim()}>
-        <div className={styles.loadingSpinner}>
-          <LoadingSpinner size="large" />
-        </div>
-        <div className={styles.loadingText}>レシピを読み込み中...</div>
-      </div>
+      <LoadingState
+        title="レシピを読み込み中..."
+        className={className}
+      />
     )
   }
 
   if (recipes.length === 0) {
     return (
-      <div className={`${styles.empty} ${className}`.trim()}>
-        <p>レシピが登録されていません</p>
-        <Link href="/create" className={styles.createLink}>
-          新しいレシピを作成する
-        </Link>
-      </div>
+      <EmptyState
+        title="レシピが登録されていません"
+        actionText="新しいレシピを作成する"
+        actionHref="/create"
+        className={className}
+      />
     )
   }
 
   return (
-    <div className={`${styles.recipeList} ${className}`.trim()}>
-      {recipes.map((recipe) => (
-        <RecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          isFavorite={favorites.includes(recipe.id)}
-          isLoading={favoritesLoading === recipe.id}
-          onFavoriteToggle={(e) => onFavoriteToggle(recipe.id, e)}
-        />
-      ))}
-    </div>
+    <RecipeGrid
+      recipes={recipes}
+      favorites={favorites}
+      favoritesLoading={favoritesLoading}
+      onFavoriteToggle={onFavoriteToggle}
+      className={className}
+    />
   )
 }
 
