@@ -1,0 +1,144 @@
+.hamburgerContainer {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1100;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.hamburgerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #f9fafb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1050;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+
+  @media (max-width: 375px) {
+    width: 280px;
+    right: -280px;
+  }
+}
+
+.menuOpen {
+  right: 0;
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+}
+
+.menuList {
+  list-style: none;
+  margin: 0;
+  padding: 16px 0;
+}
+
+.menuItem {
+  margin: 0;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+
+  &:hover {
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+
+  &.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border-left-color: #2563eb;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hamburgerContainer,
+  .menu,
+  .overlay {
+    display: none;
+  }
+}

@@ -164,10 +164,6 @@ export default function Favorites() {
 
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>お気に入り</h2>
-      </header>
-
       <SearchAndFilters
         searchTerm={searchTerm}
         selectedGenre={selectedGenre}

@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  text-align: center;
+}
+
+.editButton {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+
+  &:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+  }
+}
+
+.deleteButton {
+  background-color: #ef4444;
+  color: white;
+
+  &:hover {
+    background-color: #dc2626;
+  }
+}

@@ -113,10 +113,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 
   &:hover {
     color: #FF3B30;
+    transform: scale(1.1);
+
+    @media (min-width: 1024px) {
+      background-color: rgba(255, 59, 48, 0.1);
+      transform: scale(1.05);
+    }
   }
 
   &.favorite {

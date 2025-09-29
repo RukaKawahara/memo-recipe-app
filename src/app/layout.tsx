@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.scss'
-import BottomNavigation from '@/components/organisms/Navigation/BottomNavigation'
+import Header from '@/components/organisms/Header'
 import SideNavigation from '@/components/organisms/Navigation/SideNavigation'
 
 export const metadata: Metadata = {
@@ -28,12 +28,12 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-container">
+          <Header title="シンプルメモレシピアプリ" showAddButton={true} />
           <SideNavigation />
           <div className="main-content">
             <div className="container">
               {children}
             </div>
-            <BottomNavigation />
           </div>
         </div>
       </body>

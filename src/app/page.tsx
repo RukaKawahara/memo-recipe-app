@@ -148,17 +148,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>レシピ</h2>
-        <div className={styles.addButton}>
-          <Link href="/create">
-            <Button variant="icon">
-              <Icon name="plus" size={24} />
-            </Button>
-          </Link>
-        </div>
-      </header>
-
       <SearchAndFilters
         searchTerm={searchTerm}
         selectedGenre={selectedGenre}
