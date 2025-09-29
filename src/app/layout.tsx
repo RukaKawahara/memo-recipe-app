@@ -4,8 +4,8 @@ import Header from '@/components/organisms/Header'
 import SideNavigation from '@/components/organisms/Navigation/SideNavigation'
 
 export const metadata: Metadata = {
-  title: 'シンプルメモレシピアプリ',
-  description: '美味しいレシピを簡単にメモし、複数のデバイスで同期できるアプリ',
+  title: 'メモレシピアプリ',
+  description: '美味しかったレシピを簡単にメモし、複数のデバイスで同期できるアプリ',
 }
 
 export default function RootLayout({
