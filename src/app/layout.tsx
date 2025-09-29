@@ -28,7 +28,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-container">
-          <Header title="シンプルメモレシピアプリ" showAddButton={true} />
+          <Header title="レシピ" showAddButton={true} />
           <SideNavigation />
           <div className="main-content">
             <div className="container">
