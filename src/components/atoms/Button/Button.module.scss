@@ -125,8 +125,9 @@
     font-weight: 500;
 
     &:hover:not(:disabled) {
-      border-color: #bdbdbd;
-      background-color: #f9f9f9;
+      border-color: #181111;
+      background-color: #181111;
+      color: white;
     }
 
     &.selected {
