@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { getGenreNames } from '@/lib/genres'
 import Button from '@/components/atoms/Button'
+import RecipeForm from '@/components/organisms/RecipeForm'
 import type { Recipe } from '@/types/recipe'
 import styles from './page.module.scss'
 
@@ -217,176 +218,28 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
 
   return (
     <main className={styles.main}>
-      <div className={styles.form}>
-        <div className={styles.field}>
-          <label>
-            <input
-              type="text"
-              placeholder="レシピ名"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className={styles.input}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          <label>
-            <textarea
-              placeholder="説明"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className={styles.textarea}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          <label>
-            <textarea
-              placeholder="材料"
-              value={ingredients}
-              onChange={(e) => setIngredients(e.target.value)}
-              className={styles.textarea}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          <label>
-            <textarea
-              placeholder="手順"
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
-              className={styles.textarea}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          <div className={styles.fieldLabel}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-              <path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40A8,8,0,0,0,32,40v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"></path>
-            </svg>
-            ジャンル（複数選択可）
-          </div>
-          {availableGenres.length > 0 ? (
-            <div className={styles.genreGrid}>
-              {availableGenres.map((genre) => (
-                <Button
-                  key={genre}
-                  type="button"
-                  variant="genre"
-                  selected={selectedGenres.includes(genre)}
-                  onClick={() => handleGenreToggle(genre)}
-                >
-                  <div className={styles.checkbox}>
-                    {selectedGenres.includes(genre) && (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
-                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    )}
-                  </div>
-                  <span>{genre}</span>
-                </Button>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.noGenresMessage}>
-              <p>ジャンルが設定されていません。</p>
-              <Link href="/settings" className={styles.settingsLink}>
-                設定画面でジャンルを追加
-              </Link>
-            </div>
-          )}
-        </div>
-
-        <div className={styles.field}>
-          <label>
-            <textarea
-              placeholder="メモ（任意）"
-              value={memo}
-              onChange={(e) => setMemo(e.target.value)}
-              className={styles.textarea}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          <label className={styles.referenceUrlLabel}>
-            <span className={styles.referenceUrlLabelText}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10A56,56,0,0,1,48.38,128.4L74.05,102.73a56,56,0,0,1,79.2,0,8,8,0,0,1-11.31,11.31,40,40,0,0,0-56.57,0L59.69,139.71a40,40,0,0,0,56.57,56.57l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56,56,0,0,0-79.21,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.57,56.56L170.63,141.9a40,40,0,0,1-56.57,0,8,8,0,0,0-11.31,11.32,56,56,0,0,0,79.2,0l25.67-25.67A56,56,0,0,0,207.62,48.38Z"></path>
-              </svg>
-              参考リンク（任意）
-            </span>
-            <input
-              type="url"
-              placeholder="https://example.com/recipe"
-              value={referenceUrl}
-              onChange={(e) => setReferenceUrl(e.target.value)}
-              className={styles.referenceUrlInput}
-            />
-          </label>
-        </div>
-
-        <div className={styles.field}>
-          {!recipe.image_url && !imageFile && (
-            <label htmlFor="image" className={styles.imageUpload}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM12 1l3.5 3.5H19a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h3.5L12 1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/>
-              </svg>
-              <span>写真を追加</span>
-              <input
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className={styles.fileInput}
-              />
-            </label>
-          )}
-
-          {(recipe.image_url && !imageFile) && (
-            <div className={styles.imagePreview}>
-              <img
-                src={recipe.image_url}
-                alt="現在の写真"
-                className={styles.previewImage}
-              />
-              <Button
-                type="button"
-                variant="deleteImage"
-                onClick={handleImageDelete}
-                aria-label="写真を削除"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-                  <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                </svg>
-              </Button>
-            </div>
-          )}
-
-          {imageFile && (
-            <div className={styles.imagePreview}>
-              <img
-                src={URL.createObjectURL(imageFile)}
-                alt="プレビュー"
-                className={styles.previewImage}
-              />
-              <Button
-                type="button"
-                variant="deleteImage"
-                onClick={handleImageDelete}
-                aria-label="写真を削除"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
-                  <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                </svg>
-              </Button>
-            </div>
-          )}
-        </div>
+      <div className={styles.formContainer}>
+        <RecipeForm
+          title={title}
+          description={description}
+          ingredients={ingredients}
+          instructions={instructions}
+          selectedGenres={selectedGenres}
+          memo={memo}
+          referenceUrl={referenceUrl}
+          imageFile={imageFile}
+          existingImageUrl={recipe?.image_url}
+          availableGenres={availableGenres}
+          onTitleChange={setTitle}
+          onDescriptionChange={setDescription}
+          onIngredientsChange={setIngredients}
+          onInstructionsChange={setInstructions}
+          onGenreToggle={handleGenreToggle}
+          onMemoChange={setMemo}
+          onReferenceUrlChange={setReferenceUrl}
+          onImageChange={setImageFile}
+          onImageDelete={handleImageDelete}
+        />
       </div>
 
       <div className={styles.actions}>

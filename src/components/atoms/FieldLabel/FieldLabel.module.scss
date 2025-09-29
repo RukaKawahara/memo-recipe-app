@@ -1,0 +1,29 @@
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #24292f;
+  margin-bottom: 8px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: #656d76;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.text {
+  flex: 1;
+}
+
+.required {
+  color: #d1242f;
+  font-weight: 600;
+}

@@ -1,0 +1,43 @@
+.imagePreview {
+  position: relative;
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+}
+
+.previewImage {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}

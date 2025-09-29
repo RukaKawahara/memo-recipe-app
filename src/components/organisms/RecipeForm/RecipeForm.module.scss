@@ -1,0 +1,30 @@
+.form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.noGenresMessage {
+  padding: 16px;
+  background-color: #fff8dc;
+  border: 1px solid #f5e6a3;
+  border-radius: 8px;
+  text-align: center;
+
+  p {
+    margin: 0 0 8px 0;
+    color: #936c00;
+    font-size: 14px;
+  }
+}
+
+.settingsLink {
+  color: #0969da;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
