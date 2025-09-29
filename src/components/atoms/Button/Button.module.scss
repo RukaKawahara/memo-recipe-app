@@ -35,13 +35,11 @@
 
   &.icon {
     background-color: transparent;
-    color: #6b7280;
     padding: 8px;
     border-radius: 50%;
 
     &:hover:not(:disabled) {
       background-color: #f3f4f6;
-      color: #374151;
     }
   }
 
