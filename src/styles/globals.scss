@@ -62,6 +62,7 @@ textarea {
   @media (min-width: 1024px) {
     margin-left: 240px;
     background-color: white;
+    padding-top: 0; // PC環境ではヘッダーがないのでパディング不要
   }
 }
 
