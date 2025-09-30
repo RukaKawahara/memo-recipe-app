@@ -83,6 +83,25 @@ SET reference_url = 'https://example.com/recipe/arrabbiata'
 WHERE title = 'アラビアータ' AND reference_url IS NULL;
 
 -- ================================================
+-- Part 3: 複数画像アップロード機能の追加
+-- ================================================
+
+-- Step 14: image_urlsカラムを追加
+ALTER TABLE recipes
+ADD COLUMN IF NOT EXISTS image_urls text[] DEFAULT '{}';
+
+-- Step 15: 既存のimage_urlから新しいimage_urlsカラムにデータを移行
+UPDATE recipes
+SET image_urls = ARRAY[image_url]::text[]
+WHERE image_url IS NOT NULL AND (image_urls IS NULL OR array_length(image_urls, 1) IS NULL);
+
+-- Step 16: パフォーマンス向上のためのインデックスを作成
+CREATE INDEX IF NOT EXISTS idx_recipes_image_urls ON recipes USING GIN (image_urls);
+
+-- Step 17: カラムにコメントを追加
+COMMENT ON COLUMN recipes.image_urls IS 'Array of image URLs for the recipe (max 5 images)';
+
+-- ================================================
 -- マイグレーション完了
 -- ================================================
 -- このマイグレーションにより以下が追加されます：
@@ -90,3 +109,4 @@ WHERE title = 'アラビアータ' AND reference_url IS NULL;
 -- 2. カスタムジャンル管理 (genresテーブル)
 -- 3. お気に入り機能 (user_favoritesテーブル)
 -- 4. 参考リンク機能 (reference_url TEXT)
+-- 5. 複数画像アップロード機能 (image_urls TEXT[])

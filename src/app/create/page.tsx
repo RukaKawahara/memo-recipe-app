@@ -16,7 +16,7 @@ export default function CreateRecipe() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
   const [referenceUrl, setReferenceUrl] = useState('')
-  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imageFiles, setImageFiles] = useState<File[]>([])
   const [saving, setSaving] = useState(false)
   const [isDraft, setIsDraft] = useState(false)
   const [availableGenres, setAvailableGenres] = useState<string[]>([])
@@ -46,15 +46,12 @@ export default function CreateRecipe() {
     )
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setImageFile(file)
-    }
+  const handleImagesChange = (files: File[]) => {
+    setImageFiles(files)
   }
 
-  const handleImageDelete = () => {
-    setImageFile(null)
+  const handleImageDelete = (index: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== index))
   }
 
   const uploadImage = async (file: File): Promise<string | null> => {
@@ -94,25 +91,35 @@ export default function CreateRecipe() {
     setIsDraft(asDraft)
 
     try {
-      let imageUrl = null
-      if (imageFile) {
-        imageUrl = await uploadImage(imageFile)
+      // Upload all images
+      const imageUrls: string[] = []
+      for (const file of imageFiles) {
+        const url = await uploadImage(file)
+        if (url) {
+          imageUrls.push(url)
+        }
+      }
+
+      // Prepare insert data
+      const insertData: any = {
+        title: title.trim(),
+        description: description.trim(),
+        ingredients: ingredients.trim(),
+        instructions: instructions.trim(),
+        genres: selectedGenres,
+        memo: memo.trim(),
+        reference_url: referenceUrl.trim() || null,
+        image_url: imageUrls.length > 0 ? imageUrls[0] : null,
+      }
+
+      // Only add image_urls if there are images
+      if (imageUrls.length > 0) {
+        insertData.image_urls = imageUrls
       }
 
       const { data, error } = await supabase
         .from('recipes')
-        .insert([
-          {
-            title: title.trim(),
-            description: description.trim(),
-            ingredients: ingredients.trim(),
-            instructions: instructions.trim(),
-            genres: selectedGenres,
-            memo: memo.trim(),
-            reference_url: referenceUrl.trim() || null,
-            image_url: imageUrl,
-          }
-        ])
+        .insert([insertData])
         .select()
 
       if (error) {
@@ -141,7 +148,7 @@ export default function CreateRecipe() {
           selectedGenres={selectedGenres}
           memo={memo}
           referenceUrl={referenceUrl}
-          imageFile={imageFile}
+          imageFiles={imageFiles}
           availableGenres={availableGenres}
           onTitleChange={setTitle}
           onDescriptionChange={setDescription}
@@ -150,7 +157,7 @@ export default function CreateRecipe() {
           onGenreToggle={handleGenreToggle}
           onMemoChange={setMemo}
           onReferenceUrlChange={setReferenceUrl}
-          onImageChange={setImageFile}
+          onImagesChange={handleImagesChange}
           onImageDelete={handleImageDelete}
         />
       </div>

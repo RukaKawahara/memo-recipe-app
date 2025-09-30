@@ -15,8 +15,8 @@ interface RecipeFormProps {
   selectedGenres: string[]
   memo: string
   referenceUrl: string
-  imageFile: File | null
-  existingImageUrl?: string | null
+  imageFiles: File[]
+  existingImageUrls?: string[]
   availableGenres: string[]
   onTitleChange: (value: string) => void
   onDescriptionChange: (value: string) => void
@@ -25,8 +25,8 @@ interface RecipeFormProps {
   onGenreToggle: (genre: string) => void
   onMemoChange: (value: string) => void
   onReferenceUrlChange: (value: string) => void
-  onImageChange: (file: File | null) => void
-  onImageDelete: () => void
+  onImagesChange: (files: File[]) => void
+  onImageDelete: (index: number) => void
   className?: string
 }
 
@@ -38,8 +38,8 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   selectedGenres,
   memo,
   referenceUrl,
-  imageFile,
-  existingImageUrl,
+  imageFiles,
+  existingImageUrls,
   availableGenres,
   onTitleChange,
   onDescriptionChange,
@@ -48,7 +48,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
   onGenreToggle,
   onMemoChange,
   onReferenceUrlChange,
-  onImageChange,
+  onImagesChange,
   onImageDelete,
   className
 }) => {
@@ -135,10 +135,11 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
 
       <FormField>
         <ImageUploadField
-          imageFile={imageFile}
-          imageUrl={existingImageUrl}
-          onFileChange={onImageChange}
+          imageFiles={imageFiles}
+          imageUrls={existingImageUrls}
+          onFilesChange={onImagesChange}
           onImageDelete={onImageDelete}
+          maxImages={5}
         />
       </FormField>
     </div>
