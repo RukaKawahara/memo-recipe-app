@@ -28,6 +28,8 @@ export default function RecipeDetail({
 
   useEffect(() => {
     if (id) {
+      // ページ遷移時にトップにスクロール
+      window.scrollTo(0, 0);
       fetchRecipe();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
