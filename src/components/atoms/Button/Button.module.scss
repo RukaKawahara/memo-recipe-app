@@ -165,8 +165,9 @@
     min-width: 80px;
 
     &:hover:not(:disabled) {
-      background-color: $color-light;
-      border-color: $color-gray-light;
+      background-color: $color-dark;
+      border-color: $color-dark;
+      color: $color-white;
     }
   }
 
