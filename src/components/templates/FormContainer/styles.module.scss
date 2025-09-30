@@ -15,20 +15,3 @@
     flex-shrink: 0;
   }
 }
-
-.actions {
-  display: flex;
-  justify-content: stretch;
-  padding: 16px;
-
-  @media (min-width: 1024px) {
-    margin-top: 32px;
-    padding: 0;
-  }
-
-  .buttonsWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-}

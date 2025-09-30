@@ -4,10 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
-import { getGenreNames } from '@/lib/genres';
+import { uploadImages } from '@/lib/storage';
+import { useGenres } from '@/hooks/useGenres';
+import { useRecipeForm } from '@/hooks/useRecipeForm';
 import Button from '@/components/atoms/Button';
 import RecipeForm from '@/components/organisms/RecipeForm';
 import LoadingState from '@/components/molecules/LoadingState';
+import FormContainer from '@/components/templates/FormContainer';
+import FormActions from '@/components/templates/FormActions';
 import type { Recipe } from '@/types/recipe';
 import styles from './page.module.scss';
 
@@ -18,20 +22,32 @@ export default function EditRecipe({
 }) {
   const [id, setId] = useState<string>('');
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [memo, setMemo] = useState('');
-  const [referenceUrl, setReferenceUrl] = useState('');
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
 
   const router = useRouter();
+  const { availableGenres } = useGenres();
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    ingredients,
+    setIngredients,
+    instructions,
+    setInstructions,
+    selectedGenres,
+    setSelectedGenres,
+    memo,
+    setMemo,
+    referenceUrl,
+    setReferenceUrl,
+    imageFiles,
+    handleGenreToggle,
+    handleImagesChange,
+    handleImageDelete: baseHandleImageDelete,
+  } = useRecipeForm();
 
   useEffect(() => {
     params.then((resolvedParams) => {
@@ -45,31 +61,6 @@ export default function EditRecipe({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-  useEffect(() => {
-    loadGenres();
-  }, []);
-
-  const loadGenres = async () => {
-    try {
-      const genreNames = await getGenreNames();
-      setAvailableGenres(genreNames);
-    } catch (error) {
-      console.error('Error loading genres:', error);
-      setAvailableGenres([
-        'メインディッシュ',
-        'サイドディッシュ',
-        'デザート',
-        'スープ',
-      ]);
-    }
-  };
-
-  const handleGenreToggle = (genre: string) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
-    );
-  };
 
   const fetchRecipe = async () => {
     try {
@@ -103,44 +94,8 @@ export default function EditRecipe({
     }
   };
 
-  const handleImagesChange = (files: File[]) => {
-    setImageFiles(files);
-  };
-
   const handleImageDelete = (index: number) => {
-    if (index < existingImageUrls.length) {
-      // 既存画像の削除
-      setExistingImageUrls((prev) => prev.filter((_, i) => i !== index));
-    } else {
-      // 新規画像の削除
-      setImageFiles((prev) =>
-        prev.filter((_, i) => i !== index - existingImageUrls.length)
-      );
-    }
-  };
-
-  const uploadImage = async (file: File): Promise<string | null> => {
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `recipe-images/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('recipes')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        console.error('Error uploading image:', uploadError);
-        return null;
-      }
-
-      const { data } = supabase.storage.from('recipes').getPublicUrl(filePath);
-
-      return data.publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
+    baseHandleImageDelete(index, existingImageUrls, setExistingImageUrls);
   };
 
   const handleSave = async () => {
@@ -152,16 +107,7 @@ export default function EditRecipe({
     setSaving(true);
 
     try {
-      // Upload new images
-      const newImageUrls: string[] = [];
-      for (const file of imageFiles) {
-        const url = await uploadImage(file);
-        if (url) {
-          newImageUrls.push(url);
-        }
-      }
-
-      // Combine existing and new images
+      const newImageUrls = await uploadImages(imageFiles);
       const allImageUrls = [...existingImageUrls, ...newImageUrls];
 
       // Prepare update data
@@ -259,7 +205,7 @@ export default function EditRecipe({
 
   return (
     <main className={styles.main}>
-      <div className={styles.formContainer}>
+      <FormContainer>
         <RecipeForm
           title={title}
           description={description}
@@ -281,15 +227,13 @@ export default function EditRecipe({
           onImagesChange={handleImagesChange}
           onImageDelete={handleImageDelete}
         />
-      </div>
+      </FormContainer>
 
-      <div className={styles.actions}>
-        <div className={styles.buttonsWrapper}>
-          <Button variant="save" onClick={handleSave} disabled={saving}>
-            <span>{saving ? '更新中...' : '更新'}</span>
-          </Button>
-        </div>
-      </div>
+      <FormActions>
+        <Button variant="save" onClick={handleSave} disabled={saving}>
+          <span>{saving ? '更新中...' : '更新'}</span>
+        </Button>
+      </FormActions>
     </main>
   );
 }

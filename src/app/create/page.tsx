@@ -1,85 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { getGenreNames } from '@/lib/genres';
+import { uploadImages } from '@/lib/storage';
+import { useGenres } from '@/hooks/useGenres';
+import { useRecipeForm } from '@/hooks/useRecipeForm';
 import Button from '@/components/atoms/Button';
 import RecipeForm from '@/components/organisms/RecipeForm';
-import styles from './page.module.scss';
+import FormContainer from '@/components/templates/FormContainer';
+import FormActions from '@/components/templates/FormActions';
 
 export default function CreateRecipe() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [ingredients, setIngredients] = useState('【○人前】\n• \n• \n• \n• ');
-  const [instructions, setInstructions] = useState('1. \n2. \n3. \n4. ');
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [memo, setMemo] = useState('');
-  const [referenceUrl, setReferenceUrl] = useState('');
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [saving, setSaving] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
-  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
-
   const router = useRouter();
 
-  useEffect(() => {
-    fetchGenres();
-  }, []);
-
-  const fetchGenres = async () => {
-    try {
-      const genreNames = await getGenreNames();
-      setAvailableGenres(genreNames);
-    } catch (error) {
-      console.error('Error fetching genres:', error);
-      // フォールバック
-      setAvailableGenres([
-        'メインディッシュ',
-        'サイドディッシュ',
-        'デザート',
-        'スープ',
-      ]);
-    }
-  };
-
-  const handleGenreToggle = (genre: string) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
-    );
-  };
-
-  const handleImagesChange = (files: File[]) => {
-    setImageFiles(files);
-  };
-
-  const handleImageDelete = (index: number) => {
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const uploadImage = async (file: File): Promise<string | null> => {
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `recipe-images/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('recipes')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        console.error('Error uploading image:', uploadError);
-        return null;
-      }
-
-      const { data } = supabase.storage.from('recipes').getPublicUrl(filePath);
-
-      return data.publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
-  };
+  const { availableGenres } = useGenres();
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    ingredients,
+    setIngredients,
+    instructions,
+    setInstructions,
+    selectedGenres,
+    memo,
+    setMemo,
+    referenceUrl,
+    setReferenceUrl,
+    imageFiles,
+    handleGenreToggle,
+    handleImagesChange,
+    handleImageDelete,
+  } = useRecipeForm();
 
   const handleSave = async (asDraft: boolean = false) => {
     if (!title.trim()) {
@@ -91,14 +47,7 @@ export default function CreateRecipe() {
     setIsDraft(asDraft);
 
     try {
-      // Upload all images
-      const imageUrls: string[] = [];
-      for (const file of imageFiles) {
-        const url = await uploadImage(file);
-        if (url) {
-          imageUrls.push(url);
-        }
-      }
+      const imageUrls = await uploadImages(imageFiles);
 
       // Prepare insert data
       const insertData: {
@@ -148,8 +97,8 @@ export default function CreateRecipe() {
   };
 
   return (
-    <main className={styles.main}>
-      <div className={styles.formContainer}>
+    <main>
+      <FormContainer>
         <RecipeForm
           title={title}
           description={description}
@@ -170,19 +119,17 @@ export default function CreateRecipe() {
           onImagesChange={handleImagesChange}
           onImageDelete={handleImageDelete}
         />
-      </div>
+      </FormContainer>
 
-      <div className={styles.actions}>
-        <div className={styles.buttonsWrapper}>
-          <Button
-            variant="save"
-            onClick={() => handleSave(false)}
-            disabled={saving}
-          >
-            <span>{saving && !isDraft ? '保存中...' : '保存'}</span>
-          </Button>
-        </div>
-      </div>
+      <FormActions>
+        <Button
+          variant="save"
+          onClick={() => handleSave(false)}
+          disabled={saving}
+        >
+          <span>{saving && !isDraft ? '保存中...' : '保存'}</span>
+        </Button>
+      </FormActions>
     </main>
   );
 }
