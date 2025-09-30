@@ -41,7 +41,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToPrevious = () => {
     setDirection('left');
-    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
@@ -49,7 +48,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToNext = () => {
     setDirection('right');
-    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
@@ -57,7 +55,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToSlide = (index: number) => {
     setDirection(index > currentIndex ? 'right' : 'left');
-    setIsLoading(true);
     setCurrentIndex(index);
   };
 

@@ -62,6 +62,7 @@
   max-height: 300px;
   object-fit: contain;
   display: block;
+  transition: opacity 0.7s ease-in-out;
 
   @media (min-width: 1024px) {
     border-radius: 16px;
@@ -70,8 +71,8 @@
 
 @keyframes slideInRight {
   from {
-    opacity: 0;
-    transform: translateX(30px);
+    opacity: 0.8;
+    transform: translateX(0);
   }
   to {
     opacity: 1;
@@ -81,8 +82,8 @@
 
 @keyframes slideInLeft {
   from {
-    opacity: 0;
-    transform: translateX(-30px);
+    opacity: 0.8;
+    transform: translateX(0);
   }
   to {
     opacity: 1;
@@ -91,11 +92,11 @@
 }
 
 .slideInRight {
-  animation: slideInRight 0.4s ease-out;
+  animation: slideInRight 0.8s ease-in-out;
 }
 
 .slideInLeft {
-  animation: slideInLeft 0.4s ease-out;
+  animation: slideInLeft 0.8s ease-in-out;
 }
 
 .loadingSpinner {
@@ -107,7 +108,7 @@
 }
 
 .loading {
-  opacity: 0;
+  opacity: 0.8;
 }
 
 .carouselButton {
