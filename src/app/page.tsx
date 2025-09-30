@@ -56,6 +56,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from('recipes')
         .select('*')
+        .order('last_viewed_at', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false });
 
       if (error) {
