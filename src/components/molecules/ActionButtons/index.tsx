@@ -16,7 +16,7 @@ export default function ActionButtons({
       <Link href={editHref}>
         <Button variant="edit">編集</Button>
       </Link>
-      <Button variant="deleteAction" onClick={onDelete}>
+      <Button variant="delete" onClick={onDelete}>
         削除
       </Button>
     </div>

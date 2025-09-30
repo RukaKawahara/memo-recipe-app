@@ -11,7 +11,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'genre'
     | 'deleteImage'
     | 'edit'
-    | 'deleteAction'
+    | 'delete'
     | 'saveCompact'
     | 'cancel'
     | 'addDashed';

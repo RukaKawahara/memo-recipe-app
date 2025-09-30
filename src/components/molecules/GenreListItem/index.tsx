@@ -61,7 +61,7 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
           </Button>
           {!genre.id.startsWith('default-') && (
             <Button
-              variant="deleteAction"
+              variant="delete"
               onClick={onDelete}
               disabled={isLoading}
             >

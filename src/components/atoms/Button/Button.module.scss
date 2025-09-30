@@ -153,17 +153,6 @@
     }
   }
 
-  // Delete Action Button (削除アクションボタン)
-  &.delete {
-    background-color: #dc2626;
-    color: white;
-    border: none;
-
-    &:hover:not(:disabled) {
-      background-color: #b91c1c;
-    }
-  }
-
   // Edit Button (編集ボタン)
   &.edit {
     color: #374151;
@@ -180,7 +169,7 @@
   }
 
   // Delete Action Button for ActionButtons component (ActionButtonsコンポーネント用削除ボタン)
-  &.deleteAction {
+  &.delete {
     border: 1px solid #ef4444;
     color: #ef4444;
     padding: 0.75rem 1.5rem;
