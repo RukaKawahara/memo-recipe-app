@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import Button from '@/components/atoms/Button';
 import Icon from '@/components/atoms/Icon';
 import GenreTag from '@/components/atoms/GenreTag';
+import LoadingSpinner from '@/components/atoms/LoadingSpinner';
 import type { Recipe } from '@/types/recipe';
 import styles from './RecipeCard.module.scss';
 
@@ -20,14 +22,31 @@ export const RecipeCard = ({
   onFavoriteToggle,
   className = '',
 }: RecipeCardProps) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
   return (
     <div className={`${styles.recipeCardWrapper} ${className}`.trim()}>
       <Link href={`/recipe/${recipe.id}`} className={styles.recipeCard}>
         <div className={styles.recipeImage}>
+          {imageLoading && (
+            <div className={styles.imageLoadingWrapper}>
+              <LoadingSpinner size="medium" />
+            </div>
+          )}
           {recipe.image_url ? (
-            <img src={recipe.image_url} alt={recipe.title} />
+            <img
+              src={recipe.image_url}
+              alt={recipe.title}
+              onLoad={() => setImageLoading(false)}
+              className={imageLoading ? styles.imageLoading : ''}
+            />
           ) : (
-            <img src="/images/noimage.png" alt={recipe.title} />
+            <img
+              src="/images/noimage.png"
+              alt={recipe.title}
+              onLoad={() => setImageLoading(false)}
+              className={imageLoading ? styles.imageLoading : ''}
+            />
           )}
         </div>
         <div className={styles.recipeInfo}>

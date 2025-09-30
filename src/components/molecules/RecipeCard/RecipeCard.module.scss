@@ -68,6 +68,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   @media (min-width: 1024px) {
     width: 100%;
@@ -86,6 +87,18 @@
       border-radius: 16px 16px 0 0;
     }
   }
+}
+
+.imageLoadingWrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.imageLoading {
+  opacity: 0;
 }
 
 .recipeInfo {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ImageCarousel.module.scss';
+import LoadingSpinner from '../../atoms/LoadingSpinner';
 
 interface ImageCarouselProps {
   images: string[];
@@ -14,6 +15,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right'>('right');
+  const [isLoading, setIsLoading] = useState(true);
 
   if (images.length === 0) {
     return (
@@ -37,6 +39,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToPrevious = () => {
     setDirection('left');
+    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
@@ -44,6 +47,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToNext = () => {
     setDirection('right');
+    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
@@ -51,7 +55,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   const goToSlide = (index: number) => {
     setDirection(index > currentIndex ? 'right' : 'left');
+    setIsLoading(true);
     setCurrentIndex(index);
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
   };
 
   return (
@@ -76,13 +85,19 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         )}
 
         <div className={styles.imageWrapper}>
+          {isLoading && (
+            <div className={styles.loadingSpinner}>
+              <LoadingSpinner size="large" />
+            </div>
+          )}
           <img
             key={currentIndex}
             src={images[currentIndex]}
             alt={`${alt} ${currentIndex + 1}`}
             className={`${styles.carouselImage} ${
               direction === 'right' ? styles.slideInRight : styles.slideInLeft
-            }`}
+            } ${isLoading ? styles.loading : ''}`}
+            onLoad={handleImageLoad}
           />
         </div>
 
