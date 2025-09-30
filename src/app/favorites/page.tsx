@@ -8,6 +8,7 @@ import type { Recipe } from '@/types/recipe';
 import SearchAndFilters from '@/components/organisms/SearchAndFilters';
 import FavoriteRecipeList from '@/components/organisms/FavoriteRecipeList';
 import Pagination from '@/components/organisms/Pagination';
+import LoadingState from '@/components/molecules/LoadingState';
 import styles from './page.module.scss';
 
 export default function Favorites() {
@@ -155,15 +156,10 @@ export default function Favorites() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.loadingSpinner}>
-            <div className={styles.spinner}></div>
-          </div>
-          <div className={styles.loadingText}>お気に入りを読み込み中...</div>
-          <div className={styles.loadingSubtext}>
-            あなたのお気に入りレシピを準備しています
-          </div>
-        </div>
+        <LoadingState
+          title="お気に入りを読み込み中..."
+          subtitle="あなたのお気に入りレシピを準備しています"
+        />
       </main>
     );
   }

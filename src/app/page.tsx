@@ -8,6 +8,7 @@ import type { Recipe } from '@/types/recipe';
 import SearchAndFilters from '@/components/organisms/SearchAndFilters';
 import RecipeList from '@/components/organisms/RecipeList';
 import Pagination from '@/components/organisms/Pagination';
+import LoadingState from '@/components/molecules/LoadingState';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -138,12 +139,7 @@ export default function Home() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.loadingSpinner}>
-            <div className={styles.spinner}></div>
-          </div>
-          <div className={styles.loadingText}>レシピを読み込み中...</div>
-        </div>
+        <LoadingState title="レシピを読み込み中..." />
       </main>
     );
   }

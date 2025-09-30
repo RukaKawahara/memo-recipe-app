@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { getGenreNames } from '@/lib/genres';
 import Button from '@/components/atoms/Button';
 import RecipeForm from '@/components/organisms/RecipeForm';
+import LoadingState from '@/components/molecules/LoadingState';
 import type { Recipe } from '@/types/recipe';
 import styles from './page.module.scss';
 
@@ -212,13 +213,10 @@ export default function EditRecipe({
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.loadingSpinner}>
-            <div className={styles.spinner}></div>
-          </div>
-          <div className={styles.loadingText}>レシピを読み込み中...</div>
-          <div className={styles.loadingSubtext}>編集準備をしています</div>
-        </div>
+        <LoadingState
+          title="レシピを読み込み中..."
+          subtitle="編集準備をしています"
+        />
       </main>
     );
   }

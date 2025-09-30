@@ -14,6 +14,7 @@ import {
 import { initializeDatabase } from '@/lib/database-init';
 import { supabase } from '@/lib/supabase';
 import Button from '@/components/atoms/Button';
+import LoadingState from '@/components/molecules/LoadingState';
 import styles from './page.module.scss';
 
 export default function Settings() {
@@ -214,15 +215,10 @@ export default function Settings() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.loadingSpinner}>
-            <div className={styles.spinner}></div>
-          </div>
-          <div className={styles.loadingText}>設定を読み込み中...</div>
-          <div className={styles.loadingSubtext}>
-            ジャンル情報を準備しています
-          </div>
-        </div>
+        <LoadingState
+          title="設定を読み込み中..."
+          subtitle="ジャンル情報を準備しています"
+        />
       </main>
     );
   }
