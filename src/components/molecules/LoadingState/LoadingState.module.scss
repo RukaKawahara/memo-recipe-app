@@ -3,27 +3,42 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
+  min-height: 60vh;
+  padding: 40px 20px;
   text-align: center;
-  min-height: 400px;
 
   @media (min-width: 1024px) {
-    padding: 80px 40px;
-    min-height: 500px;
+    min-height: 70vh;
+    padding: 60px 20px;
   }
 }
 
 .loadingSpinner {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
+
+  @media (min-width: 1024px) {
+    margin-bottom: 40px;
+  }
 }
 
 .loadingText {
-  color: #6b7280;
-  font-size: 16px;
-  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #181111;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
 }
 
 .loadingSubtext {
-  color: #9ca3af;
+  color: #666;
   font-size: 14px;
+
+  @media (min-width: 1024px) {
+    font-size: 16px;
+  }
 }

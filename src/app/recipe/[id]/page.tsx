@@ -8,6 +8,7 @@ import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites'
 import type { Recipe } from '@/types/recipe'
 import GenreTag from '@/components/atoms/GenreTag'
 import ActionButtons from '@/components/molecules/ActionButtons'
+import LoadingState from '@/components/molecules/LoadingState'
 import styles from './page.module.scss'
 
 export default function RecipeDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -103,11 +104,19 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
   }
 
   if (loading) {
-    return <div className={styles.loading}>読み込み中...</div>
+    return (
+      <main className={styles.main}>
+        <LoadingState title="レシピを読み込み中..." />
+      </main>
+    )
   }
 
   if (!recipe) {
-    return <div className={styles.error}>レシピが見つかりませんでした。</div>
+    return (
+      <main className={styles.main}>
+        <div className={styles.error}>レシピが見つかりませんでした。</div>
+      </main>
+    )
   }
 
   return (
