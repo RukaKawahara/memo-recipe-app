@@ -57,6 +57,36 @@
   }
 }
 
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slideInRight {
+  animation: slideInRight 0.4s ease-out;
+}
+
+.slideInLeft {
+  animation: slideInLeft 0.4s ease-out;
+}
+
 .carouselButton {
   position: absolute;
   top: 50%;
@@ -162,9 +192,8 @@
 
   @media (min-width: 1024px) {
     font-size: 18px;
-    margin-top: 20px;
-    padding: 10px 20px;
-    border-radius: 24px;
-    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.2);
+    // margin-top: 20px;
+    // padding: 10px 20px;
+    // border-radius: 24px;
   }
 }
