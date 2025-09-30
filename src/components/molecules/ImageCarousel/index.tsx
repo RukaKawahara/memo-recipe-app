@@ -16,6 +16,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right'>('right');
   const [isLoading, setIsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   if (images.length === 0) {
     return (
@@ -63,6 +65,33 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     setIsLoading(false);
   };
 
+  // タッチイベントのハンドラー
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && currentIndex < images.length - 1) {
+      goToNext();
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      goToPrevious();
+    }
+  };
+
   return (
     <div className={`${styles.carousel} ${className || ''}`}>
       <div className={styles.carouselContainer}>
@@ -84,7 +113,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           </button>
         )}
 
-        <div className={styles.imageWrapper}>
+        <div
+          className={styles.imageWrapper}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {isLoading && (
             <div className={styles.loadingSpinner}>
               <LoadingSpinner size="large" />
