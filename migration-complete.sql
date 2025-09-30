@@ -102,6 +102,22 @@ CREATE INDEX IF NOT EXISTS idx_recipes_image_urls ON recipes USING GIN (image_ur
 COMMENT ON COLUMN recipes.image_urls IS 'Array of image URLs for the recipe (max 5 images)';
 
 -- ================================================
+-- Part 4: 閲覧履歴機能の追加
+-- ================================================
+
+-- Step 18: last_viewed_atカラムを追加
+ALTER TABLE recipes
+ADD COLUMN IF NOT EXISTS last_viewed_at TIMESTAMP WITH TIME ZONE;
+
+-- Step 19: パフォーマンス向上のためのインデックスを作成
+CREATE INDEX IF NOT EXISTS idx_recipes_last_viewed_at ON recipes(last_viewed_at DESC NULLS LAST);
+
+-- Step 20: 既存レシピにデフォルト値を設定
+UPDATE recipes
+SET last_viewed_at = created_at
+WHERE last_viewed_at IS NULL;
+
+-- ================================================
 -- マイグレーション完了
 -- ================================================
 -- このマイグレーションにより以下が追加されます：
@@ -110,3 +126,4 @@ COMMENT ON COLUMN recipes.image_urls IS 'Array of image URLs for the recipe (max
 -- 3. お気に入り機能 (user_favoritesテーブル)
 -- 4. 参考リンク機能 (reference_url TEXT)
 -- 5. 複数画像アップロード機能 (image_urls TEXT[])
+-- 6. 閲覧履歴機能 (last_viewed_at TIMESTAMP)

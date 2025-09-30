@@ -46,12 +46,25 @@ export default function RecipeDetail({
         router.push('/');
       } else {
         setRecipe(data);
+        // Update last_viewed_at timestamp
+        updateLastViewed();
       }
     } catch (error) {
       console.error('Error:', error);
       router.push('/');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const updateLastViewed = async () => {
+    try {
+      await supabase
+        .from('recipes')
+        .update({ last_viewed_at: new Date().toISOString() })
+        .eq('id', id);
+    } catch (error) {
+      console.error('Error updating last viewed:', error);
     }
   };
 
