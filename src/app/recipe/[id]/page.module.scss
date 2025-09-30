@@ -160,13 +160,15 @@
   }
 }
 
-.ingredients, .instructions {
+.ingredients,
+.instructions {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.ingredient, .instruction {
+.ingredient,
+.instruction {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -196,7 +198,7 @@
   align-items: center;
   height: 200px;
   font-size: 16px;
-  color: #FF3B30;
+  color: #ff3b30;
 }
 
 .referenceSection {
@@ -220,7 +222,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #007AFF;
+  color: #007aff;
   text-decoration: none;
   font-size: 14px;
   padding: 12px 16px;

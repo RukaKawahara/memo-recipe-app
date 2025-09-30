@@ -1,12 +1,12 @@
-import { ReactNode } from 'react'
-import styles from './GenreTag.module.scss'
+import { ReactNode } from 'react';
+import styles from './GenreTag.module.scss';
 
 export interface GenreTagProps {
-  children: ReactNode
-  variant?: 'default' | 'selected'
-  size?: 'small' | 'medium'
-  className?: string
-  onClick?: () => void
+  children: ReactNode;
+  variant?: 'default' | 'selected';
+  size?: 'small' | 'medium';
+  className?: string;
+  onClick?: () => void;
 }
 
 export const GenreTag = ({
@@ -17,19 +17,16 @@ export const GenreTag = ({
   onClick,
   ...props
 }: GenreTagProps) => {
-  const classNames = `${styles.tag} ${styles[variant]} ${styles[size]} ${className}`.trim()
+  const classNames =
+    `${styles.tag} ${styles[variant]} ${styles[size]} ${className}`.trim();
 
-  const Component = onClick ? 'button' : 'span'
+  const Component = onClick ? 'button' : 'span';
 
   return (
-    <Component
-      className={classNames}
-      onClick={onClick}
-      {...props}
-    >
+    <Component className={classNames} onClick={onClick} {...props}>
       {children}
     </Component>
-  )
-}
+  );
+};
 
-export default GenreTag
+export default GenreTag;

@@ -1,19 +1,19 @@
-import React from 'react'
-import Button from '@/components/atoms/Button'
-import GenreEditor from '../GenreEditor'
-import type { Genre } from '@/lib/genres'
-import styles from './GenreListItem.module.scss'
+import React from 'react';
+import Button from '@/components/atoms/Button';
+import GenreEditor from '../GenreEditor';
+import type { Genre } from '@/lib/genres';
+import styles from './GenreListItem.module.scss';
 
 interface GenreListItemProps {
-  genre: Genre
-  isEditing: boolean
-  editValue: string
-  isLoading: boolean
-  onStartEdit: () => void
-  onEditValueChange: (value: string) => void
-  onSaveEdit: () => void
-  onCancelEdit: () => void
-  onDelete: () => void
+  genre: Genre;
+  isEditing: boolean;
+  editValue: string;
+  isLoading: boolean;
+  onStartEdit: () => void;
+  onEditValueChange: (value: string) => void;
+  onSaveEdit: () => void;
+  onCancelEdit: () => void;
+  onDelete: () => void;
 }
 
 const GenreListItem: React.FC<GenreListItemProps> = ({
@@ -25,7 +25,7 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
   onEditValueChange,
   onSaveEdit,
   onCancelEdit,
-  onDelete
+  onDelete,
 }) => {
   if (isEditing) {
     return (
@@ -39,7 +39,7 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
           autoFocus
         />
       </div>
-    )
+    );
   }
 
   return (
@@ -71,7 +71,7 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GenreListItem
+export default GenreListItem;

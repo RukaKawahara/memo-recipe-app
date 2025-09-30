@@ -1,36 +1,36 @@
-'use client'
+'use client';
 
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import NavigationItem from '@/components/molecules/NavigationItem'
-import styles from './SideNavigation.module.scss'
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import NavigationItem from '@/components/molecules/NavigationItem';
+import styles from './SideNavigation.module.scss';
 
 const navigationItems = [
   {
     href: '/',
     label: 'ホーム',
-    iconName: 'home' as const
+    iconName: 'home' as const,
   },
   {
     href: '/create',
     label: '作成',
-    iconName: 'create' as const
+    iconName: 'create' as const,
   },
   {
     href: '/favorites',
     label: 'お気に入り',
-    iconName: 'heart' as const
+    iconName: 'heart' as const,
   },
   {
     href: '/settings',
     label: '設定',
-    iconName: 'settings' as const
-  }
-]
+    iconName: 'settings' as const,
+  },
+];
 
 export const SideNavigation = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <nav className={styles.sideNav}>
@@ -58,7 +58,7 @@ export const SideNavigation = () => {
         ))}
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default SideNavigation
+export default SideNavigation;

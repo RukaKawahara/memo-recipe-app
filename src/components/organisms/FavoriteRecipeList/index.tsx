@@ -1,15 +1,15 @@
-import RecipeGrid from '@/components/molecules/RecipeGrid'
-import EmptyState from '@/components/molecules/EmptyState'
-import LoadingState from '@/components/molecules/LoadingState'
-import type { Recipe } from '@/types/recipe'
+import RecipeGrid from '@/components/molecules/RecipeGrid';
+import EmptyState from '@/components/molecules/EmptyState';
+import LoadingState from '@/components/molecules/LoadingState';
+import type { Recipe } from '@/types/recipe';
 
 export interface FavoriteRecipeListProps {
-  recipes: Recipe[]
-  favorites: string[]
-  favoritesLoading: string | null
-  onFavoriteToggle: (recipeId: string, e: React.MouseEvent) => void
-  loading?: boolean
-  className?: string
+  recipes: Recipe[];
+  favorites: string[];
+  favoritesLoading: string | null;
+  onFavoriteToggle: (recipeId: string, e: React.MouseEvent) => void;
+  loading?: boolean;
+  className?: string;
 }
 
 export const FavoriteRecipeList = ({
@@ -18,7 +18,7 @@ export const FavoriteRecipeList = ({
   favoritesLoading,
   onFavoriteToggle,
   loading = false,
-  className = ''
+  className = '',
 }: FavoriteRecipeListProps) => {
   if (loading) {
     return (
@@ -27,7 +27,7 @@ export const FavoriteRecipeList = ({
         subtitle="あなたのお気に入りレシピを準備しています"
         className={className}
       />
-    )
+    );
   }
 
   if (recipes.length === 0) {
@@ -39,7 +39,7 @@ export const FavoriteRecipeList = ({
         actionHref="/"
         className={className}
       />
-    )
+    );
   }
 
   return (
@@ -50,7 +50,7 @@ export const FavoriteRecipeList = ({
       onFavoriteToggle={onFavoriteToggle}
       className={className}
     />
-  )
-}
+  );
+};
 
-export default FavoriteRecipeList
+export default FavoriteRecipeList;

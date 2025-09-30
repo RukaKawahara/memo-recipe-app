@@ -1,66 +1,74 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
-import { getGenreNames } from '@/lib/genres'
-import Button from '@/components/atoms/Button'
-import RecipeForm from '@/components/organisms/RecipeForm'
-import type { Recipe } from '@/types/recipe'
-import styles from './page.module.scss'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
+import { getGenreNames } from '@/lib/genres';
+import Button from '@/components/atoms/Button';
+import RecipeForm from '@/components/organisms/RecipeForm';
+import type { Recipe } from '@/types/recipe';
+import styles from './page.module.scss';
 
-export default function EditRecipe({ params }: { params: Promise<{ id: string }> }) {
-  const [id, setId] = useState<string>('')
-  const [recipe, setRecipe] = useState<Recipe | null>(null)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [ingredients, setIngredients] = useState('')
-  const [instructions, setInstructions] = useState('')
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
-  const [memo, setMemo] = useState('')
-  const [referenceUrl, setReferenceUrl] = useState('')
-  const [imageFiles, setImageFiles] = useState<File[]>([])
-  const [existingImageUrls, setExistingImageUrls] = useState<string[]>([])
-  const [saving, setSaving] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [availableGenres, setAvailableGenres] = useState<string[]>([])
+export default function EditRecipe({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [id, setId] = useState<string>('');
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [instructions, setInstructions] = useState('');
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [memo, setMemo] = useState('');
+  const [referenceUrl, setReferenceUrl] = useState('');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    params.then(resolvedParams => {
-      setId(resolvedParams.id)
-    })
-  }, [params])
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   useEffect(() => {
     if (id) {
-      fetchRecipe()
+      fetchRecipe();
     }
-  }, [id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   useEffect(() => {
-    loadGenres()
-  }, [])
+    loadGenres();
+  }, []);
 
   const loadGenres = async () => {
     try {
-      const genreNames = await getGenreNames()
-      setAvailableGenres(genreNames)
+      const genreNames = await getGenreNames();
+      setAvailableGenres(genreNames);
     } catch (error) {
-      console.error('Error loading genres:', error)
-      setAvailableGenres(['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ'])
+      console.error('Error loading genres:', error);
+      setAvailableGenres([
+        'メインディッシュ',
+        'サイドディッシュ',
+        'デザート',
+        'スープ',
+      ]);
     }
-  }
+  };
 
   const handleGenreToggle = (genre: string) => {
-    setSelectedGenres(prev =>
-      prev.includes(genre)
-        ? prev.filter(g => g !== genre)
-        : [...prev, genre]
-    )
-  }
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+    );
+  };
 
   const fetchRecipe = async () => {
     try {
@@ -68,94 +76,105 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
         .from('recipes')
         .select('*')
         .eq('id', id)
-        .single()
+        .single();
 
       if (error) {
-        console.error('Error fetching recipe:', error)
-        router.push('/')
+        console.error('Error fetching recipe:', error);
+        router.push('/');
       } else {
-        setRecipe(data)
-        setTitle(data.title)
-        setDescription(data.description || '')
-        setIngredients(data.ingredients || '【○人前】\n• \n• \n• \n• ')
-        setInstructions(data.instructions || '1. \n2. \n3. \n4. ')
-        setSelectedGenres(data.genres || (data.genre ? [data.genre] : []))
-        setMemo(data.memo || '')
-        setReferenceUrl(data.reference_url || '')
-        setExistingImageUrls(data.image_urls || (data.image_url ? [data.image_url] : []))
+        setRecipe(data);
+        setTitle(data.title);
+        setDescription(data.description || '');
+        setIngredients(data.ingredients || '【○人前】\n• \n• \n• \n• ');
+        setInstructions(data.instructions || '1. \n2. \n3. \n4. ');
+        setSelectedGenres(data.genres || (data.genre ? [data.genre] : []));
+        setMemo(data.memo || '');
+        setReferenceUrl(data.reference_url || '');
+        setExistingImageUrls(
+          data.image_urls || (data.image_url ? [data.image_url] : [])
+        );
       }
     } catch (error) {
-      console.error('Error:', error)
-      router.push('/')
+      console.error('Error:', error);
+      router.push('/');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleImagesChange = (files: File[]) => {
-    setImageFiles(files)
-  }
+    setImageFiles(files);
+  };
 
   const handleImageDelete = (index: number) => {
     if (index < existingImageUrls.length) {
       // 既存画像の削除
-      setExistingImageUrls(prev => prev.filter((_, i) => i !== index))
+      setExistingImageUrls((prev) => prev.filter((_, i) => i !== index));
     } else {
       // 新規画像の削除
-      setImageFiles(prev => prev.filter((_, i) => i !== (index - existingImageUrls.length)))
+      setImageFiles((prev) =>
+        prev.filter((_, i) => i !== index - existingImageUrls.length)
+      );
     }
-  }
+  };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const filePath = `recipe-images/${fileName}`
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `recipe-images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('recipes')
-        .upload(filePath, file)
+        .upload(filePath, file);
 
       if (uploadError) {
-        console.error('Error uploading image:', uploadError)
-        return null
+        console.error('Error uploading image:', uploadError);
+        return null;
       }
 
-      const { data } = supabase.storage
-        .from('recipes')
-        .getPublicUrl(filePath)
+      const { data } = supabase.storage.from('recipes').getPublicUrl(filePath);
 
-      return data.publicUrl
+      return data.publicUrl;
     } catch (error) {
-      console.error('Error uploading image:', error)
-      return null
+      console.error('Error uploading image:', error);
+      return null;
     }
-  }
+  };
 
   const handleSave = async () => {
     if (!title.trim()) {
-      alert('レシピ名を入力してください。')
-      return
+      alert('レシピ名を入力してください。');
+      return;
     }
 
-
-    setSaving(true)
+    setSaving(true);
 
     try {
       // Upload new images
-      const newImageUrls: string[] = []
+      const newImageUrls: string[] = [];
       for (const file of imageFiles) {
-        const url = await uploadImage(file)
+        const url = await uploadImage(file);
         if (url) {
-          newImageUrls.push(url)
+          newImageUrls.push(url);
         }
       }
 
       // Combine existing and new images
-      const allImageUrls = [...existingImageUrls, ...newImageUrls]
+      const allImageUrls = [...existingImageUrls, ...newImageUrls];
 
       // Prepare update data
-      const updateData: any = {
+      const updateData: {
+        title: string;
+        description: string;
+        ingredients: string;
+        instructions: string;
+        genres: string[];
+        memo: string;
+        reference_url: string | null;
+        image_url: string | null;
+        image_urls?: string[];
+      } = {
         title: title.trim(),
         description: description.trim(),
         ingredients: ingredients.trim(),
@@ -164,31 +183,31 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
         memo: memo.trim(),
         reference_url: referenceUrl.trim() || null,
         image_url: allImageUrls.length > 0 ? allImageUrls[0] : null,
-      }
+      };
 
       // Only add image_urls if there are multiple images
       if (allImageUrls.length > 0) {
-        updateData.image_urls = allImageUrls
+        updateData.image_urls = allImageUrls;
       }
 
       const { error } = await supabase
         .from('recipes')
         .update(updateData)
-        .eq('id', id)
+        .eq('id', id);
 
       if (error) {
-        console.error('Error updating recipe:', error)
-        alert('レシピの更新に失敗しました。')
+        console.error('Error updating recipe:', error);
+        alert('レシピの更新に失敗しました。');
       } else {
-        router.push(`/recipe/${id}`)
+        router.push(`/recipe/${id}`);
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('レシピの更新に失敗しました。')
+      console.error('Error:', error);
+      alert('レシピの更新に失敗しました。');
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -201,7 +220,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
           <div className={styles.loadingSubtext}>編集準備をしています</div>
         </div>
       </main>
-    )
+    );
   }
 
   if (!recipe) {
@@ -209,21 +228,35 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
       <main className={styles.main}>
         <div className={styles.errorContainer}>
           <div className={styles.errorIcon}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 256 256">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="64"
+              height="64"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
               <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path>
             </svg>
           </div>
           <div className={styles.errorText}>レシピが見つかりませんでした</div>
-          <div className={styles.errorSubtext}>指定されたレシピは存在しないか、削除されています</div>
+          <div className={styles.errorSubtext}>
+            指定されたレシピは存在しないか、削除されています
+          </div>
           <Link href="/" className={styles.backToHomeButton}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
               <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
             </svg>
             ホームに戻る
           </Link>
         </div>
       </main>
-    )
+    );
   }
 
   return (
@@ -254,15 +287,11 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
 
       <div className={styles.actions}>
         <div className={styles.buttonsWrapper}>
-          <Button
-            variant="save"
-            onClick={handleSave}
-            disabled={saving}
-          >
+          <Button variant="save" onClick={handleSave} disabled={saving}>
             <span>{saving ? '更新中...' : '更新'}</span>
           </Button>
         </div>
       </div>
     </main>
-  )
+  );
 }

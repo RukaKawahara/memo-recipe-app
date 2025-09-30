@@ -1,10 +1,10 @@
-import { supabase } from './supabase'
+import { supabase } from './supabase';
 
 export interface Genre {
-  id: string
-  name: string
-  created_at: string
-  updated_at: string
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
 }
 
 // デフォルトジャンル（フォールバック用）
@@ -14,8 +14,8 @@ const DEFAULT_GENRES = [
   'デザート',
   'スープ',
   'スナック',
-  'ドリンク'
-]
+  'ドリンク',
+];
 
 // すべてのジャンルを取得
 export const getGenres = async (): Promise<Genre[]> => {
@@ -23,166 +23,155 @@ export const getGenres = async (): Promise<Genre[]> => {
     const { data, error } = await supabase
       .from('genres')
       .select('*')
-      .order('name', { ascending: true })
+      .order('name', { ascending: true });
 
     if (error) {
-      console.warn('Genres table not found or error fetching genres:', error)
-      console.log('Using default genres as fallback')
+      console.warn('Genres table not found or error fetching genres:', error);
+      console.log('Using default genres as fallback');
 
       // デフォルトジャンルを返す（テーブルがない場合の対応）
       return DEFAULT_GENRES.map((name, index) => ({
         id: `default-${index}`,
         name,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }))
+        updated_at: new Date().toISOString(),
+      }));
     }
 
     // データが空の場合は空配列を返す（デフォルトジャンルを自動作成しない）
-    return data || []
+    return data || [];
   } catch (error) {
-    console.error('Error fetching genres:', error)
+    console.error('Error fetching genres:', error);
     // フォールバックとしてデフォルトジャンルを返す（テーブルアクセスエラーの場合のみ）
     return DEFAULT_GENRES.map((name, index) => ({
       id: `default-${index}`,
       name,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }))
+      updated_at: new Date().toISOString(),
+    }));
   }
-}
-
-// デフォルトジャンルを初期化
-const initializeDefaultGenres = async () => {
-  try {
-    const genresToInsert = DEFAULT_GENRES.map(name => ({
-      name
-    }))
-
-    const { error } = await supabase
-      .from('genres')
-      .insert(genresToInsert)
-
-    if (error) {
-      console.error('Error initializing default genres:', error)
-    }
-  } catch (error) {
-    console.error('Error in initializeDefaultGenres:', error)
-  }
-}
+};
 
 // ジャンル名のリストを取得
 export const getGenreNames = async (): Promise<string[]> => {
-  const genres = await getGenres()
-  return genres.map(genre => genre.name)
-}
+  const genres = await getGenres();
+  return genres.map((genre) => genre.name);
+};
 
 // ジャンル登録上限
-export const GENRE_LIMIT = 20
+export const GENRE_LIMIT = 20;
 
 // ジャンル上限チェック用のヘルパー関数
 export const isGenreLimitReached = async (): Promise<boolean> => {
-  const existingGenres = await getGenres()
-  return existingGenres.length >= GENRE_LIMIT
-}
+  const existingGenres = await getGenres();
+  return existingGenres.length >= GENRE_LIMIT;
+};
 
 // 残り追加可能なジャンル数を取得
 export const getRemainingGenreCount = async (): Promise<number> => {
-  const existingGenres = await getGenres()
-  return Math.max(0, GENRE_LIMIT - existingGenres.length)
-}
+  const existingGenres = await getGenres();
+  return Math.max(0, GENRE_LIMIT - existingGenres.length);
+};
 
 // ジャンルを追加
 export const addGenre = async (name: string): Promise<boolean> => {
   try {
-    const trimmedName = name.trim()
+    const trimmedName = name.trim();
     if (!trimmedName) {
-      console.error('Genre name cannot be empty')
-      return false
+      console.error('Genre name cannot be empty');
+      return false;
     }
 
     // まず既存のジャンルをチェック
-    const existingGenres = await getGenres()
+    const existingGenres = await getGenres();
 
     // ジャンル数の上限チェック
     if (existingGenres.length >= GENRE_LIMIT) {
-      console.error(`Genre limit reached. Maximum ${GENRE_LIMIT} genres allowed.`)
-      alert(`ジャンルの登録上限（${GENRE_LIMIT}個）に達しています。これ以上ジャンルを追加できません。`)
-      return false
+      console.error(
+        `Genre limit reached. Maximum ${GENRE_LIMIT} genres allowed.`
+      );
+      alert(
+        `ジャンルの登録上限（${GENRE_LIMIT}個）に達しています。これ以上ジャンルを追加できません。`
+      );
+      return false;
     }
 
-    const genreExists = existingGenres.some(genre =>
-      genre.name.toLowerCase() === trimmedName.toLowerCase()
-    )
+    const genreExists = existingGenres.some(
+      (genre) => genre.name.toLowerCase() === trimmedName.toLowerCase()
+    );
 
     if (genreExists) {
-      console.error('Genre already exists:', trimmedName)
-      return false
+      console.error('Genre already exists:', trimmedName);
+      return false;
     }
 
     const { error } = await supabase
       .from('genres')
-      .insert({ name: trimmedName })
+      .insert({ name: trimmedName });
 
     if (error) {
-      console.error('Error adding genre:', error)
+      console.error('Error adding genre:', error);
       // テーブルが存在しない場合の処理
       if (error.message?.includes('relation "genres" does not exist')) {
-        console.log('Genres table does not exist. Please run the database migration.')
-        alert('ジャンルテーブルが存在しません。データベースの設定を確認してください。')
+        console.log(
+          'Genres table does not exist. Please run the database migration.'
+        );
+        alert(
+          'ジャンルテーブルが存在しません。データベースの設定を確認してください。'
+        );
       }
-      return false
+      return false;
     }
 
-    return true
+    return true;
   } catch (error) {
-    console.error('Error:', error)
-    return false
+    console.error('Error:', error);
+    return false;
   }
-}
+};
 
 // ジャンルを更新
-export const updateGenre = async (id: string, name: string): Promise<boolean> => {
+export const updateGenre = async (
+  id: string,
+  name: string
+): Promise<boolean> => {
   try {
     const { error } = await supabase
       .from('genres')
       .update({ name: name.trim() })
-      .eq('id', id)
+      .eq('id', id);
 
     if (error) {
-      console.error('Error updating genre:', error)
-      return false
+      console.error('Error updating genre:', error);
+      return false;
     }
 
-    return true
+    return true;
   } catch (error) {
-    console.error('Error:', error)
-    return false
+    console.error('Error:', error);
+    return false;
   }
-}
+};
 
 // ジャンルを削除
 export const deleteGenre = async (id: string): Promise<boolean> => {
   try {
     // フォールバック用のデフォルトジャンル（IDがdefault-で始まる）は削除不可
     if (id.startsWith('default-')) {
-      console.warn('Cannot delete fallback default genre:', id)
-      return false
+      console.warn('Cannot delete fallback default genre:', id);
+      return false;
     }
 
-    const { error } = await supabase
-      .from('genres')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabase.from('genres').delete().eq('id', id);
 
     if (error) {
-      console.error('Error deleting genre:', error)
-      return false
+      console.error('Error deleting genre:', error);
+      return false;
     }
 
-    return true
+    return true;
   } catch (error) {
-    console.error('Error:', error)
-    return false
+    console.error('Error:', error);
+    return false;
   }
-}
+};

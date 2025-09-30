@@ -1,22 +1,22 @@
 export interface Recipe {
-  id: string
-  title: string
-  description: string
-  ingredients: string
-  instructions: string
-  image_url?:  string | null
-  image_urls?: string[]
-  genres: string[]
-  memo?: string
-  reference_url?: string | null
-  created_at: string
-  updated_at: string
-  is_favorite?: boolean
+  id: string;
+  title: string;
+  description: string;
+  ingredients: string;
+  instructions: string;
+  image_url?: string | null;
+  image_urls?: string[];
+  genres: string[];
+  memo?: string;
+  reference_url?: string | null;
+  created_at: string;
+  updated_at: string;
+  is_favorite?: boolean;
 }
 
 export interface UserFavorite {
-  id: string
-  user_id: string
-  recipe_id: string
-  created_at: string
+  id: string;
+  user_id: string;
+  recipe_id: string;
+  created_at: string;
 }

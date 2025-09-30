@@ -10,7 +10,9 @@
   font-family: inherit;
   background-color: #f4f0f0;
   color: #181111;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   resize: vertical;
   overflow-y: auto;
 

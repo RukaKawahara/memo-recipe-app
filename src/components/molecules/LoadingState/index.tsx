@@ -1,16 +1,16 @@
-import LoadingSpinner from '@/components/atoms/LoadingSpinner'
-import styles from './LoadingState.module.scss'
+import LoadingSpinner from '@/components/atoms/LoadingSpinner';
+import styles from './LoadingState.module.scss';
 
 export interface LoadingStateProps {
-  title: string
-  subtitle?: string
-  className?: string
+  title: string;
+  subtitle?: string;
+  className?: string;
 }
 
 export const LoadingState = ({
   title,
   subtitle,
-  className = ''
+  className = '',
 }: LoadingStateProps) => {
   return (
     <div className={`${styles.loadingContainer} ${className}`.trim()}>
@@ -20,7 +20,7 @@ export const LoadingState = ({
       <div className={styles.loadingText}>{title}</div>
       {subtitle && <div className={styles.loadingSubtext}>{subtitle}</div>}
     </div>
-  )
-}
+  );
+};
 
-export default LoadingState
+export default LoadingState;

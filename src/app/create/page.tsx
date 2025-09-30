@@ -1,107 +1,117 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-import { getGenreNames } from '@/lib/genres'
-import Button from '@/components/atoms/Button'
-import RecipeForm from '@/components/organisms/RecipeForm'
-import styles from './page.module.scss'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import { getGenreNames } from '@/lib/genres';
+import Button from '@/components/atoms/Button';
+import RecipeForm from '@/components/organisms/RecipeForm';
+import styles from './page.module.scss';
 
 export default function CreateRecipe() {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [ingredients, setIngredients] = useState('【○人前】\n• \n• \n• \n• ')
-  const [instructions, setInstructions] = useState('1. \n2. \n3. \n4. ')
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
-  const [memo, setMemo] = useState('')
-  const [referenceUrl, setReferenceUrl] = useState('')
-  const [imageFiles, setImageFiles] = useState<File[]>([])
-  const [saving, setSaving] = useState(false)
-  const [isDraft, setIsDraft] = useState(false)
-  const [availableGenres, setAvailableGenres] = useState<string[]>([])
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [ingredients, setIngredients] = useState('【○人前】\n• \n• \n• \n• ');
+  const [instructions, setInstructions] = useState('1. \n2. \n3. \n4. ');
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [memo, setMemo] = useState('');
+  const [referenceUrl, setReferenceUrl] = useState('');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [isDraft, setIsDraft] = useState(false);
+  const [availableGenres, setAvailableGenres] = useState<string[]>([]);
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    fetchGenres()
-  }, [])
+    fetchGenres();
+  }, []);
 
   const fetchGenres = async () => {
     try {
-      const genreNames = await getGenreNames()
-      setAvailableGenres(genreNames)
+      const genreNames = await getGenreNames();
+      setAvailableGenres(genreNames);
     } catch (error) {
-      console.error('Error fetching genres:', error)
+      console.error('Error fetching genres:', error);
       // フォールバック
-      setAvailableGenres(['メインディッシュ', 'サイドディッシュ', 'デザート', 'スープ'])
+      setAvailableGenres([
+        'メインディッシュ',
+        'サイドディッシュ',
+        'デザート',
+        'スープ',
+      ]);
     }
-  }
+  };
 
   const handleGenreToggle = (genre: string) => {
-    setSelectedGenres(prev =>
-      prev.includes(genre)
-        ? prev.filter(g => g !== genre)
-        : [...prev, genre]
-    )
-  }
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+    );
+  };
 
   const handleImagesChange = (files: File[]) => {
-    setImageFiles(files)
-  }
+    setImageFiles(files);
+  };
 
   const handleImageDelete = (index: number) => {
-    setImageFiles(prev => prev.filter((_, i) => i !== index))
-  }
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const filePath = `recipe-images/${fileName}`
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `recipe-images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('recipes')
-        .upload(filePath, file)
+        .upload(filePath, file);
 
       if (uploadError) {
-        console.error('Error uploading image:', uploadError)
-        return null
+        console.error('Error uploading image:', uploadError);
+        return null;
       }
 
-      const { data } = supabase.storage
-        .from('recipes')
-        .getPublicUrl(filePath)
+      const { data } = supabase.storage.from('recipes').getPublicUrl(filePath);
 
-      return data.publicUrl
+      return data.publicUrl;
     } catch (error) {
-      console.error('Error uploading image:', error)
-      return null
+      console.error('Error uploading image:', error);
+      return null;
     }
-  }
+  };
 
   const handleSave = async (asDraft: boolean = false) => {
     if (!title.trim()) {
-      alert('レシピ名を入力してください。')
-      return
+      alert('レシピ名を入力してください。');
+      return;
     }
 
-
-    setSaving(true)
-    setIsDraft(asDraft)
+    setSaving(true);
+    setIsDraft(asDraft);
 
     try {
       // Upload all images
-      const imageUrls: string[] = []
+      const imageUrls: string[] = [];
       for (const file of imageFiles) {
-        const url = await uploadImage(file)
+        const url = await uploadImage(file);
         if (url) {
-          imageUrls.push(url)
+          imageUrls.push(url);
         }
       }
 
       // Prepare insert data
-      const insertData: any = {
+      const insertData: {
+        title: string;
+        description: string;
+        ingredients: string;
+        instructions: string;
+        genres: string[];
+        memo: string;
+        reference_url: string | null;
+        image_url: string | null;
+        image_urls?: string[];
+      } = {
         title: title.trim(),
         description: description.trim(),
         ingredients: ingredients.trim(),
@@ -110,32 +120,32 @@ export default function CreateRecipe() {
         memo: memo.trim(),
         reference_url: referenceUrl.trim() || null,
         image_url: imageUrls.length > 0 ? imageUrls[0] : null,
-      }
+      };
 
       // Only add image_urls if there are images
       if (imageUrls.length > 0) {
-        insertData.image_urls = imageUrls
+        insertData.image_urls = imageUrls;
       }
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('recipes')
         .insert([insertData])
-        .select()
+        .select();
 
       if (error) {
-        console.error('Error saving recipe:', error)
-        alert('レシピの保存に失敗しました。')
+        console.error('Error saving recipe:', error);
+        alert('レシピの保存に失敗しました。');
       } else {
-        router.push('/')
+        router.push('/');
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('レシピの保存に失敗しました。')
+      console.error('Error:', error);
+      alert('レシピの保存に失敗しました。');
     } finally {
-      setSaving(false)
-      setIsDraft(false)
+      setSaving(false);
+      setIsDraft(false);
     }
-  }
+  };
 
   return (
     <main className={styles.main}>
@@ -174,5 +184,5 @@ export default function CreateRecipe() {
         </div>
       </div>
     </main>
-  )
+  );
 }

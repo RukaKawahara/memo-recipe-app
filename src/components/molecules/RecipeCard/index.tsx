@@ -1,17 +1,16 @@
-import Link from 'next/link'
-import { ReactNode } from 'react'
-import Button from '@/components/atoms/Button'
-import Icon from '@/components/atoms/Icon'
-import GenreTag from '@/components/atoms/GenreTag'
-import type { Recipe } from '@/types/recipe'
-import styles from './RecipeCard.module.scss'
+import Link from 'next/link';
+import Button from '@/components/atoms/Button';
+import Icon from '@/components/atoms/Icon';
+import GenreTag from '@/components/atoms/GenreTag';
+import type { Recipe } from '@/types/recipe';
+import styles from './RecipeCard.module.scss';
 
 export interface RecipeCardProps {
-  recipe: Recipe
-  isFavorite?: boolean
-  isLoading?: boolean
-  onFavoriteToggle?: (e: React.MouseEvent) => void
-  className?: string
+  recipe: Recipe;
+  isFavorite?: boolean;
+  isLoading?: boolean;
+  onFavoriteToggle?: (e: React.MouseEvent) => void;
+  className?: string;
 }
 
 export const RecipeCard = ({
@@ -19,7 +18,7 @@ export const RecipeCard = ({
   isFavorite = false,
   isLoading = false,
   onFavoriteToggle,
-  className = ''
+  className = '',
 }: RecipeCardProps) => {
   return (
     <div className={`${styles.recipeCardWrapper} ${className}`.trim()}>
@@ -50,14 +49,11 @@ export const RecipeCard = ({
           disabled={isLoading}
           className={`${styles.favoriteButton} ${isFavorite ? styles.favorite : ''}`}
         >
-          <Icon
-            name={isFavorite ? 'heart-filled' : 'heart'}
-            size={20}
-          />
+          <Icon name={isFavorite ? 'heart-filled' : 'heart'} size={20} />
         </Button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default RecipeCard
+export default RecipeCard;

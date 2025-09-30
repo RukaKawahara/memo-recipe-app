@@ -1,16 +1,16 @@
-import React from 'react'
-import Input from '@/components/atoms/Input'
-import Button from '@/components/atoms/Button'
-import styles from './GenreEditor.module.scss'
+import React from 'react';
+import Input from '@/components/atoms/Input';
+import Button from '@/components/atoms/Button';
+import styles from './GenreEditor.module.scss';
 
 interface GenreEditorProps {
-  value: string
-  onChange: (value: string) => void
-  onSave: () => void
-  onCancel: () => void
-  isLoading?: boolean
-  placeholder?: string
-  autoFocus?: boolean
+  value: string;
+  onChange: (value: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
+  isLoading?: boolean;
+  placeholder?: string;
+  autoFocus?: boolean;
 }
 
 const GenreEditor: React.FC<GenreEditorProps> = ({
@@ -19,13 +19,13 @@ const GenreEditor: React.FC<GenreEditorProps> = ({
   onSave,
   onCancel,
   isLoading = false,
-  placeholder = "ジャンル名",
-  autoFocus = false
+  placeholder = 'ジャンル名',
+  autoFocus = false,
 }) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') onSave()
-    if (e.key === 'Escape') onCancel()
-  }
+    if (e.key === 'Enter') onSave();
+    if (e.key === 'Escape') onCancel();
+  };
 
   return (
     <div className={styles.editingForm}>
@@ -39,23 +39,15 @@ const GenreEditor: React.FC<GenreEditorProps> = ({
         className={styles.editInput}
       />
       <div className={styles.editActions}>
-        <Button
-          variant="saveCompact"
-          onClick={onSave}
-          disabled={isLoading}
-        >
+        <Button variant="saveCompact" onClick={onSave} disabled={isLoading}>
           {isLoading ? '保存中...' : '保存'}
         </Button>
-        <Button
-          variant="cancel"
-          onClick={onCancel}
-          disabled={isLoading}
-        >
+        <Button variant="cancel" onClick={onCancel} disabled={isLoading}>
           キャンセル
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GenreEditor
+export default GenreEditor;

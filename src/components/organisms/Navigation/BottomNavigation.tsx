@@ -1,34 +1,34 @@
-'use client'
+'use client';
 
-import { usePathname } from 'next/navigation'
-import NavigationItem from '@/components/molecules/NavigationItem'
-import styles from './BottomNavigation.module.scss'
+import { usePathname } from 'next/navigation';
+import NavigationItem from '@/components/molecules/NavigationItem';
+import styles from './BottomNavigation.module.scss';
 
 const navigationItems = [
   {
     href: '/',
     label: 'ホーム',
-    iconName: 'home' as const
+    iconName: 'home' as const,
   },
   {
     href: '/create',
     label: '作成',
-    iconName: 'create' as const
+    iconName: 'create' as const,
   },
   {
     href: '/favorites',
     label: 'お気に入り',
-    iconName: 'heart' as const
+    iconName: 'heart' as const,
   },
   {
     href: '/settings',
     label: '設定',
-    iconName: 'settings' as const
-  }
-]
+    iconName: 'settings' as const,
+  },
+];
 
 export const BottomNavigation = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <nav className={styles.bottomNav}>
@@ -43,7 +43,7 @@ export const BottomNavigation = () => {
         />
       ))}
     </nav>
-  )
-}
+  );
+};
 
-export default BottomNavigation
+export default BottomNavigation;

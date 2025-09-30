@@ -1,11 +1,12 @@
-import { SelectHTMLAttributes } from 'react'
-import Select from '@/components/atoms/Select'
-import Icon from '@/components/atoms/Icon'
-import styles from './GenreSelector.module.scss'
+import { SelectHTMLAttributes } from 'react';
+import Select from '@/components/atoms/Select';
+import Icon from '@/components/atoms/Icon';
+import styles from './GenreSelector.module.scss';
 
-export interface GenreSelectorProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string
-  options: { value: string; label: string }[]
+export interface GenreSelectorProps
+  extends SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  options: { value: string; label: string }[];
 }
 
 export const GenreSelector = ({
@@ -28,7 +29,7 @@ export const GenreSelector = ({
         <Icon name="chevron-down" size={16} className={styles.selectIcon} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GenreSelector
+export default GenreSelector;

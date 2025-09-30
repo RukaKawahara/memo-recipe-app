@@ -1,45 +1,45 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import Icon from '@/components/atoms/Icon'
-import styles from './HamburgerMenu.module.scss'
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Icon from '@/components/atoms/Icon';
+import styles from './HamburgerMenu.module.scss';
 
 const navigationItems = [
   {
     href: '/',
     label: 'ホーム',
-    iconName: 'home' as const
+    iconName: 'home' as const,
   },
   {
     href: '/create',
     label: '作成',
-    iconName: 'create' as const
+    iconName: 'create' as const,
   },
   {
     href: '/favorites',
     label: 'お気に入り',
-    iconName: 'heart' as const
+    iconName: 'heart' as const,
   },
   {
     href: '/settings',
     label: '設定',
-    iconName: 'settings' as const
-  }
-]
+    iconName: 'settings' as const,
+  },
+];
 
 export const HamburgerMenu = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   const closeMenu = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -53,9 +53,7 @@ export const HamburgerMenu = () => {
         </button>
       </div>
 
-      {isOpen && (
-        <div className={styles.overlay} onClick={closeMenu} />
-      )}
+      {isOpen && <div className={styles.overlay} onClick={closeMenu} />}
 
       <nav className={`${styles.menu} ${isOpen ? styles.menuOpen : ''}`}>
         <div className={styles.menuHeader}>
@@ -84,7 +82,7 @@ export const HamburgerMenu = () => {
         </ul>
       </nav>
     </>
-  )
-}
+  );
+};
 
-export default HamburgerMenu
+export default HamburgerMenu;

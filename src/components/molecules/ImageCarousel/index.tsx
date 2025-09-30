@@ -1,27 +1,27 @@
-import React, { useState } from 'react'
-import styles from './ImageCarousel.module.scss'
+import React, { useState } from 'react';
+import styles from './ImageCarousel.module.scss';
 
 interface ImageCarouselProps {
-  images: string[]
-  alt?: string
-  className?: string
+  images: string[];
+  alt?: string;
+  className?: string;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
   images,
   alt = '画像',
-  className
+  className,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   if (images.length === 0) {
     return (
       <div className={`${styles.carousel} ${className || ''}`}>
         <div className={styles.noImage}>
-          <img src='/images/noimage.png' alt='画像がありません' />
+          <img src="/images/noimage.png" alt="画像がありません" />
         </div>
       </div>
-    )
+    );
   }
 
   if (images.length === 1) {
@@ -31,24 +31,24 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           <img src={images[0]} alt={alt} />
         </div>
       </div>
-    )
+    );
   }
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    )
-  }
+    );
+  };
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    )
-  }
+    );
+  };
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-  }
+    setCurrentIndex(index);
+  };
 
   return (
     <div className={`${styles.carousel} ${className || ''}`}>
@@ -58,7 +58,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           className={`${styles.carouselButton} ${styles.prev}`}
           aria-label="前の画像"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
             <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
           </svg>
         </button>
@@ -76,7 +82,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           className={`${styles.carouselButton} ${styles.next}`}
           aria-label="次の画像"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
             <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
           </svg>
         </button>
@@ -99,7 +111,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         {currentIndex + 1} / {images.length}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ImageCarousel
+export default ImageCarousel;

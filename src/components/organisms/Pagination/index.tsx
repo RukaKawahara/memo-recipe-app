@@ -1,15 +1,15 @@
-import Button from '@/components/atoms/Button'
-import Icon from '@/components/atoms/Icon'
-import styles from './Pagination.module.scss'
+import Button from '@/components/atoms/Button';
+import Icon from '@/components/atoms/Icon';
+import styles from './Pagination.module.scss';
 
 export interface PaginationProps {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
-  startIndex: number
-  endIndex: number
-  totalItems: number
-  className?: string
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  startIndex: number;
+  endIndex: number;
+  totalItems: number;
+  className?: string;
 }
 
 export const Pagination = ({
@@ -19,10 +19,10 @@ export const Pagination = ({
   startIndex,
   endIndex,
   totalItems,
-  className = ''
+  className = '',
 }: PaginationProps) => {
   if (totalPages <= 1) {
-    return null
+    return null;
   }
 
   return (
@@ -63,10 +63,11 @@ export const Pagination = ({
       </div>
 
       <div className={styles.paginationInfo}>
-        {totalItems}件中 {startIndex + 1}-{Math.min(endIndex, totalItems)}件を表示
+        {totalItems}件中 {startIndex + 1}-{Math.min(endIndex, totalItems)}
+        件を表示
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

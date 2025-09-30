@@ -32,7 +32,9 @@
     padding: 0;
     background-color: #f8f9fa;
     min-height: 372px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
 
     &:hover {
       transform: translateY(-4px);

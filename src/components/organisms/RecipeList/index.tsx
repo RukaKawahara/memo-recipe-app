@@ -1,15 +1,15 @@
-import RecipeGrid from '@/components/molecules/RecipeGrid'
-import EmptyState from '@/components/molecules/EmptyState'
-import LoadingState from '@/components/molecules/LoadingState'
-import type { Recipe } from '@/types/recipe'
+import RecipeGrid from '@/components/molecules/RecipeGrid';
+import EmptyState from '@/components/molecules/EmptyState';
+import LoadingState from '@/components/molecules/LoadingState';
+import type { Recipe } from '@/types/recipe';
 
 export interface RecipeListProps {
-  recipes: Recipe[]
-  favorites: string[]
-  favoritesLoading: string | null
-  onFavoriteToggle: (recipeId: string, e: React.MouseEvent) => void
-  loading?: boolean
-  className?: string
+  recipes: Recipe[];
+  favorites: string[];
+  favoritesLoading: string | null;
+  onFavoriteToggle: (recipeId: string, e: React.MouseEvent) => void;
+  loading?: boolean;
+  className?: string;
 }
 
 export const RecipeList = ({
@@ -18,15 +18,10 @@ export const RecipeList = ({
   favoritesLoading,
   onFavoriteToggle,
   loading = false,
-  className = ''
+  className = '',
 }: RecipeListProps) => {
   if (loading) {
-    return (
-      <LoadingState
-        title="レシピを読み込み中..."
-        className={className}
-      />
-    )
+    return <LoadingState title="レシピを読み込み中..." className={className} />;
   }
 
   if (recipes.length === 0) {
@@ -37,7 +32,7 @@ export const RecipeList = ({
         actionHref="/create"
         className={className}
       />
-    )
+    );
   }
 
   return (
@@ -48,7 +43,7 @@ export const RecipeList = ({
       onFavoriteToggle={onFavoriteToggle}
       className={className}
     />
-  )
-}
+  );
+};
 
-export default RecipeList
+export default RecipeList;

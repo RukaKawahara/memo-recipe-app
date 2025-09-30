@@ -1,37 +1,37 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
-import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites'
-import type { Recipe } from '@/types/recipe'
-import GenreTag from '@/components/atoms/GenreTag'
-import ActionButtons from '@/components/molecules/ActionButtons'
-import LoadingState from '@/components/molecules/LoadingState'
-import ImageCarousel from '@/components/molecules/ImageCarousel'
-import styles from './page.module.scss'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+import type { Recipe } from '@/types/recipe';
+import GenreTag from '@/components/atoms/GenreTag';
+import ActionButtons from '@/components/molecules/ActionButtons';
+import LoadingState from '@/components/molecules/LoadingState';
+import ImageCarousel from '@/components/molecules/ImageCarousel';
+import styles from './page.module.scss';
 
-export default function RecipeDetail({ params }: { params: Promise<{ id: string }> }) {
-  const [id, setId] = useState<string>('')
-  const [recipe, setRecipe] = useState<Recipe | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [isFavorite, setIsFavorite] = useState(false)
-  const [favoritesLoading, setFavoritesLoading] = useState(false)
-  const router = useRouter()
+export default function RecipeDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [id, setId] = useState<string>('');
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    params.then(resolvedParams => {
-      setId(resolvedParams.id)
-    })
-  }, [params])
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
 
   useEffect(() => {
     if (id) {
-      fetchRecipe()
-      fetchFavoriteStatus()
+      fetchRecipe();
     }
-  }, [id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const fetchRecipe = async () => {
     try {
@@ -39,77 +39,50 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
         .from('recipes')
         .select('*')
         .eq('id', id)
-        .single()
+        .single();
 
       if (error) {
-        console.error('Error fetching recipe:', error)
-        router.push('/')
+        console.error('Error fetching recipe:', error);
+        router.push('/');
       } else {
-        setRecipe(data)
+        setRecipe(data);
       }
     } catch (error) {
-      console.error('Error:', error)
-      router.push('/')
+      console.error('Error:', error);
+      router.push('/');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
-  const fetchFavoriteStatus = async () => {
-    try {
-      const userId = getUserId()
-      const favorites = await getUserFavorites(userId)
-      setIsFavorite(favorites.includes(id))
-    } catch (error) {
-      console.error('Error fetching favorite status:', error)
-    }
-  }
-
-  const handleFavoriteToggle = async () => {
-    if (!recipe) return
-
-    setFavoritesLoading(true)
-    try {
-      const userId = getUserId()
-      const success = await toggleFavorite(userId, recipe.id, isFavorite)
-      if (success) {
-        setIsFavorite(!isFavorite)
-      }
-    } catch (error) {
-      console.error('Error toggling favorite:', error)
-    } finally {
-      setFavoritesLoading(false)
-    }
-  }
+  };
 
   const handleDelete = async () => {
-    if (!recipe) return
+    if (!recipe) return;
 
-    const confirmed = confirm('このレシピを削除しますか？')
-    if (!confirmed) return
+    const confirmed = confirm('このレシピを削除しますか？');
+    if (!confirmed) return;
 
     try {
       const { error } = await supabase
         .from('recipes')
         .delete()
-        .eq('id', recipe.id)
+        .eq('id', recipe.id);
 
       if (error) {
-        console.error('Error deleting recipe:', error)
+        console.error('Error deleting recipe:', error);
       } else {
-        router.push('/')
+        router.push('/');
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error:', error);
     }
-  }
+  };
 
   if (loading) {
     return (
       <main className={styles.main}>
         <LoadingState title="レシピを読み込み中..." />
       </main>
-    )
+    );
   }
 
   if (!recipe) {
@@ -117,17 +90,19 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
       <main className={styles.main}>
         <div className={styles.error}>レシピが見つかりませんでした。</div>
       </main>
-    )
+    );
   }
 
   return (
     <main className={styles.main}>
-
       <div className={styles.content}>
         <div className={styles.topSection}>
           <div className={styles.imageContainer}>
             <ImageCarousel
-              images={recipe.image_urls || (recipe.image_url ? [recipe.image_url] : [])}
+              images={
+                recipe.image_urls ||
+                (recipe.image_url ? [recipe.image_url] : [])
+              }
               alt={recipe.title}
             />
           </div>
@@ -155,22 +130,28 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>材料</h2>
             <div className={styles.ingredients}>
-              {recipe.ingredients.split('\n').filter(ingredient => ingredient.trim()).map((ingredient, index) => (
-                <div key={index} className={styles.ingredient}>
-                  <span>{ingredient.trim()}</span>
-                </div>
-              ))}
+              {recipe.ingredients
+                .split('\n')
+                .filter((ingredient) => ingredient.trim())
+                .map((ingredient, index) => (
+                  <div key={index} className={styles.ingredient}>
+                    <span>{ingredient.trim()}</span>
+                  </div>
+                ))}
             </div>
           </div>
 
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>手順</h2>
             <div className={styles.instructions}>
-              {recipe.instructions.split('\n').filter(instruction => instruction.trim()).map((instruction, index) => (
-                <div key={index} className={styles.instruction}>
-                  <span>{instruction.trim()}</span>
-                </div>
-              ))}
+              {recipe.instructions
+                .split('\n')
+                .filter((instruction) => instruction.trim())
+                .map((instruction, index) => (
+                  <div key={index} className={styles.instruction}>
+                    <span>{instruction.trim()}</span>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -191,7 +172,13 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
               rel="noopener noreferrer"
               className={styles.referenceLink}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
                 <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10A56,56,0,0,1,48.38,128.4L74.05,102.73a56,56,0,0,1,79.2,0,8,8,0,0,1-11.31,11.31,40,40,0,0,0-56.57,0L59.69,139.71a40,40,0,0,0,56.57,56.57l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56,56,0,0,0-79.21,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.57,56.56L170.63,141.9a40,40,0,0,1-56.57,0,8,8,0,0,0-11.31,11.32,56,56,0,0,0,79.2,0l25.67-25.67A56,56,0,0,0,207.62,48.38Z"></path>
               </svg>
               {recipe.reference_url}
@@ -205,5 +192,5 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
         />
       </div>
     </main>
-  )
+  );
 }

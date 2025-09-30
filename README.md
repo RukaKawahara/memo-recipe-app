@@ -5,16 +5,19 @@
 ## セットアップ
 
 ### 1. 依存関係のインストール
+
 ```bash
 npm install
 ```
 
 ### 2. 環境変数の設定
+
 `.env.local.example`を`.env.local`にコピーし、Supabaseの設定を入力してください。
 
 ### 3. データベースの初期化
 
 #### 新規プロジェクトの場合：
+
 Supabaseプロジェクトで`supabase-setup.sql`を実行してデータベーステーブルを作成してください：
 
 ```sql
@@ -22,6 +25,7 @@ Supabaseプロジェクトで`supabase-setup.sql`を実行してデータベー�
 ```
 
 #### 既存プロジェクトの場合（recipesテーブルが既に存在する場合）：
+
 `migration-to-genres-array.sql`を実行して既存のデータを新しい構造に移行してください：
 
 ```sql
@@ -29,6 +33,7 @@ Supabaseプロジェクトで`supabase-setup.sql`を実行してデータベー�
 ```
 
 ### 4. 開発サーバーの起動
+
 ```bash
 npm run dev
 ```

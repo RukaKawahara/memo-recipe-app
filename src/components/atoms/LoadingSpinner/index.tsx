@@ -1,17 +1,17 @@
-import styles from './LoadingSpinner.module.scss'
+import styles from './LoadingSpinner.module.scss';
 
 export interface LoadingSpinnerProps {
-  size?: 'small' | 'medium' | 'large'
-  className?: string
+  size?: 'small' | 'medium' | 'large';
+  className?: string;
 }
 
 export const LoadingSpinner = ({
   size = 'medium',
-  className = ''
+  className = '',
 }: LoadingSpinnerProps) => {
-  const classNames = `${styles.spinner} ${styles[size]} ${className}`.trim()
+  const classNames = `${styles.spinner} ${styles[size]} ${className}`.trim();
 
-  return <div className={classNames} />
-}
+  return <div className={classNames} />;
+};
 
-export default LoadingSpinner
+export default LoadingSpinner;

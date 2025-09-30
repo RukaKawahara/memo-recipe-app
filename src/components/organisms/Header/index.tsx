@@ -1,51 +1,46 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import Button from '@/components/atoms/Button'
-import Icon from '@/components/atoms/Icon'
-import styles from './Header.module.scss'
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import Icon from '@/components/atoms/Icon';
+import styles from './Header.module.scss';
 
 const navigationItems = [
   {
     href: '/',
     label: 'ホーム',
-    iconName: 'home' as const
+    iconName: 'home' as const,
   },
   {
     href: '/create',
     label: '作成',
-    iconName: 'create' as const
+    iconName: 'create' as const,
   },
   {
     href: '/favorites',
     label: 'お気に入り',
-    iconName: 'heart' as const
+    iconName: 'heart' as const,
   },
   {
     href: '/settings',
     label: '設定',
-    iconName: 'settings' as const
-  }
-]
+    iconName: 'settings' as const,
+  },
+];
 
-interface HeaderProps {
-  title: string
-}
-
-export const Header = ({ title }: HeaderProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathname = usePathname()
+export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -73,9 +68,7 @@ export const Header = ({ title }: HeaderProps) => {
         </div>
       </header>
 
-      {isMenuOpen && (
-        <div className={styles.overlay} onClick={closeMenu} />
-      )}
+      {isMenuOpen && <div className={styles.overlay} onClick={closeMenu} />}
 
       <nav className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}>
         <div className={styles.menuHeader}>
@@ -104,7 +97,7 @@ export const Header = ({ title }: HeaderProps) => {
         </ul>
       </nav>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

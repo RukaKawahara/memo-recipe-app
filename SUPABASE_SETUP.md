@@ -18,6 +18,7 @@
 または、手動で以下を実行：
 
 #### テーブル作成
+
 ```sql
 CREATE TABLE IF NOT EXISTS recipes (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -34,6 +35,7 @@ CREATE TABLE IF NOT EXISTS recipes (
 ```
 
 #### セキュリティ設定
+
 ```sql
 ALTER TABLE recipes ENABLE ROW LEVEL SECURITY;
 
@@ -48,6 +50,7 @@ CREATE POLICY "Allow all access to recipes" ON recipes
 3. **Public bucket** にチェックを入れる
 
 または、SQLで作成：
+
 ```sql
 INSERT INTO storage.buckets (id, name, public) VALUES ('recipes', 'recipes', true);
 
@@ -63,11 +66,13 @@ CREATE POLICY "Allow all access to recipe images" ON storage.objects
    - `anon public key`
 
 3. プロジェクトルートで環境ファイルを作成：
+
 ```bash
 cp .env.local.example .env.local
 ```
 
 4. `.env.local` ファイルを編集：
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=あなたのプロジェクトURL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=あなたのアノンキー
@@ -86,19 +91,23 @@ npm run dev
 ### よくあるエラー
 
 #### 1. "Invalid API key" エラー
+
 - `.env.local` ファイルが正しく設定されているか確認
 - Supabaseの API キーが正しくコピーされているか確認
 - アプリを再起動 (`npm run dev`)
 
 #### 2. "Table 'recipes' doesn't exist" エラー
+
 - Supabase SQL Editor で `supabase-setup.sql` が正しく実行されているか確認
 - テーブルが作成されているか **Table editor** で確認
 
 #### 3. "Row Level Security" エラー
+
 - RLS ポリシーが正しく設定されているか確認
 - 必要に応じて一時的に RLS を無効にして動作確認
 
 #### 4. 画像アップロードエラー
+
 - Storage バケット `recipes` が作成されているか確認
 - バケットが Public に設定されているか確認
 - Storage ポリシーが正しく設定されているか確認

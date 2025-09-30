@@ -1,13 +1,13 @@
-import React from 'react'
-import FieldLabel from '@/components/atoms/FieldLabel'
-import styles from './FormField.module.scss'
+import React from 'react';
+import FieldLabel from '@/components/atoms/FieldLabel';
+import styles from './FormField.module.scss';
 
 interface FormFieldProps {
-  children: React.ReactNode
-  label?: string
-  icon?: React.ReactNode
-  required?: boolean
-  className?: string
+  children: React.ReactNode;
+  label?: string;
+  icon?: React.ReactNode;
+  required?: boolean;
+  className?: string;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -15,7 +15,7 @@ const FormField: React.FC<FormFieldProps> = ({
   label,
   icon,
   required = false,
-  className
+  className,
 }) => {
   return (
     <div className={`${styles.field} ${className || ''}`}>
@@ -26,7 +26,7 @@ const FormField: React.FC<FormFieldProps> = ({
       )}
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default FormField
+export default FormField;

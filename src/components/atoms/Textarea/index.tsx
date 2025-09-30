@@ -1,9 +1,10 @@
-import React from 'react'
-import styles from './Textarea.module.scss'
+import React from 'react';
+import styles from './Textarea.module.scss';
 
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  variant?: 'default'
-  error?: boolean
+interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  variant?: 'default';
+  error?: boolean;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -17,7 +18,7 @@ const Textarea: React.FC<TextareaProps> = ({
       className={`${styles.textarea} ${styles[variant]} ${error ? styles.error : ''} ${className || ''}`}
       {...props}
     />
-  )
-}
+  );
+};
 
-export default Textarea
+export default Textarea;

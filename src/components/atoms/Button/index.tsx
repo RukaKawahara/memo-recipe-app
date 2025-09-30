@@ -1,11 +1,23 @@
-import { ReactNode, ButtonHTMLAttributes } from 'react'
-import styles from './Button.module.scss'
+import { ReactNode, ButtonHTMLAttributes } from 'react';
+import styles from './Button.module.scss';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'icon' | 'save' | 'delete' | 'genre' | 'deleteImage' | 'edit' | 'deleteAction' | 'saveCompact' | 'cancel' | 'addDashed'
-  size?: 'small' | 'medium' | 'large'
-  selected?: boolean
-  children: ReactNode
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'icon'
+    | 'save'
+    | 'delete'
+    | 'genre'
+    | 'deleteImage'
+    | 'edit'
+    | 'deleteAction'
+    | 'saveCompact'
+    | 'cancel'
+    | 'addDashed';
+  size?: 'small' | 'medium' | 'large';
+  selected?: boolean;
+  children: ReactNode;
 }
 
 export const Button = ({
@@ -16,13 +28,14 @@ export const Button = ({
   children,
   ...props
 }: ButtonProps) => {
-  const classNames = `${styles.button} ${styles[variant]} ${styles[size]} ${selected ? styles.selected : ''} ${className}`.trim()
+  const classNames =
+    `${styles.button} ${styles[variant]} ${styles[size]} ${selected ? styles.selected : ''} ${className}`.trim();
 
   return (
     <button className={classNames} {...props}>
       {children}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

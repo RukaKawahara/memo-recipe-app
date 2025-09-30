@@ -1,19 +1,19 @@
-import React from 'react'
-import Button from '@/components/atoms/Button'
-import styles from './GenreToggleGroup.module.scss'
+import React from 'react';
+import Button from '@/components/atoms/Button';
+import styles from './GenreToggleGroup.module.scss';
 
 interface GenreToggleGroupProps {
-  genres: string[]
-  selectedGenres: string[]
-  onGenreToggle: (genre: string) => void
-  className?: string
+  genres: string[];
+  selectedGenres: string[];
+  onGenreToggle: (genre: string) => void;
+  className?: string;
 }
 
 const GenreToggleGroup: React.FC<GenreToggleGroupProps> = ({
   genres,
   selectedGenres,
   onGenreToggle,
-  className
+  className,
 }) => {
   return (
     <div className={`${styles.genreGrid} ${className || ''}`}>
@@ -29,7 +29,7 @@ const GenreToggleGroup: React.FC<GenreToggleGroupProps> = ({
         </Button>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default GenreToggleGroup
+export default GenreToggleGroup;

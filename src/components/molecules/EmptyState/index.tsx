@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import styles from './EmptyState.module.scss'
+import Link from 'next/link';
+import styles from './EmptyState.module.scss';
 
 export interface EmptyStateProps {
-  icon?: string
-  title: string
-  description?: string
-  actionText: string
-  actionHref: string
-  className?: string
+  icon?: string;
+  title: string;
+  description?: string;
+  actionText: string;
+  actionHref: string;
+  className?: string;
 }
 
 export const EmptyState = ({
@@ -16,7 +16,7 @@ export const EmptyState = ({
   description,
   actionText,
   actionHref,
-  className = ''
+  className = '',
 }: EmptyStateProps) => {
   return (
     <div className={`${styles.empty} ${className}`.trim()}>
@@ -27,7 +27,7 @@ export const EmptyState = ({
         {actionText}
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default EmptyState
+export default EmptyState;
