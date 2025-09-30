@@ -106,12 +106,14 @@
 .description {
   color: $color-dark;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
   margin-top: 12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 
   @media (min-width: 1024px) {
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.8;
     color: $color-gray;
   }
 }
@@ -175,17 +177,24 @@
   align-items: flex-start;
   gap: 12px;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
   color: $color-dark;
+
+  span {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
 }
 
 .memo {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.8;
   color: $color-gray;
   background-color: $color-light;
   padding: 16px;
   border-radius: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .memoSection {
