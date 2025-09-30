@@ -1,3 +1,5 @@
+@import '@/styles/colors';
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -9,13 +11,13 @@
   cursor: default;
 
   &.default {
-    background-color: #f3f4f6;
-    color: #6b7280;
+    background-color: $color-light-gray;
+    color: $color-gray;
   }
 
   &.selected {
-    background-color: #fed7aa;
-    color: #ea580c;
+    background-color: $color-primary-pale;
+    color: $color-primary;
   }
 
   &.small {
@@ -33,13 +35,13 @@
 
     &:hover {
       &.default {
-        background-color: #e5e7eb;
-        color: #374151;
+        background-color: $color-light;
+        color: $color-gray-dark;
       }
 
       &.selected {
-        background-color: #fed7aa;
-        color: #ea580c;
+        background-color: $color-primary-pale;
+        color: $color-primary;
       }
     }
   }

@@ -1,3 +1,5 @@
+@import '@/styles/colors';
+
 .button {
   border: none;
   border-radius: 8px;
@@ -15,21 +17,21 @@
   }
 
   &.primary {
-    background-color: #ea580c;
-    color: white;
+    background-color: $color-primary;
+    color: $color-white;
 
     &:hover:not(:disabled) {
-      background-color: #ea580c;
+      background-color: $color-primary;
     }
   }
 
   &.secondary {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
+    background-color: $color-light-gray;
+    color: $color-gray-dark;
+    border: 1px solid $color-gray-border;
 
     &:hover:not(:disabled) {
-      background-color: #e5e7eb;
+      background-color: $color-light;
     }
   }
 
@@ -39,7 +41,7 @@
     border-radius: 50%;
 
     &:hover:not(:disabled) {
-      background-color: #f3f4f6;
+      background-color: $color-light-gray;
     }
   }
 
@@ -75,24 +77,24 @@
   // Save/Update Button (保存・更新ボタン)
   &.save {
     min-width: 320px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: $color-light-alpha-90;
     backdrop-filter: blur(10px);
-    color: #181111;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: $color-dark;
+    border: 1px solid $color-shadow-light;
     border-radius: 20px;
     font-weight: bold;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px $color-shadow-light;
     height: 48px;
 
     &:hover:not(:disabled) {
-      background-color: rgba(0, 0, 0, 1);
-      border-color: rgba(0, 0, 0, 0.2);
-      color: rgba(255, 255, 255, 0.9);
+      background-color: $color-dark;
+      border-color: $color-shadow-strong;
+      color: $color-light-alpha-90;
     }
 
     &:disabled {
-      background-color: rgba(255, 255, 255, 0.7);
-      color: #999;
+      background-color: $color-light-alpha-70;
+      color: $color-gray-light;
     }
   }
 
@@ -103,45 +105,45 @@
     right: 8px;
     width: 32px;
     height: 32px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: $color-dark-alpha-70;
     border: none;
     border-radius: 50%;
-    color: white;
+    color: $color-white;
     padding: 0;
     backdrop-filter: blur(4px);
 
     &:hover:not(:disabled) {
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: $color-dark-alpha-90;
     }
   }
 
   // Genre Selection Button (ジャンル選択ボタン)
   &.genre {
     padding: 12px 16px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid $color-gray-border;
     border-radius: 8px;
-    background-color: white;
-    color: #666;
+    background-color: $color-white;
+    color: $color-gray;
     font-size: 14px;
     font-weight: 500;
     position: relative;
 
     &:hover:not(:disabled) {
-      border-color: #999;
-      background-color: #f9f9f9;
+      border-color: $color-gray-light;
+      background-color: $color-light;
     }
 
     &.selected {
-      border-color: #181111;
-      background-color: #181111;
-      color: white;
+      border-color: $color-dark;
+      background-color: $color-dark;
+      color: $color-white;
       font-weight: 600;
-      box-shadow: 0 2px 8px rgba(24, 17, 17, 0.2);
+      box-shadow: 0 2px 8px $color-dark-alpha-20;
 
       &:hover:not(:disabled) {
-        background-color: #333;
-        border-color: #333;
-        box-shadow: 0 2px 12px rgba(24, 17, 17, 0.3);
+        background-color: $color-dark-light;
+        border-color: $color-dark-light;
+        box-shadow: 0 2px 12px $color-dark-alpha-20;
       }
 
       &::before {
@@ -155,52 +157,52 @@
 
   // Edit Button (編集ボタン)
   &.edit {
-    color: #374151;
-    border: 1px solid #d1d5db;
+    color: $color-gray-dark;
+    border: 1px solid $color-gray-border;
     padding: 0.75rem 1.5rem;
     border-radius: 32px;
     font-weight: 500;
     min-width: 80px;
 
     &:hover:not(:disabled) {
-      background-color: #e5e7eb;
-      border-color: #9ca3af;
+      background-color: $color-light;
+      border-color: $color-gray-light;
     }
   }
 
   // Delete Action Button for ActionButtons component (ActionButtonsコンポーネント用削除ボタン)
   &.delete {
-    border: 1px solid #ef4444;
-    color: #ef4444;
+    border: 1px solid $color-error;
+    color: $color-error;
     padding: 0.75rem 1.5rem;
     border-radius: 32px;
     font-weight: 500;
     min-width: 80px;
 
     &:hover:not(:disabled) {
-      color: white;
-      background-color: #dc2626;
+      color: $color-white;
+      background-color: $color-error;
     }
   }
 
   // Compact Save Button (設定画面用コンパクト保存ボタン)
   &.saveCompact {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: $color-light-alpha-90;
     backdrop-filter: blur(10px);
-    color: #181111;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: $color-dark;
+    border: 1px solid $color-shadow-light;
     padding: 8px 16px;
     border-radius: 16px;
     font-size: 14px;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px $color-shadow-light;
 
     &:hover:not(:disabled) {
-      background-color: rgba(24, 17, 17, 0.9);
-      color: white;
-      border-color: rgba(24, 17, 17, 0.2);
+      background-color: $color-dark-alpha-90;
+      color: $color-white;
+      border-color: $color-dark-alpha-20;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px $color-shadow-medium;
     }
 
     &:disabled {
@@ -211,22 +213,22 @@
 
   // Cancel Button (キャンセルボタン)
   &.cancel {
-    background-color: rgba(102, 102, 102, 0.1);
+    background-color: $color-gray-alpha;
     backdrop-filter: blur(10px);
-    color: #666;
-    border: 1px solid rgba(224, 224, 224, 0.4);
+    color: $color-gray;
+    border: 1px solid $color-gray-border-alpha;
     padding: 8px 16px;
     border-radius: 16px;
     font-size: 14px;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px $color-shadow-subtle;
 
     &:hover:not(:disabled) {
-      background-color: rgba(245, 245, 245, 0.9);
-      color: #181111;
-      border-color: rgba(0, 0, 0, 0.1);
+      background-color: $color-light-alpha-90;
+      color: $color-dark;
+      border-color: $color-shadow-light;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px $color-shadow-light;
     }
 
     &:disabled {
@@ -237,31 +239,31 @@
 
   // Add Genre Button (ジャンル追加ボタン)
   &.addDashed {
-    background-color: white;
-    border: 2px dashed #d0d0d0;
+    background-color: $color-white;
+    border: 2px dashed $color-gray-border;
     border-radius: 12px;
     padding: 20px;
-    color: #666;
+    color: $color-gray;
     font-size: 16px;
     font-weight: 500;
     gap: 8px;
 
     &:hover:not(:disabled) {
-      border-color: #181111;
-      color: #181111;
-      background-color: #f9f9f9;
+      border-color: $color-dark;
+      color: $color-dark;
+      background-color: $color-light;
     }
 
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      border-color: #e0e0e0;
-      color: #999;
+      border-color: $color-gray-border;
+      color: $color-gray-light;
 
       &:hover {
-        border-color: #e0e0e0;
-        color: #999;
-        background-color: white;
+        border-color: $color-gray-border;
+        color: $color-gray-light;
+        background-color: $color-white;
       }
     }
   }

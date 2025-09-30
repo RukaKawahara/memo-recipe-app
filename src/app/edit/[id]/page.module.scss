@@ -1,3 +1,5 @@
+@import '@/styles/colors';
+
 // エラー画面
 .errorContainer {
   display: flex;
@@ -16,7 +18,7 @@
 
 .errorIcon {
   margin-bottom: 24px;
-  color: #ff6b35;
+  color: $color-primary-light;
 
   @media (min-width: 1024px) {
     margin-bottom: 32px;
@@ -37,7 +39,7 @@
 .errorText {
   font-size: 20px;
   font-weight: 600;
-  color: #181111;
+  color: $color-dark;
   margin-bottom: 12px;
   letter-spacing: -0.01em;
 
@@ -49,7 +51,7 @@
 
 .errorSubtext {
   font-size: 14px;
-  color: #886364;
+  color: $color-gray;
   font-weight: normal;
   opacity: 0.8;
   margin-bottom: 32px;

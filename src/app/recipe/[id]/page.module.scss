@@ -1,7 +1,9 @@
+@import '@/styles/colors';
+
 .main {
   width: 100%;
   min-height: 100vh;
-  background-color: white;
+  background-color: $color-white;
 }
 
 .content {
@@ -10,9 +12,9 @@
   @media (min-width: 1024px) {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: white;
+    background-color: $color-white;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px $color-shadow-light;
     overflow: hidden;
   }
 }
@@ -72,7 +74,7 @@
 }
 
 .sectionTitle {
-  color: #181111;
+  color: $color-dark;
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 16px;
@@ -93,7 +95,7 @@
 
 .infoTitle {
   @media (min-width: 1024px) {
-    color: #181111;
+    color: $color-dark;
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 16px;
@@ -102,7 +104,7 @@
 }
 
 .description {
-  color: #181111;
+  color: $color-dark;
   font-size: 14px;
   line-height: 1.4;
   margin-top: 12px;
@@ -110,7 +112,7 @@
   @media (min-width: 1024px) {
     font-size: 16px;
     line-height: 1.6;
-    color: #666;
+    color: $color-gray;
   }
 }
 
@@ -122,12 +124,12 @@
     padding: 24px 40px;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: white;
+    background-color: $color-white;
   }
 }
 
 .genresTitle {
-  color: #181111;
+  color: $color-dark;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
@@ -174,14 +176,14 @@
   gap: 12px;
   font-size: 14px;
   line-height: 1.4;
-  color: #181111;
+  color: $color-dark;
 }
 
 .memo {
   font-size: 16px;
   line-height: 1.6;
-  color: #666;
-  background-color: #f9f9f9;
+  color: $color-gray;
+  background-color: $color-light;
   padding: 16px;
   border-radius: 8px;
 }
@@ -198,7 +200,7 @@
   align-items: center;
   height: 200px;
   font-size: 16px;
-  color: #ff3b30;
+  color: $color-error;
 }
 
 .referenceSection {
@@ -222,13 +224,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #007aff;
+  color: $color-primary;
   text-decoration: none;
   font-size: 14px;
   padding: 12px 16px;
-  background-color: #f8f9fa;
+  background-color: $color-light;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border: 1px solid $color-gray-border;
   transition: all 0.2s ease;
   word-break: break-all;
   max-width: 100%;
@@ -236,9 +238,9 @@
   box-sizing: border-box;
 
   &:hover {
-    background-color: #e9ecef;
+    background-color: $color-gray-border;
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+    box-shadow: 0 2px 4px $color-shadow-light;
   }
 
   svg {

@@ -1,3 +1,5 @@
+@import './colors';
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -25,8 +27,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white;
-  color: #181111;
+  background-color: $color-white;
+  color: $color-dark;
 }
 
 a {
@@ -53,11 +55,11 @@ textarea {
   display: flex;
   width: 100%;
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: $color-light;
 
   @media (max-width: 1023px) {
     flex-direction: column;
-    background-color: white;
+    background-color: $color-white;
   }
 }
 
@@ -80,7 +82,7 @@ textarea {
   flex: 1;
   width: 100%;
   margin: 0 auto;
-  background-color: white;
+  background-color: $color-white;
 
   @media (min-width: 768px) and (max-width: 1023px) {
     max-width: 768px;

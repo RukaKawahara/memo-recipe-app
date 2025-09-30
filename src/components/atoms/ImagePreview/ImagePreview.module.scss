@@ -1,10 +1,12 @@
+@import '@/styles/colors';
+
 .imagePreview {
   position: relative;
   display: inline-block;
   border-radius: 8px;
   overflow: hidden;
-  background-color: #f6f8fa;
-  border: 1px solid #d0d7de;
+  background-color: $color-light-gray;
+  border: 1px solid $color-gray-border;
 }
 
 .previewImage {
@@ -23,9 +25,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: $color-dark-alpha-50;
   border: none;
-  color: white;
+  color: $color-white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +35,7 @@
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: $color-dark-alpha-70;
   }
 
   svg {

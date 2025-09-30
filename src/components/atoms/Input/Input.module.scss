@@ -1,3 +1,5 @@
+@import '@/styles/colors';
+
 .input {
   width: 100%;
   border: none;
@@ -7,24 +9,24 @@
     border-color 0.2s ease,
     box-shadow 0.2s ease;
   outline: none;
-  background-color: #f4f0f0;
-  color: #181111;
+  background-color: $color-light-gray;
+  color: $color-dark;
   padding: 16px;
   height: 56px;
   font-weight: normal;
   line-height: normal;
 
   @media (min-width: 1024px) {
-    background-color: white;
-    border: 1px solid #e5e5e5;
+    background-color: $color-white;
+    border: 1px solid $color-gray-border;
     border-radius: 4px;
   }
 
   &::placeholder {
-    color: #886364;
+    color: $color-gray;
 
     @media (min-width: 1024px) {
-      color: #aaa;
+      color: $color-gray-light;
     }
   }
 
@@ -32,16 +34,16 @@
     outline: none;
 
     @media (min-width: 1024px) {
-      border: 1px solid #181111;
+      border: 1px solid $color-dark;
     }
   }
 
   &.error {
-    border-color: #d1242f;
+    border-color: $color-error;
 
     &:focus {
-      border-color: #d1242f;
-      box-shadow: 0 0 0 3px rgba(209, 36, 47, 0.1);
+      border-color: $color-error;
+      box-shadow: 0 0 0 3px $color-shadow-light;
     }
   }
 
@@ -51,15 +53,15 @@
 
   &.search {
     padding: 10px 16px;
-    background-color: #f9fafb;
-    border-color: #e5e7eb;
+    background-color: $color-light;
+    border-color: $color-light;
 
     &::placeholder {
-      color: #6b7280;
+      color: $color-gray;
     }
 
     &:focus {
-      background-color: white;
+      background-color: $color-white;
     }
   }
 }
