@@ -181,15 +181,15 @@
 
   // Delete Action Button for ActionButtons component (ActionButtonsコンポーネント用削除ボタン)
   &.deleteAction {
-    background-color: #ef4444;
-    color: white;
-    border: none;
+    border: 1px solid #ef4444;
+    color: #ef4444;
     padding: 0.75rem 1.5rem;
     border-radius: 32px;
     font-weight: 500;
     min-width: 80px;
 
     &:hover:not(:disabled) {
+      color: white;
       background-color: #dc2626;
     }
   }
