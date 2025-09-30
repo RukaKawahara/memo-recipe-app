@@ -1,3 +1,4 @@
+@import '@/styles/colors';
 .paginationContainer {
   display: flex;
   flex-direction: column;
@@ -9,7 +10,7 @@
 .pagination {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
   flex-wrap: nowrap;
   width: 100%;
@@ -18,7 +19,6 @@
   box-sizing: border-box;
 
   @media (max-width: 640px) {
-    gap: 2px;
     padding: 0 8px;
   }
 }
@@ -48,13 +48,9 @@
 
 .pageNumbers {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   flex-wrap: nowrap;
   align-items: center;
-
-  @media (max-width: 640px) {
-    gap: 2px;
-  }
 }
 
 .pageNumber {
