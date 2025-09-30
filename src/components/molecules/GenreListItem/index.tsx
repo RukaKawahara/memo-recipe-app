@@ -63,7 +63,11 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
               >
                 {isLoading ? '保存中...' : '保存'}
               </Button>
-              <Button variant="cancel" onClick={onCancelEdit} disabled={isLoading}>
+              <Button
+                variant="cancel"
+                onClick={onCancelEdit}
+                disabled={isLoading}
+              >
                 キャンセル
               </Button>
             </>
