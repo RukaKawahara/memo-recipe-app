@@ -356,7 +356,7 @@ export default function Settings() {
                         </Button>
                         {!genre.id.startsWith('default-') && (
                           <Button
-                            variant="deleteAction"
+                            variant="delete"
                             onClick={() =>
                               handleDeleteGenre(genre.id, genre.name)
                             }
