@@ -187,53 +187,41 @@
 
   // Compact Save Button (設定画面用コンパクト保存ボタン)
   &.saveCompact {
-    background-color: $color-light-alpha-90;
-    backdrop-filter: blur(10px);
-    color: $color-dark;
-    border: 1px solid $color-shadow-light;
-    padding: 8px 16px;
-    border-radius: 16px;
-    font-size: 14px;
+    background-color: $color-primary;
+    color: $color-white;
+    border: 1px solid $color-primary;
+    padding: 0.75rem 1.5rem;
+    border-radius: 32px;
     font-weight: 500;
-    box-shadow: 0 2px 8px $color-shadow-light;
+    min-width: 80px;
 
     &:hover:not(:disabled) {
-      background-color: $color-dark-alpha-90;
-      color: $color-white;
-      border-color: $color-dark-alpha-20;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px $color-shadow-medium;
+      background-color: $color-primary-light;
+      border-color: $color-primary-light;
     }
 
     &:disabled {
       opacity: 0.5;
-      transform: none;
     }
   }
 
   // Cancel Button (キャンセルボタン)
   &.cancel {
-    background-color: $color-gray-alpha;
-    backdrop-filter: blur(10px);
-    color: $color-gray;
-    border: 1px solid $color-gray-border-alpha;
-    padding: 8px 16px;
-    border-radius: 16px;
-    font-size: 14px;
+    background-color: $color-white;
+    color: $color-gray-dark;
+    border: 1px solid $color-gray-border;
+    padding: 0.75rem 1.5rem;
+    border-radius: 32px;
     font-weight: 500;
-    box-shadow: 0 2px 8px $color-shadow-subtle;
+    min-width: 80px;
 
     &:hover:not(:disabled) {
-      background-color: $color-light-alpha-90;
-      color: $color-dark;
-      border-color: $color-shadow-light;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px $color-shadow-light;
+      background-color: $color-light;
+      border-color: $color-gray-light;
     }
 
     &:disabled {
       opacity: 0.5;
-      transform: none;
     }
   }
 

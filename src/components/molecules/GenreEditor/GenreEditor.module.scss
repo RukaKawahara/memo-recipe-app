@@ -1,20 +1,17 @@
 @import '@/styles/colors';
 .editingForm {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 12px;
-  padding: 16px;
-  background-color: #f6f8fa;
-  border-radius: 8px;
-  border: 1px solid #d0d7de;
+  width: 100%;
 }
 
 .editInput {
-  width: 100%;
+  flex: 1;
 }
 
 .editActions {
   display: flex;
   gap: 8px;
-  justify-content: flex-end;
+  align-items: center;
 }

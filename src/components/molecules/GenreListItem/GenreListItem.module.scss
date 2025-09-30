@@ -4,7 +4,6 @@
   border-radius: 8px;
   background-color: #ffffff;
   overflow: hidden;
-  transition: all 0.2s ease;
 
   &:hover {
     border-color: #0969da;
@@ -46,4 +45,8 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.editInput {
+  flex: 1;
 }
