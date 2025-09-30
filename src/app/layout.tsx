@@ -38,7 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-container">
-          <Header title="レシピ" />
+          <Header />
           <SideNavigation />
           <div className="main-content">
             <div className="container">{children}</div>
