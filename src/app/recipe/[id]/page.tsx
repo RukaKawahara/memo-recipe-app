@@ -9,6 +9,7 @@ import type { Recipe } from '@/types/recipe'
 import GenreTag from '@/components/atoms/GenreTag'
 import ActionButtons from '@/components/molecules/ActionButtons'
 import LoadingState from '@/components/molecules/LoadingState'
+import ImageCarousel from '@/components/molecules/ImageCarousel'
 import styles from './page.module.scss'
 
 export default function RecipeDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -124,15 +125,12 @@ export default function RecipeDetail({ params }: { params: Promise<{ id: string 
 
       <div className={styles.content}>
         <div className={styles.topSection}>
-          {recipe.image_url ? (
-            <div className={styles.imageContainer}>
-              <img src={recipe.image_url} alt={recipe.title} className={styles.image} />
-            </div>
-          ) : (
-            <div className={styles.imageContainer}>
-              <img src='/images/noimage.png' alt='画像がありません' className={styles.image} />
-            </div>
-          )}
+          <div className={styles.imageContainer}>
+            <ImageCarousel
+              images={recipe.image_urls || (recipe.image_url ? [recipe.image_url] : [])}
+              alt={recipe.title}
+            />
+          </div>
 
           <div className={`${styles.section} ${styles.infoSection}`}>
             <h2 className={styles.infoTitle}>{recipe.title}</h2>

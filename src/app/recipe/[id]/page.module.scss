@@ -36,12 +36,10 @@
 
 .imageContainer {
   width: 100%;
-  overflow: hidden;
   position: relative;
 
   @media (min-width: 1024px) {
     width: 400px;
-    height: 300px;
     border-radius: 16px;
     flex-shrink: 0;
   }

@@ -20,7 +20,8 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   const [memo, setMemo] = useState('')
   const [referenceUrl, setReferenceUrl] = useState('')
-  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imageFiles, setImageFiles] = useState<File[]>([])
+  const [existingImageUrls, setExistingImageUrls] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
   const [availableGenres, setAvailableGenres] = useState<string[]>([])
@@ -81,6 +82,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
         setSelectedGenres(data.genres || (data.genre ? [data.genre] : []))
         setMemo(data.memo || '')
         setReferenceUrl(data.reference_url || '')
+        setExistingImageUrls(data.image_urls || (data.image_url ? [data.image_url] : []))
       }
     } catch (error) {
       console.error('Error:', error)
@@ -90,18 +92,17 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setImageFile(file)
-    }
+  const handleImagesChange = (files: File[]) => {
+    setImageFiles(files)
   }
 
-  const handleImageDelete = () => {
-    setImageFile(null)
-    // 既存の画像も削除する場合は、レシピのimage_urlをnullに設定
-    if (recipe) {
-      setRecipe({ ...recipe, image_url: null })
+  const handleImageDelete = (index: number) => {
+    if (index < existingImageUrls.length) {
+      // 既存画像の削除
+      setExistingImageUrls(prev => prev.filter((_, i) => i !== index))
+    } else {
+      // 新規画像の削除
+      setImageFiles(prev => prev.filter((_, i) => i !== (index - existingImageUrls.length)))
     }
   }
 
@@ -141,29 +142,38 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
     setSaving(true)
 
     try {
-      let imageUrl = recipe?.image_url
-      if (imageFile) {
-        const newImageUrl = await uploadImage(imageFile)
-        if (newImageUrl) {
-          imageUrl = newImageUrl
+      // Upload new images
+      const newImageUrls: string[] = []
+      for (const file of imageFiles) {
+        const url = await uploadImage(file)
+        if (url) {
+          newImageUrls.push(url)
         }
-      } else if (!recipe?.image_url) {
-        // 画像が削除された場合
-        imageUrl = null
+      }
+
+      // Combine existing and new images
+      const allImageUrls = [...existingImageUrls, ...newImageUrls]
+
+      // Prepare update data
+      const updateData: any = {
+        title: title.trim(),
+        description: description.trim(),
+        ingredients: ingredients.trim(),
+        instructions: instructions.trim(),
+        genres: selectedGenres,
+        memo: memo.trim(),
+        reference_url: referenceUrl.trim() || null,
+        image_url: allImageUrls.length > 0 ? allImageUrls[0] : null,
+      }
+
+      // Only add image_urls if there are multiple images
+      if (allImageUrls.length > 0) {
+        updateData.image_urls = allImageUrls
       }
 
       const { error } = await supabase
         .from('recipes')
-        .update({
-          title: title.trim(),
-          description: description.trim(),
-          ingredients: ingredients.trim(),
-          instructions: instructions.trim(),
-          genres: selectedGenres,
-          memo: memo.trim(),
-          reference_url: referenceUrl.trim() || null,
-          image_url: imageUrl,
-        })
+        .update(updateData)
         .eq('id', id)
 
       if (error) {
@@ -227,8 +237,8 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
           selectedGenres={selectedGenres}
           memo={memo}
           referenceUrl={referenceUrl}
-          imageFile={imageFile}
-          existingImageUrl={recipe?.image_url}
+          imageFiles={imageFiles}
+          existingImageUrls={existingImageUrls}
           availableGenres={availableGenres}
           onTitleChange={setTitle}
           onDescriptionChange={setDescription}
@@ -237,7 +247,7 @@ export default function EditRecipe({ params }: { params: Promise<{ id: string }>
           onGenreToggle={handleGenreToggle}
           onMemoChange={setMemo}
           onReferenceUrlChange={setReferenceUrl}
-          onImageChange={setImageFile}
+          onImagesChange={handleImagesChange}
           onImageDelete={handleImageDelete}
         />
       </div>
