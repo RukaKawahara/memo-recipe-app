@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ImageCarousel.module.scss';
+import LoadingSpinner from '../../atoms/LoadingSpinner';
 
 interface ImageCarouselProps {
   images: string[];
@@ -13,6 +14,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   className,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+  const [isLoading, setIsLoading] = useState(true);
 
   if (images.length === 0) {
     return (
@@ -35,63 +38,86 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   }
 
   const goToPrevious = () => {
+    setDirection('left');
+    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
   };
 
   const goToNext = () => {
+    setDirection('right');
+    setIsLoading(true);
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const goToSlide = (index: number) => {
+    setDirection(index > currentIndex ? 'right' : 'left');
+    setIsLoading(true);
     setCurrentIndex(index);
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
   };
 
   return (
     <div className={`${styles.carousel} ${className || ''}`}>
       <div className={styles.carouselContainer}>
-        <button
-          onClick={goToPrevious}
-          className={`${styles.carouselButton} ${styles.prev}`}
-          aria-label="前の画像"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="currentColor"
-            viewBox="0 0 256 256"
+        {currentIndex > 0 && (
+          <button
+            onClick={goToPrevious}
+            className={`${styles.carouselButton} ${styles.prev}`}
+            aria-label="前の画像"
           >
-            <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
+            </svg>
+          </button>
+        )}
 
         <div className={styles.imageWrapper}>
+          {isLoading && (
+            <div className={styles.loadingSpinner}>
+              <LoadingSpinner size="large" />
+            </div>
+          )}
           <img
+            key={currentIndex}
             src={images[currentIndex]}
             alt={`${alt} ${currentIndex + 1}`}
-            className={styles.carouselImage}
+            className={`${styles.carouselImage} ${
+              direction === 'right' ? styles.slideInRight : styles.slideInLeft
+            } ${isLoading ? styles.loading : ''}`}
+            onLoad={handleImageLoad}
           />
         </div>
 
-        <button
-          onClick={goToNext}
-          className={`${styles.carouselButton} ${styles.next}`}
-          aria-label="次の画像"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="currentColor"
-            viewBox="0 0 256 256"
+        {currentIndex < images.length - 1 && (
+          <button
+            onClick={goToNext}
+            className={`${styles.carouselButton} ${styles.next}`}
+            aria-label="次の画像"
           >
-            <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
+            </svg>
+          </button>
+        )}
       </div>
 
       <div className={styles.indicators}>
