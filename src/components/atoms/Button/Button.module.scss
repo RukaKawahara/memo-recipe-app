@@ -85,8 +85,9 @@
     height: 48px;
 
     &:hover:not(:disabled) {
-      background-color: rgba(255, 255, 255, 1);
+      background-color: rgba(0, 0, 0, 1);
       border-color: rgba(0, 0, 0, 0.2);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     &:disabled {
