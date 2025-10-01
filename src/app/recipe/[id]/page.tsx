@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import type { Recipe } from '@/types/recipe';
 import GenreTag from '@/components/atoms/GenreTag';
+import Icon from '@/components/atoms/Icon';
 import ActionButtons from '@/components/molecules/ActionButtons';
 import LoadingState from '@/components/molecules/LoadingState';
 import ImageCarousel from '@/components/molecules/ImageCarousel';
@@ -187,15 +188,7 @@ export default function RecipeDetail({
               rel="noopener noreferrer"
               className={styles.referenceLink}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M137.54,186.36a8,8,0,0,1,0,11.31l-9.94,10A56,56,0,0,1,48.38,128.4L74.05,102.73a56,56,0,0,1,79.2,0,8,8,0,0,1-11.31,11.31,40,40,0,0,0-56.57,0L59.69,139.71a40,40,0,0,0,56.57,56.57l9.94-9.94A8,8,0,0,1,137.54,186.36Zm70.08-138a56,56,0,0,0-79.21,0l-9.94,9.95a8,8,0,0,0,11.32,11.31l9.94-9.94a40,40,0,0,1,56.57,56.56L170.63,141.9a40,40,0,0,1-56.57,0,8,8,0,0,0-11.31,11.32,56,56,0,0,0,79.2,0l25.67-25.67A56,56,0,0,0,207.62,48.38Z"></path>
-              </svg>
+              <Icon name="link" size={16} />
               {recipe.reference_url}
             </a>
           </div>

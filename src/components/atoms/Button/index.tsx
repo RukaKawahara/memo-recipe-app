@@ -5,18 +5,17 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
     | 'primary'
     | 'secondary'
+    | 'outline'
+    | 'danger'
     | 'icon'
+    | 'text'
     | 'save'
-    | 'delete'
-    | 'genre'
     | 'deleteImage'
-    | 'edit'
-    | 'delete'
-    | 'saveCompact'
-    | 'cancel'
-    | 'addDashed';
+    | 'genre';
   size?: 'small' | 'medium' | 'large';
   selected?: boolean;
+  rounded?: boolean;
+  dashed?: boolean;
   children: ReactNode;
 }
 
@@ -24,12 +23,14 @@ export const Button = ({
   variant = 'primary',
   size = 'medium',
   selected = false,
+  rounded = false,
+  dashed = false,
   className = '',
   children,
   ...props
 }: ButtonProps) => {
   const classNames =
-    `${styles.button} ${styles[variant]} ${styles[size]} ${selected ? styles.selected : ''} ${className}`.trim();
+    `${styles.button} ${styles[variant]} ${styles[size]} ${selected ? styles.selected : ''} ${rounded ? styles.rounded : ''} ${dashed ? styles.dashed : ''} ${className}`.trim();
 
   return (
     <button className={classNames} {...props}>

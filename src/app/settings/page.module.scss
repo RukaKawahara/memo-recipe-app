@@ -186,20 +186,6 @@
   }
 }
 
-.defaultBadge {
-  background-color: $color-light-gray;
-  color: $color-primary;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-
-  @media (min-width: 1024px) {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-}
-
 .fallbackBadge {
   background-color: $color-light-gray;
   color: $color-primary;

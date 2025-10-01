@@ -5,30 +5,8 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/atoms/Icon';
+import { NAVIGATION_ITEMS } from '@/constants/navigation';
 import styles from './Header.module.scss';
-
-const navigationItems = [
-  {
-    href: '/',
-    label: 'ホーム',
-    iconName: 'home' as const,
-  },
-  {
-    href: '/create',
-    label: '作成',
-    iconName: 'create' as const,
-  },
-  {
-    href: '/favorites',
-    label: 'お気に入り',
-    iconName: 'heart' as const,
-  },
-  {
-    href: '/settings',
-    label: '設定',
-    iconName: 'settings' as const,
-  },
-];
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,7 +60,7 @@ export const Header = () => {
         </div>
 
         <ul className={styles.menuList}>
-          {navigationItems.map((item) => (
+          {NAVIGATION_ITEMS.map((item) => (
             <li key={item.href} className={styles.menuItem}>
               <Link
                 href={item.href}

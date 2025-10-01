@@ -57,14 +57,16 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
           {isEditing ? (
             <>
               <Button
-                variant="saveCompact"
+                variant="primary"
+                rounded
                 onClick={onSaveEdit}
                 disabled={isLoading}
               >
                 {isLoading ? '保存中...' : '保存'}
               </Button>
               <Button
-                variant="cancel"
+                variant="outline"
+                rounded
                 onClick={onCancelEdit}
                 disabled={isLoading}
               >
@@ -74,7 +76,8 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
           ) : (
             <>
               <Button
-                variant="edit"
+                variant="outline"
+                rounded
                 onClick={onStartEdit}
                 disabled={isLoading || genre.id.startsWith('default-')}
               >
@@ -82,7 +85,8 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
               </Button>
               {!genre.id.startsWith('default-') && (
                 <Button
-                  variant="delete"
+                  variant="danger"
+                  rounded
                   onClick={onDelete}
                   disabled={isLoading}
                 >

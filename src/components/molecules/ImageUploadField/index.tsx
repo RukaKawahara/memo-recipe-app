@@ -1,6 +1,7 @@
 import React from 'react';
 import FileUpload from '@/components/atoms/FileUpload';
 import ImagePreview from '@/components/atoms/ImagePreview';
+import Icon from '@/components/atoms/Icon';
 import styles from './ImageUploadField.module.scss';
 
 interface ImageUploadFieldProps {
@@ -52,9 +53,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
 
         {canAddMore && (
           <FileUpload onFileChange={handleFileChange} id="images">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM12 1l3.5 3.5H19a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2h3.5L12 1ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" />
-            </svg>
+            <Icon name="camera" size={24} />
             <span>写真を追加</span>
             <span className={styles.imageCount}>
               {totalImages}/{maxImages}

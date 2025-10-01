@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ImageCarousel.module.scss';
 import LoadingSpinner from '../../atoms/LoadingSpinner';
+import Icon from '../../atoms/Icon';
 
 interface ImageCarouselProps {
   images: string[];
@@ -98,15 +99,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
             className={`${styles.carouselButton} ${styles.prev}`}
             aria-label="前の画像"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-            </svg>
+            <Icon name="arrow-left" size={24} />
           </button>
         )}
 
@@ -138,15 +131,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
             className={`${styles.carouselButton} ${styles.next}`}
             aria-label="次の画像"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              viewBox="0 0 256 256"
-            >
-              <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
-            </svg>
+            <Icon name="arrow-right" size={24} />
           </button>
         )}
       </div>

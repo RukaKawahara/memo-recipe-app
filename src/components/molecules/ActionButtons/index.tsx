@@ -14,9 +14,9 @@ export default function ActionButtons({
   return (
     <div className={styles.container}>
       <Link href={editHref}>
-        <Button variant="edit">編集</Button>
+        <Button variant="outline" rounded>編集</Button>
       </Link>
-      <Button variant="delete" onClick={onDelete}>
+      <Button variant="danger" rounded onClick={onDelete}>
         削除
       </Button>
     </div>

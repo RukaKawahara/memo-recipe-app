@@ -39,10 +39,10 @@ const GenreEditor: React.FC<GenreEditorProps> = ({
         className={styles.editInput}
       />
       <div className={styles.editActions}>
-        <Button variant="saveCompact" onClick={onSave} disabled={isLoading}>
+        <Button variant="primary" rounded onClick={onSave} disabled={isLoading}>
           {isLoading ? '保存中...' : '保存'}
         </Button>
-        <Button variant="cancel" onClick={onCancel} disabled={isLoading}>
+        <Button variant="outline" rounded onClick={onCancel} disabled={isLoading}>
           キャンセル
         </Button>
       </div>

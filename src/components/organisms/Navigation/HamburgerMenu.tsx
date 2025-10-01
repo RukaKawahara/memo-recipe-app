@@ -4,30 +4,8 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/atoms/Icon';
+import { NAVIGATION_ITEMS } from '@/constants/navigation';
 import styles from './HamburgerMenu.module.scss';
-
-const navigationItems = [
-  {
-    href: '/',
-    label: 'ホーム',
-    iconName: 'home' as const,
-  },
-  {
-    href: '/create',
-    label: '作成',
-    iconName: 'create' as const,
-  },
-  {
-    href: '/favorites',
-    label: 'お気に入り',
-    iconName: 'heart' as const,
-  },
-  {
-    href: '/settings',
-    label: '設定',
-    iconName: 'settings' as const,
-  },
-];
 
 export const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +45,7 @@ export const HamburgerMenu = () => {
         </div>
 
         <ul className={styles.menuList}>
-          {navigationItems.map((item) => (
+          {NAVIGATION_ITEMS.map((item) => (
             <li key={item.href} className={styles.menuItem}>
               <Link
                 href={item.href}

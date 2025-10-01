@@ -4,30 +4,8 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import NavigationItem from '@/components/molecules/NavigationItem';
+import { NAVIGATION_ITEMS } from '@/constants/navigation';
 import styles from './SideNavigation.module.scss';
-
-const navigationItems = [
-  {
-    href: '/',
-    label: 'ホーム',
-    iconName: 'home' as const,
-  },
-  {
-    href: '/create',
-    label: '作成',
-    iconName: 'create' as const,
-  },
-  {
-    href: '/favorites',
-    label: 'お気に入り',
-    iconName: 'heart' as const,
-  },
-  {
-    href: '/settings',
-    label: '設定',
-    iconName: 'settings' as const,
-  },
-];
 
 export const SideNavigation = () => {
   const pathname = usePathname();
@@ -46,7 +24,7 @@ export const SideNavigation = () => {
         </Link>
       </div>
       <div className={styles.navList}>
-        {navigationItems.map((item) => (
+        {NAVIGATION_ITEMS.map((item) => (
           <NavigationItem
             key={item.href}
             href={item.href}
