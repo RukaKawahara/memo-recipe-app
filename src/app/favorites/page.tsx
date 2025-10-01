@@ -57,6 +57,7 @@ export default function Favorites() {
       const { data: recipesData, error: recipesError } = await supabase
         .from('recipes')
         .select('*')
+        .order('last_viewed_at', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false });
 
       if (recipesError) {
