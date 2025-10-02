@@ -61,7 +61,8 @@
     }
 
     &:focus {
-      background-color: $color-white;
+      border: 1px solid $color-primary;
+      box-shadow: 0 0 0 3px $color-primary-alpha;
     }
   }
 }
