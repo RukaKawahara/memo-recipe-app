@@ -9,7 +9,8 @@
     "start": "next start",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "fix": "eslint --fix . && prettier --write ."
+    "fix": "eslint --fix . && prettier --write .",
+    "ignore-build": "node -e 'process.exit(process.env.VERCEL_GIT_COMMIT_REF !== \"main\")'"
   },
   "keywords": [],
   "author": "",
