@@ -42,7 +42,12 @@ const GenreEditor: React.FC<GenreEditorProps> = ({
         <Button variant="primary" rounded onClick={onSave} disabled={isLoading}>
           {isLoading ? '保存中...' : '保存'}
         </Button>
-        <Button variant="outline" rounded onClick={onCancel} disabled={isLoading}>
+        <Button
+          variant="outline"
+          rounded
+          onClick={onCancel}
+          disabled={isLoading}
+        >
           キャンセル
         </Button>
       </div>

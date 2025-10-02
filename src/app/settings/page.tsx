@@ -320,14 +320,16 @@ export default function Settings() {
                       />
                       <div className={styles.editActions}>
                         <Button
-                          variant="primary" rounded
+                          variant="primary"
+                          rounded
                           onClick={() => handleEditGenre(genre.id)}
                           disabled={actionLoading === genre.id}
                         >
                           {actionLoading === genre.id ? '保存中...' : '保存'}
                         </Button>
                         <Button
-                          variant="outline" rounded
+                          variant="outline"
+                          rounded
                           onClick={cancelEditing}
                           disabled={actionLoading === genre.id}
                         >
@@ -345,7 +347,8 @@ export default function Settings() {
                       </div>
                       <div className={styles.genreActions}>
                         <Button
-                          variant="outline" rounded
+                          variant="outline"
+                          rounded
                           onClick={() => startEditing(genre)}
                           disabled={
                             actionLoading === genre.id ||
@@ -356,7 +359,8 @@ export default function Settings() {
                         </Button>
                         {!genre.id.startsWith('default-') && (
                           <Button
-                            variant="danger" rounded
+                            variant="danger"
+                            rounded
                             onClick={() =>
                               handleDeleteGenre(genre.id, genre.name)
                             }
@@ -389,14 +393,16 @@ export default function Settings() {
                   />
                   <div className={styles.editActions}>
                     <Button
-                      variant="primary" rounded
+                      variant="primary"
+                      rounded
                       onClick={handleAddGenre}
                       disabled={actionLoading === 'add'}
                     >
                       {actionLoading === 'add' ? '追加中...' : '追加'}
                     </Button>
                     <Button
-                      variant="outline" rounded
+                      variant="outline"
+                      rounded
                       onClick={cancelAdding}
                       disabled={actionLoading === 'add'}
                     >
@@ -408,7 +414,8 @@ export default function Settings() {
             ) : (
               genres.length > 0 && (
                 <Button
-                  variant="outline" dashed
+                  variant="outline"
+                  dashed
                   onClick={() => setIsAdding(true)}
                   disabled={dbInitialized === false || isLimitReached}
                   title={

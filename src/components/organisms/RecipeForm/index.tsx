@@ -88,7 +88,10 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
         />
       </FormField>
 
-      <FormField label="ジャンル（複数選択可）" icon={<Icon name="tag" size={16} />}>
+      <FormField
+        label="ジャンル（複数選択可）"
+        icon={<Icon name="tag" size={16} />}
+      >
         {availableGenres.length > 0 ? (
           <GenreToggleGroup
             genres={availableGenres}
@@ -113,7 +116,10 @@ const RecipeForm: React.FC<RecipeFormProps> = ({
         />
       </FormField>
 
-      <FormField label="参考リンク（オプション）" icon={<Icon name="link" size={16} />}>
+      <FormField
+        label="参考リンク（オプション）"
+        icon={<Icon name="link" size={16} />}
+      >
         <Input
           type="url"
           placeholder="https://example.com/recipe"
