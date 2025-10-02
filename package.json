@@ -9,7 +9,8 @@
     "start": "next start",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "fix": "eslint --fix . && prettier --write ."
+    "fix": "eslint --fix . && prettier --write .",
+    "ignore-build": "bash ./vercel-ignore-build-step.sh"
   },
   "keywords": [],
   "author": "",
