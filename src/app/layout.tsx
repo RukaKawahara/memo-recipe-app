@@ -34,7 +34,6 @@ export default function RootLayout({
           sizes="192x192"
         />
         <link rel="apple-touch-icon" href="/icons/apple-icon-180x180.png" />
-        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
         <div className="app-container">
