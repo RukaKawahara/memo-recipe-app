@@ -1,3 +1,4 @@
+import { GENRE_LIMIT } from '@/constants';
 import { supabase } from './supabase';
 
 export interface Genre {
@@ -40,9 +41,6 @@ export const getGenreNames = async (): Promise<string[]> => {
   const genres = await getGenres();
   return genres.map((genre) => genre.name);
 };
-
-// ジャンル登録上限
-export const GENRE_LIMIT = 20;
 
 // ジャンル上限チェック用のヘルパー関数
 export const isGenreLimitReached = async (): Promise<boolean> => {
