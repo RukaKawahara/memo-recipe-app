@@ -1,17 +1,19 @@
 import { ReactNode, ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.scss';
 
+type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'danger'
+  | 'icon'
+  | 'text'
+  | 'save'
+  | 'deleteImage'
+  | 'genre';
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'outline'
-    | 'danger'
-    | 'icon'
-    | 'text'
-    | 'save'
-    | 'deleteImage'
-    | 'genre';
+  variant?: ButtonVariant;
   size?: 'small' | 'medium' | 'large';
   selected?: boolean;
   rounded?: boolean;
