@@ -10,6 +10,7 @@ import Button from '@/components/atoms/Button';
 import RecipeForm from '@/components/organisms/RecipeForm';
 import FormContainer from '@/components/templates/FormContainer';
 import FormActions from '@/components/templates/FormActions';
+import { RecipeInsertData } from '@/types/recipe';
 
 export default function CreateRecipe() {
   const [saving, setSaving] = useState(false);
@@ -50,17 +51,7 @@ export default function CreateRecipe() {
       const imageUrls = await uploadImages(imageFiles);
 
       // Prepare insert data
-      const insertData: {
-        title: string;
-        description: string;
-        ingredients: string;
-        instructions: string;
-        genres: string[];
-        memo: string;
-        reference_url: string | null;
-        image_url: string | null;
-        image_urls?: string[];
-      } = {
+      const insertData: RecipeInsertData = {
         title: title.trim(),
         description: description.trim(),
         ingredients: ingredients.trim(),
