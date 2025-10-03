@@ -12,7 +12,7 @@ import RecipeForm from '@/components/organisms/RecipeForm';
 import LoadingState from '@/components/molecules/LoadingState';
 import FormContainer from '@/components/templates/FormContainer';
 import FormActions from '@/components/templates/FormActions';
-import type { Recipe } from '@/types/recipe';
+import type { Recipe, RecipeInsertData } from '@/types/recipe';
 import styles from './page.module.scss';
 
 export default function EditRecipe({
@@ -111,17 +111,7 @@ export default function EditRecipe({
       const allImageUrls = [...existingImageUrls, ...newImageUrls];
 
       // Prepare update data
-      const updateData: {
-        title: string;
-        description: string;
-        ingredients: string;
-        instructions: string;
-        genres: string[];
-        memo: string;
-        reference_url: string | null;
-        image_url: string | null;
-        image_urls?: string[];
-      } = {
+      const updateData: RecipeInsertData = {
         title: title.trim(),
         description: description.trim(),
         ingredients: ingredients.trim(),
