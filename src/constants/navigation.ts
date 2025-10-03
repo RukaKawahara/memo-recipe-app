@@ -20,5 +20,3 @@ export const NAVIGATION_ITEMS = [
     iconName: 'settings' as const,
   },
 ] as const;
-
-export type NavigationItem = (typeof NAVIGATION_ITEMS)[number];
