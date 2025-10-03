@@ -33,6 +33,8 @@ export const getGenres = async (): Promise<Genre[]> => {
 
   } catch (error) {
     console.error('Error fetching genres:', error);
+
+    return [];
   }
 };
 
