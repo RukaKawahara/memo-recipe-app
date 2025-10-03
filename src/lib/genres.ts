@@ -27,28 +27,11 @@ export const getGenres = async (): Promise<Genre[]> => {
 
     if (error) {
       console.warn('Genres table not found or error fetching genres:', error);
-      console.log('Using default genres as fallback');
-
-      // デフォルトジャンルを返す（テーブルがない場合の対応）
-      return DEFAULT_GENRES.map((name, index) => ({
-        id: `default-${index}`,
-        name,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }));
     }
-
-    // データが空の場合は空配列を返す（デフォルトジャンルを自動作成しない）
     return data || [];
+
   } catch (error) {
     console.error('Error fetching genres:', error);
-    // フォールバックとしてデフォルトジャンルを返す（テーブルアクセスエラーの場合のみ）
-    return DEFAULT_GENRES.map((name, index) => ({
-      id: `default-${index}`,
-      name,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }));
   }
 };
 
@@ -156,12 +139,6 @@ export const updateGenre = async (
 // ジャンルを削除
 export const deleteGenre = async (id: string): Promise<boolean> => {
   try {
-    // フォールバック用のデフォルトジャンル（IDがdefault-で始まる）は削除不可
-    if (id.startsWith('default-')) {
-      console.warn('Cannot delete fallback default genre:', id);
-      return false;
-    }
-
     const { error } = await supabase.from('genres').delete().eq('id', id);
 
     if (error) {

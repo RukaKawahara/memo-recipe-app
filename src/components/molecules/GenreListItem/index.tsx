@@ -47,9 +47,6 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
           ) : (
             <>
               <span className={styles.genreName}>{genre.name}</span>
-              {genre.id.startsWith('default-') && (
-                <span className={styles.fallbackBadge}>システム</span>
-              )}
             </>
           )}
         </div>
@@ -79,20 +76,18 @@ const GenreListItem: React.FC<GenreListItemProps> = ({
                 variant="outline"
                 rounded
                 onClick={onStartEdit}
-                disabled={isLoading || genre.id.startsWith('default-')}
+                disabled={isLoading }
               >
                 編集
               </Button>
-              {!genre.id.startsWith('default-') && (
-                <Button
-                  variant="danger"
-                  rounded
-                  onClick={onDelete}
-                  disabled={isLoading}
-                >
-                  {isLoading ? '削除中...' : '削除'}
-                </Button>
-              )}
+              <Button
+                variant="danger"
+                rounded
+                onClick={onDelete}
+                disabled={isLoading}
+              >
+                {isLoading ? '削除中...' : '削除'}
+              </Button>
             </>
           )}
         </div>

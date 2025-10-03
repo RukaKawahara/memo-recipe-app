@@ -23,15 +23,3 @@ export const initializeDatabase = async (): Promise<boolean> => {
     return false;
   }
 };
-
-// デフォルトジャンルのみでの動作用の関数
-export const getDefaultGenres = () => {
-  return [
-    { id: 'default-0', name: 'メインディッシュ', is_default: true },
-    { id: 'default-1', name: 'サイドディッシュ', is_default: true },
-    { id: 'default-2', name: 'デザート', is_default: true },
-    { id: 'default-3', name: 'スープ', is_default: true },
-    { id: 'default-4', name: 'スナック', is_default: true },
-    { id: 'default-5', name: 'ドリンク', is_default: true },
-  ];
-};

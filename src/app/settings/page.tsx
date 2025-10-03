@@ -341,34 +341,26 @@ export default function Settings() {
                     <div className={styles.genreDisplay}>
                       <div className={styles.genreInfo}>
                         <span className={styles.genreName}>{genre.name}</span>
-                        {genre.id.startsWith('default-') && (
-                          <span className={styles.fallbackBadge}>システム</span>
-                        )}
                       </div>
                       <div className={styles.genreActions}>
                         <Button
                           variant="outline"
                           rounded
                           onClick={() => startEditing(genre)}
-                          disabled={
-                            actionLoading === genre.id ||
-                            genre.id.startsWith('default-')
-                          }
+                          disabled={ actionLoading === genre.id }
                         >
                           編集
                         </Button>
-                        {!genre.id.startsWith('default-') && (
-                          <Button
-                            variant="danger"
-                            rounded
-                            onClick={() =>
-                              handleDeleteGenre(genre.id, genre.name)
-                            }
-                            disabled={actionLoading === genre.id}
-                          >
-                            {actionLoading === genre.id ? '削除中...' : '削除'}
-                          </Button>
-                        )}
+                        <Button
+                          variant="danger"
+                          rounded
+                          onClick={() =>
+                            handleDeleteGenre(genre.id, genre.name)
+                          }
+                          disabled={actionLoading === genre.id}
+                        >
+                          {actionLoading === genre.id ? '削除中...' : '削除'}
+                        </Button>
                       </div>
                     </div>
                   )}
