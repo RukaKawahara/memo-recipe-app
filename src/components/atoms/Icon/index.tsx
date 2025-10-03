@@ -1,8 +1,9 @@
 import { ICON_PATHS } from '@/constants/icons';
+import { IconPath } from '@/types/icon';
 import { SVGProps } from 'react';
 
 export interface IconProps extends SVGProps<SVGSVGElement> {
-  name: keyof typeof ICON_PATHS;
+  name: IconPath;
   size?: number;
 }
 
