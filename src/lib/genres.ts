@@ -8,16 +8,6 @@ export interface Genre {
   updated_at: string;
 }
 
-// デフォルトジャンル（フォールバック用）
-const DEFAULT_GENRES = [
-  'メインディッシュ',
-  'サイドディッシュ',
-  'デザート',
-  'スープ',
-  'スナック',
-  'ドリンク',
-];
-
 // すべてのジャンルを取得
 export const getGenres = async (): Promise<Genre[]> => {
   try {
