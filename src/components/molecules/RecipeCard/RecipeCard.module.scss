@@ -179,10 +179,13 @@
     height: 40px;
   }
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #ea580c;
-    transform: scale(1.1);
+  // ホバーしたときの色（PCのみ適用）
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #ea580c;
+      transform: scale(1.1);
+    }
   }
 
   &.favorite {
