@@ -168,15 +168,9 @@
   background-color: rgba(255, 255, 255, 0.9);
   color: #666;
   border: none;
-  border-radius: 50%;
   width: 36px;
   height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(8px);
 
   @media (min-width: 1024px) {
     top: 12px;
@@ -186,30 +180,19 @@
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.9);
     color: #ea580c;
     transform: scale(1.1);
   }
 
   &.favorite {
     color: #ea580c;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.9);
   }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-  }
-
-  svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-
-    @media (min-width: 1024px) {
-      width: 20px;
-      height: 20px;
-    }
   }
 }

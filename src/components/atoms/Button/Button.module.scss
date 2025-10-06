@@ -36,13 +36,8 @@
   }
 
   &.icon {
-    background-color: transparent;
     padding: 8px;
     border-radius: 50%;
-
-    &:hover:not(:disabled) {
-      background-color: $color-light-gray;
-    }
   }
 
   &.outline {
