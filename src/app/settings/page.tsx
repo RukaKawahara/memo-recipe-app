@@ -7,10 +7,10 @@ import {
   updateGenre,
   deleteGenre,
   type Genre,
-  GENRE_LIMIT,
   isGenreLimitReached,
   getRemainingGenreCount,
 } from '@/lib/genres';
+import { GENRE_LIMIT } from '@/constants';
 import { initializeDatabase } from '@/lib/database-init';
 import { supabase } from '@/lib/supabase';
 import Button from '@/components/atoms/Button';
