@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGenreNames } from '@/lib/genres';
 
-const DEFAULT_GENRES = [
-  'メインディッシュ',
-  'サイドディッシュ',
-  'デザート',
-  'スープ',
-];
-
 export const useGenres = () => {
   const [availableGenres, setAvailableGenres] = useState<string[]>([]);
 
@@ -21,7 +14,6 @@ export const useGenres = () => {
       setAvailableGenres(genreNames);
     } catch (error) {
       console.error('Error fetching genres:', error);
-      setAvailableGenres(DEFAULT_GENRES);
     }
   };
 
