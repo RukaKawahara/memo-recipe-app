@@ -1,14 +1,7 @@
+import {  RecipeFormValues } from '@/types/recipe';
 import { useState } from 'react';
 
-export const useRecipeForm = (initialValues?: {
-  title?: string;
-  description?: string;
-  ingredients?: string;
-  instructions?: string;
-  genres?: string[];
-  memo?: string;
-  referenceUrl?: string;
-}) => {
+export const useRecipeForm = (initialValues?: RecipeFormValues) => {
   const [title, setTitle] = useState(initialValues?.title || '');
   const [description, setDescription] = useState(
     initialValues?.description || ''
@@ -24,7 +17,7 @@ export const useRecipeForm = (initialValues?: {
   );
   const [memo, setMemo] = useState(initialValues?.memo || '');
   const [referenceUrl, setReferenceUrl] = useState(
-    initialValues?.referenceUrl || ''
+    initialValues?.reference_url || ''
   );
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
