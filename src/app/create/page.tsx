@@ -14,7 +14,6 @@ import { RecipeInsertData } from '@/types/recipe';
 
 export default function CreateRecipe() {
   const [saving, setSaving] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
   const router = useRouter();
 
   const { availableGenres } = useGenres();
@@ -38,14 +37,13 @@ export default function CreateRecipe() {
     handleImageDelete,
   } = useRecipeForm();
 
-  const handleSave = async (asDraft: boolean = false) => {
+  const handleSave = async () => {
     if (!title.trim()) {
       alert('レシピ名を入力してください。');
       return;
     }
 
     setSaving(true);
-    setIsDraft(asDraft);
 
     try {
       const imageUrls = await uploadImages(imageFiles);
@@ -83,7 +81,6 @@ export default function CreateRecipe() {
       alert('レシピの保存に失敗しました。');
     } finally {
       setSaving(false);
-      setIsDraft(false);
     }
   };
 
@@ -115,10 +112,10 @@ export default function CreateRecipe() {
       <FormActions>
         <Button
           variant="save"
-          onClick={() => handleSave(false)}
+          onClick={() => handleSave()}
           disabled={saving}
         >
-          <span>{saving && !isDraft ? '保存中...' : '保存'}</span>
+          <span>{saving ? '保存中...' : '保存'}</span>
         </Button>
       </FormActions>
     </main>
