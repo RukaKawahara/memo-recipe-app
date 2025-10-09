@@ -22,9 +22,15 @@ export const useRecipeForm = (initialValues?: RecipeFormValues) => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const handleGenreToggle = (genre: string) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
-    );
+    setSelectedGenres((prev) => {
+      if (prev.includes(genre)) {
+        // すでに含まれていたら削除する
+        return prev.filter((g) => g !== genre);
+      } else {
+        // 含まれていなければ追加する
+        return [...prev, genre];
+      }
+    });
   };
 
   const handleImagesChange = (files: File[]) => {
