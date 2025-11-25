@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="app-container">
       <div className="main-content">
-        <div className="container">{children}</div> {/* 👈 /create や /settings などの中身が表示される */}
+        <div className="container">{children}</div>
       </div>
     </div>
   );
