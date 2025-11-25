@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/utils/supabase/client';
 import type { Recipe } from '@/types/recipe';
 import GenreTag from '@/components/atoms/GenreTag';
 import Icon from '@/components/atoms/Icon';

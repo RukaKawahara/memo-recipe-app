@@ -1,4 +1,5 @@
-import { supabase } from './supabase';
+import { supabase } from "@/utils/supabase/client";
+
 
 // データベースの初期化
 export const initializeDatabase = async (): Promise<boolean> => {

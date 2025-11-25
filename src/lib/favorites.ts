@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from "@/utils/supabase/client";
 
 // Generate a simple user ID for demo purposes (in real app, use authentication)
 export const getUserId = (): string => {

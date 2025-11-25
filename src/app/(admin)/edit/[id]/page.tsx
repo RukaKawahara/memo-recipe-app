@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/utils/supabase/client';
 import { uploadImages } from '@/lib/storage';
 import { useGenres } from '@/hooks/useGenres';
 import { useRecipeForm } from '@/hooks/useRecipeForm';

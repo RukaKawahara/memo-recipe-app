@@ -12,7 +12,7 @@ import {
 } from '@/lib/genres';
 import { GENRE_LIMIT } from '@/constants';
 import { initializeDatabase } from '@/lib/database-init';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/utils/supabase/client';
 import Button from '@/components/atoms/Button';
 import LoadingState from '@/components/molecules/LoadingState';
 import styles from './page.module.scss';

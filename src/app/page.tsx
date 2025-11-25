@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
 import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites';
 import { getGenreNames } from '@/lib/genres';
 import type { Recipe } from '@/types/recipe';
@@ -10,6 +9,7 @@ import RecipeList from '@/components/organisms/RecipeList';
 import Pagination from '@/components/organisms/Pagination';
 import LoadingState from '@/components/molecules/LoadingState';
 import styles from './page.module.scss';
+import { supabase } from '@/utils/supabase/client';
 
 export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);

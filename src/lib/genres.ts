@@ -1,5 +1,6 @@
 import { GENRE_LIMIT } from '@/constants';
-import { supabase } from './supabase';
+import { supabase } from '@/utils/supabase/client';
+
 
 export interface Genre {
   id: string;
