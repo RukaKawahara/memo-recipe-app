@@ -1,17 +1,22 @@
+import Input from "@/components/atoms/Input";
 import { login, signup } from "./actions";
+import Button from "@/components/atoms/Button";
 
 export default function LoginPage() {
   return (
     <>
       <form>
-        <label htmlFor="email">Email:</label>
-        <input id="email" name="email" type="email" required />
-        <label htmlFor="password">Password:</label>
-        <input id="password" name="password" type="password" required />
+        <h2>ログイン</h2>
+        <p>アカウントを作成しますか？ <a href="#">サインアップ</a></p>
+        <div className="login-section">
+          <label htmlFor="email">メールアドレスまたはユーザー名</label>
+          <Input id="email" name="email" type="email" required />
+          <label htmlFor="password">パスワード</label>
+          <Input id="password" name="password" type="password" required />
+        </div>
 
-        {/* ✅Server Actionsでログイン、サインアップ */}
-        <button formAction={login}>Log in</button>
-        <button formAction={signup}>Sign up</button>
+        <Button formAction={login}>ログイン</Button>
+        {/* <button formAction={signup}>Sign up</button> */}
 
       </form>
       <form action="/auth/signout" method="post">

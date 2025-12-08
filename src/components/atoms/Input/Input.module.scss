@@ -31,11 +31,8 @@
   }
 
   &:focus {
-    outline: none;
-
-    @media (min-width: 1024px) {
-      border: 1px solid $color-dark;
-    }
+    border: 1px solid $color-primary;
+    box-shadow: 0 0 0 3px $color-primary-alpha;
   }
 
   &.error {
@@ -62,7 +59,6 @@
 
     &:focus {
       border: 1px solid $color-primary;
-      box-shadow: 0 0 0 3px $color-primary-alpha;
     }
   }
 }
