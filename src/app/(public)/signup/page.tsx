@@ -7,8 +7,8 @@ export default function LoginPage() {
   return (
     <>
       <form className={styles.loginForm}>
-        <h2>ログイン</h2>
-        <p>アカウントを作成しますか？ <a href="/signup">サインアップ</a></p>
+        <h2>アカウント作成</h2>
+        <p>すでにアカウントをお持ちですか？ <a href="/signup">サインイン</a></p>
         <div className={styles.loginSection}>
           <div className={styles.loginInfoWrapper}>
             <label htmlFor="email">メールアドレス</label>
@@ -19,11 +19,16 @@ export default function LoginPage() {
               <Input id="password" name="password" type="password" required />
           </div>
           <div className={styles.loginInfoWrapper}>
-            <a href="">パスワードをお忘れの場合</a>
+              <label htmlFor="password">パスワードを再入力</label>
+              <Input id="password" name="password" type="password" required />
+          </div>
+          <div className={styles.loginInfoWrapper}>
+            <input type="checkbox" id="privacyConsent" required />
+            <label htmlFor="privacyConsent">プライバシーポリシーに同意します</label>
           </div>
         </div>
 
-        <Button formAction={login}>ログイン</Button>
+        <Button formAction={login}>アカウントを作成</Button>
 
       </form>
     </>
