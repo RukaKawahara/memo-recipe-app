@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase/client';
-import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites';
+import { getUserFavorites, toggleFavorite } from '@/lib/favorites';
 import { getGenreNames } from '@/lib/genres';
 import type { Recipe } from '@/types/recipe';
 import SearchAndFilters from '@/components/organisms/SearchAndFilters';
@@ -66,8 +66,7 @@ export default function Favorites() {
       }
 
       // Get user favorites
-      const userId = getUserId();
-      const userFavorites = await getUserFavorites(userId);
+      const userFavorites = await getUserFavorites();
 
       // Filter favorite recipes
       const favoriteRecipesList =
@@ -93,9 +92,8 @@ export default function Favorites() {
 
     setFavoritesLoading(recipeId);
     try {
-      const userId = getUserId();
       const isFavorite = favorites.includes(recipeId);
-      const success = await toggleFavorite(userId, recipeId, isFavorite);
+      const success = await toggleFavorite(recipeId, isFavorite);
 
       if (success) {
         const newFavorites = isFavorite

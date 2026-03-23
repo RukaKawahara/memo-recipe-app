@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getUserId, getUserFavorites, toggleFavorite } from '@/lib/favorites';
+import { getUserFavorites, toggleFavorite } from '@/lib/favorites';
 import { getGenreNames } from '@/lib/genres';
 import type { Recipe } from '@/types/recipe';
 import SearchAndFilters from '@/components/organisms/SearchAndFilters';
@@ -73,8 +73,7 @@ export default function Home() {
 
   const fetchUserFavorites = async () => {
     try {
-      const userId = getUserId();
-      const userFavorites = await getUserFavorites(userId);
+      const userFavorites = await getUserFavorites();
       setFavorites(userFavorites);
     } catch (error) {
       console.error('Error fetching user favorites:', error);
@@ -90,9 +89,8 @@ export default function Home() {
 
     setFavoritesLoading(recipeId);
     try {
-      const userId = getUserId();
       const isFavorite = favorites.includes(recipeId);
-      const success = await toggleFavorite(userId, recipeId, isFavorite);
+      const success = await toggleFavorite(recipeId, isFavorite);
 
       if (success) {
         setFavorites((prev) =>

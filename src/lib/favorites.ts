@@ -1,90 +1,40 @@
-import { supabase } from "@/utils/supabase/client";
+const STORAGE_KEY = 'user_favorites';
 
-// Generate a simple user ID for demo purposes (in real app, use authentication)
-export const getUserId = (): string => {
-  let userId = localStorage.getItem('demo_user_id');
-  if (!userId) {
-    userId = `demo_user_${Date.now()}_${Math.random().toString(36).substring(2)}`;
-    localStorage.setItem('demo_user_id', userId);
-  }
-  return userId;
+const getFavoritesFromStorage = (): string[] => {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
 };
 
-// Get user's favorite recipes
-export const getUserFavorites = async (userId: string): Promise<string[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('user_favorites')
-      .select('recipe_id')
-      .eq('user_id', userId);
-
-    if (error) {
-      console.error('Error fetching favorites:', error);
-      return [];
-    }
-
-    return data?.map((item) => item.recipe_id) || [];
-  } catch (error) {
-    console.error('Error:', error);
-    return [];
-  }
+const saveFavoritesToStorage = (favorites: string[]): void => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
 };
 
-// Add recipe to favorites
-export const addToFavorites = async (
-  userId: string,
-  recipeId: string
-): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from('user_favorites')
-      .insert({ user_id: userId, recipe_id: recipeId });
-
-    if (error) {
-      console.error('Error adding to favorites:', error);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error('Error:', error);
-    return false;
-  }
+export const getUserFavorites = async (): Promise<string[]> => {
+  return getFavoritesFromStorage();
 };
 
-// Remove recipe from favorites
-export const removeFromFavorites = async (
-  userId: string,
-  recipeId: string
-): Promise<boolean> => {
-  try {
-    const { error } = await supabase
-      .from('user_favorites')
-      .delete()
-      .eq('user_id', userId)
-      .eq('recipe_id', recipeId);
-
-    if (error) {
-      console.error('Error removing from favorites:', error);
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error('Error:', error);
-    return false;
+export const addToFavorites = async (recipeId: string): Promise<boolean> => {
+  const favorites = getFavoritesFromStorage();
+  if (!favorites.includes(recipeId)) {
+    saveFavoritesToStorage([...favorites, recipeId]);
   }
+  return true;
 };
 
-// Toggle favorite status
+export const removeFromFavorites = async (recipeId: string): Promise<boolean> => {
+  const favorites = getFavoritesFromStorage();
+  saveFavoritesToStorage(favorites.filter((id) => id !== recipeId));
+  return true;
+};
+
 export const toggleFavorite = async (
-  userId: string,
   recipeId: string,
   isFavorite: boolean
 ): Promise<boolean> => {
   if (isFavorite) {
-    return await removeFromFavorites(userId, recipeId);
+    return removeFromFavorites(recipeId);
   } else {
-    return await addToFavorites(userId, recipeId);
+    return addToFavorites(recipeId);
   }
 };
