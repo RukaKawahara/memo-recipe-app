@@ -1,0 +1,54 @@
+@import '@/styles/colors';
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.code {
+  font-size: 96px;
+  font-weight: 900;
+  color: $color-primary;
+  line-height: 1;
+  margin: 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $color-dark;
+  margin: 0;
+}
+
+.description {
+  font-size: 14px;
+  color: $color-gray;
+  margin: 0;
+}
+
+.link {
+  margin-top: 8px;
+  padding: 10px 24px;
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
