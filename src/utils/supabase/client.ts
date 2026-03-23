@@ -1,13 +1,10 @@
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 export function createClientComponent() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-  return createClient(
-    supabaseUrl,
-    supabaseKey
-  );
+  return createBrowserClient(supabaseUrl, supabaseKey);
 }
 
 export const supabase = createClientComponent();

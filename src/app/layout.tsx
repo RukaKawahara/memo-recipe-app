@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@/styles/globals.scss';
 import Header from '@/components/organisms/Header';
 import SideNavigation from '@/components/organisms/Navigation/SideNavigation';
+import { createClient } from '@/utils/supabase/server';
 
 export const metadata: Metadata = {
   title: 'メモレシピアプリ',
@@ -9,11 +10,15 @@ export const metadata: Metadata = {
     '美味しかったレシピを簡単にメモし、複数のデバイスで同期できるアプリ',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isLoggedIn = !!user;
+
   return (
     <html lang="ja">
       <head>
@@ -37,8 +42,8 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-container">
-          <Header />
-          <SideNavigation />
+          <Header isLoggedIn={isLoggedIn} />
+          <SideNavigation isLoggedIn={isLoggedIn} />
           <div className="main-content">
             <div className="container">{children}</div>
           </div>

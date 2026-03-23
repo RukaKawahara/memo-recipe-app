@@ -1,22 +1,18 @@
 @import '@/styles/colors';
 
-.loginForm {
+.loginSection {
   display: flex;
   row-gap: 20px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: calc(100vh - 64px);
-  min-width: 50vw;
+}
+.loginHeading {
+  text-align: center;
 }
 
-.loginSection {
-  border-radius: 3px;
+.loginFormContainer {
+  border-radius: 30px;
   box-shadow: 0px 5px 15px 0px $color-dark-alpha-10;
   padding: 30px;
-  min-width: 50vw;
-}
-
-.loginInfoWrapper:not(:first-child) {
-  margin-top: 20px;
 }

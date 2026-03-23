@@ -1,14 +1,17 @@
 import Input from "@/components/atoms/Input";
-import { login, signup } from "./actions";
 import Button from "@/components/atoms/Button";
 import styles from './page.module.scss';
+import { signup } from "./actions";
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
+
   return (
     <>
       <form className={styles.loginForm}>
         <h2>アカウント作成</h2>
-        <p>すでにアカウントをお持ちですか？ <a href="/signup">サインイン</a></p>
+        <p>すでにアカウントをお持ちですか？ <a href="/login">サインイン</a></p>
+        {error && <p style={{ color: 'red' }}>{decodeURIComponent(error)}</p>}
         <div className={styles.loginSection}>
           <div className={styles.loginInfoWrapper}>
             <label htmlFor="email">メールアドレス</label>
@@ -19,17 +22,11 @@ export default function LoginPage() {
               <Input id="password" name="password" type="password" required />
           </div>
           <div className={styles.loginInfoWrapper}>
-              <label htmlFor="password">パスワードを再入力</label>
-              <Input id="password" name="password" type="password" required />
-          </div>
-          <div className={styles.loginInfoWrapper}>
-            <input type="checkbox" id="privacyConsent" required />
-            <label htmlFor="privacyConsent">プライバシーポリシーに同意します</label>
+              <label htmlFor="confirm-password">パスワードを再入力</label>
+              <Input id="confirm-password" name="confirm-password" type="password" required />
           </div>
         </div>
-
-        <Button formAction={login}>アカウントを作成</Button>
-
+        <Button formAction={signup}>アカウントを作成</Button>
       </form>
     </>
   )

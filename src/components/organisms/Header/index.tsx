@@ -8,9 +8,11 @@ import Icon from '@/components/atoms/Icon';
 import { NAVIGATION_ITEMS } from '@/constants/navigation';
 import styles from './Header.module.scss';
 
-export const Header = () => {
+export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const role = isLoggedIn ? 'auth' : 'guest';
+  const visibleItems = NAVIGATION_ITEMS.filter(item => item.visibleTo === 'all' || item.visibleTo === role);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -60,7 +62,7 @@ export const Header = () => {
         </div>
 
         <ul className={styles.menuList}>
-          {NAVIGATION_ITEMS.map((item) => (
+          {visibleItems.map((item) => (
             <li key={item.href} className={styles.menuItem}>
               <Link
                 href={item.href}

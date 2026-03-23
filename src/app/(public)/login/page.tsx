@@ -1,31 +1,31 @@
-import Input from "@/components/atoms/Input";
-import { login, signup } from "./actions";
-import Button from "@/components/atoms/Button";
+'use client';
+
+import LoginForm from '@/components/organisms/LoginForm';
 import styles from './page.module.scss';
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+
   return (
-    <>
-      <form className={styles.loginForm}>
+    <div className={styles.loginSection}>
+      <div className={styles.loginHeading}>
         <h2>ログイン</h2>
         <p>アカウントを作成しますか？ <a href="/signup">サインアップ</a></p>
-        <div className={styles.loginSection}>
-          <div className={styles.loginInfoWrapper}>
-            <label htmlFor="email">メールアドレス</label>
-            <Input id="email" name="email" type="email" required />
-          </div>
-          <div className={styles.loginInfoWrapper}>
-              <label htmlFor="password">パスワード</label>
-              <Input id="password" name="password" type="password" required />
-          </div>
-          <div className={styles.loginInfoWrapper}>
-            <a href="">パスワードをお忘れの場合</a>
-          </div>
-        </div>
-
-        <Button formAction={login}>ログイン</Button>
-
-      </form>
-    </>
+      </div>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className={styles.loginFormContainer}>
+        <LoginForm
+          email={email}
+          password={password}
+          onEmailChange={setEmail}
+          onPasswordChange={setPassword}
+        />
+      </div>
+    </div>
   )
 }
