@@ -15,7 +15,6 @@ export default function LoginPage() {
     <div className={styles.loginSection}>
       <div className={styles.loginHeading}>
         <h2>ログイン</h2>
-        <p>アカウントを作成しますか？ <a href="/signup">サインアップ</a></p>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className={styles.loginFormContainer}>
@@ -26,6 +25,9 @@ export default function LoginPage() {
           onPasswordChange={setPassword}
         />
       </div>
+      <a href="/forgot-password" style={{ fontSize: '14px', color: '#ea580c' }}>
+        パスワードをお忘れですか？
+      </a>
     </div>
   )
 }
