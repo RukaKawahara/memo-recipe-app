@@ -1,0 +1,208 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/utils/supabase/client';
+import type { Recipe } from '@/types/recipe';
+import GenreTag from '@/components/atoms/GenreTag';
+import Icon from '@/components/atoms/Icon';
+import ActionButtons from '@/components/molecules/ActionButtons';
+import LoadingState from '@/components/molecules/LoadingState';
+import ImageCarousel from '@/components/molecules/ImageCarousel';
+import styles from './page.module.scss';
+
+export default function RecipeDetailClient({
+  params,
+  isLoggedIn,
+}: {
+  params: Promise<{ id: string }>;
+  isLoggedIn: boolean;
+}) {
+  const [id, setId] = useState<string>('');
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    params.then((resolvedParams) => {
+      setId(resolvedParams.id);
+    });
+  }, [params]);
+
+  useEffect(() => {
+    if (id) {
+      // ページ遷移時にトップにスクロール
+      window.scrollTo(0, 0);
+      fetchRecipe();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  const fetchRecipe = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('recipes')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching recipe:', error);
+        router.push('/');
+      } else {
+        setRecipe(data);
+        // Update last_viewed_at timestamp
+        updateLastViewed();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      router.push('/');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateLastViewed = async () => {
+    try {
+      await supabase
+        .from('recipes')
+        .update({ last_viewed_at: new Date().toISOString() })
+        .eq('id', id);
+    } catch (error) {
+      console.error('Error updating last viewed:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!recipe) return;
+
+    const confirmed = confirm('このレシピを削除しますか？');
+    if (!confirmed) return;
+
+    try {
+      const { error } = await supabase
+        .from('recipes')
+        .delete()
+        .eq('id', recipe.id);
+
+      if (error) {
+        console.error('Error deleting recipe:', error);
+      } else {
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className={styles.main}>
+        <LoadingState title="レシピを読み込み中..." />
+      </main>
+    );
+  }
+
+  if (!recipe) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.error}>レシピが見つかりませんでした。</div>
+      </main>
+    );
+  }
+
+  return (
+    <main className={styles.main}>
+      <div className={styles.content}>
+        <div className={styles.topSection}>
+          <div className={styles.imageContainer}>
+            <ImageCarousel
+              images={
+                recipe.image_urls ||
+                (recipe.image_url ? [recipe.image_url] : [])
+              }
+              alt={recipe.title}
+            />
+          </div>
+
+          <div className={`${styles.section} ${styles.infoSection}`}>
+            <h2 className={styles.infoTitle}>{recipe.title}</h2>
+            <p className={styles.description}>{recipe.description}</p>
+          </div>
+        </div>
+
+        {recipe.genres && recipe.genres.length > 0 && (
+          <div className={`${styles.section} ${styles.genresSection}`}>
+            <h3 className={styles.genresTitle}>ジャンル</h3>
+            <div className={styles.genres}>
+              {recipe.genres.filter(Boolean).map((genre) => (
+                <GenreTag key={genre} size="medium">
+                  {genre}
+                </GenreTag>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className={styles.bottomSection}>
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>材料</h2>
+            <div className={styles.ingredients}>
+              {recipe.ingredients
+                .split('\n')
+                .filter((ingredient) => ingredient.trim())
+                .map((ingredient, index) => (
+                  <div key={index} className={styles.ingredient}>
+                    <span>{ingredient.trim()}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>手順</h2>
+            <div className={styles.instructions}>
+              {recipe.instructions
+                .split('\n')
+                .filter((instruction) => instruction.trim())
+                .map((instruction, index) => (
+                  <div key={index} className={styles.instruction}>
+                    <span>{instruction.trim()}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        {recipe.memo && (
+          <div className={`${styles.section} ${styles.memoSection}`}>
+            <h2 className={styles.sectionTitle}>メモ</h2>
+            <p className={styles.memo}>{recipe.memo}</p>
+          </div>
+        )}
+
+        {recipe.reference_url && (
+          <div className={`${styles.section} ${styles.referenceSection}`}>
+            <h2 className={styles.sectionTitle}>参考リンク</h2>
+            <a
+              href={recipe.reference_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.referenceLink}
+            >
+              <Icon name="link" size={16} />
+              {recipe.reference_url}
+            </a>
+          </div>
+        )}
+
+        {isLoggedIn && (
+          <ActionButtons
+            editHref={`/edit/${recipe.id}`}
+            onDelete={handleDelete}
+          />
+        )}
+      </div>
+    </main>
+  );
+}
