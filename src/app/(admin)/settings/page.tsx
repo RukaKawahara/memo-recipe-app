@@ -99,18 +99,37 @@ export default function Settings() {
   const handleEditGenre = async (id: string) => {
     if (!editingName.trim()) return;
 
+    const oldName = genres.find((g) => g.id === id)?.name;
+    if (!oldName) return;
+
     setActionLoading(id);
     try {
       const success = await updateGenre(id, editingName);
-      if (success) {
-        setEditingId(null);
-        setEditingName('');
-        await fetchGenres();
-      } else {
-        alert(
-          'ジャンルの更新に失敗しました。既に存在するジャンル名の可能性があります。'
-        );
+      if (!success) {
+        alert('ジャンルの更新に失敗しました。既に存在するジャンル名の可能性があります。');
+        return;
       }
+
+      // 既存レシピのジャンル名を更新
+      const { data: affectedRecipes, error } = await supabase
+        .from('recipes')
+        .select('id, genres')
+        .not('genres', 'is', null);
+
+      if (!error && affectedRecipes) {
+        for (const recipe of affectedRecipes) {
+          if (recipe.genres?.includes(oldName)) {
+            await supabase
+              .from('recipes')
+              .update({ genres: recipe.genres.map((g: string) => g === oldName ? editingName.trim() : g) })
+              .eq('id', recipe.id);
+          }
+        }
+      }
+
+      setEditingId(null);
+      setEditingName('');
+      await fetchGenres();
     } catch (error) {
       console.error('Error updating genre:', error);
       alert('ジャンルの更新に失敗しました。');
