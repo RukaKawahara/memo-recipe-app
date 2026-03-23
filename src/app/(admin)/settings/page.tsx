@@ -434,9 +434,6 @@ export default function Settings() {
           </div>
         </section>
       </div>
-      <form method="POST">
-        <Button formAction='/auth/logout'>ログアウト</Button>
-      </form>
     </main>
   );
 }

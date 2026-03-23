@@ -74,6 +74,16 @@ export const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               </Link>
             </li>
           ))}
+          {isLoggedIn && (
+            <li className={styles.menuItem}>
+              <form action="/auth/logout" method="post">
+                <button type="submit" className={styles.logoutButton}>
+                  <Icon name="sign-out" size={20} />
+                  <span>ログアウト</span>
+                </button>
+              </form>
+            </li>
+          )}
         </ul>
       </nav>
     </>

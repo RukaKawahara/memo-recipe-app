@@ -164,6 +164,30 @@
   }
 }
 
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
