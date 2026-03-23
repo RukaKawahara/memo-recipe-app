@@ -5,7 +5,7 @@ import styles from './NavigationItem.module.scss';
 export interface NavigationItemProps {
   href: string;
   label: string;
-  iconName: 'home' | 'create' | 'heart' | 'settings';
+  iconName: 'home' | 'create' | 'heart' | 'settings' | 'sign-in' | 'sign-out';
   isActive?: boolean;
   variant?: 'bottom' | 'side';
   className?: string;
